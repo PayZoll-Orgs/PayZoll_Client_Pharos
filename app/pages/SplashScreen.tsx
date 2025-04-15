@@ -6,9 +6,9 @@ import Loader from '@/components/ui/loader'
 import { TextRevealCard } from '@/components/ui/textRevealCard'
 import { AuroraBackground } from '@/components/ui/aurora'
 
-const revealText = ["DECENTRALIZED", "PAYROLL", "PROTOCOL", "PAYZOLL"]
+const revealText = ["REVOLUTIONARY", "PAYMENT", "INFRASTRUCTURE", "PAYZOLL"]
 
-const SplashscreenPage = ({
+const SplashScreenPage = ({
     onFinish,
 }: {
     onFinish: () => void
@@ -26,6 +26,6 @@ const SplashscreenPage = ({
     )
 };
 
-const Splashscreen = useFullPageLoader(SplashscreenPage, <Loader />);
+const SplashScreen = useFullPageLoader(SplashScreenPage, <Loader />);
 
-export default Splashscreen
+export default SplashScreen

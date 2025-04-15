@@ -3,7 +3,7 @@ import {
     EmailResponse,
     NewsletterSubscriptionRequest,
     WaitlistRegistrationRequest
-} from '@/interface/interface-utils';
+} from '@/lib/interfaces';
 
 /**
  * Email service API client for PayZoll

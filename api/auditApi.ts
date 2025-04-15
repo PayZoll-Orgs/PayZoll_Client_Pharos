@@ -1,5 +1,5 @@
 import axiosClient from './axiosClient';
-import { AuditLogData } from '@/interface/interface-utils';
+import { AuditLogData } from '@/lib/interfaces';
 
 export const auditApi = {
     addAuditLog: async (logData: AuditLogData) => {

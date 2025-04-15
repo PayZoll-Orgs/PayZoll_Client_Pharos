@@ -1,5 +1,5 @@
 import axios, { AxiosError, AxiosInstance } from 'axios';
-import { backendDomain } from '@/utils/network';
+import { backendDomain } from '@/lib/network';
 
 const API_BASE_URL = backendDomain
 
@@ -8,7 +8,6 @@ const axiosClient: AxiosInstance = axios.create({
     headers: {
         'Content-Type': 'application/json',
     },
-    timeout: 10000, // 10 seconds
 });
 
 // Request interceptor for adding token
@@ -19,8 +18,6 @@ axiosClient.interceptors.request.use(
         if (token && config.headers) {
             config.headers.Authorization = `Bearer ${token}`;
         }
-
-        console.log("Token", token);
 
         return config;
     },

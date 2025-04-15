@@ -99,7 +99,7 @@ const FloatingDockMobile = ({
                                         }
                                     }}
                                     className={`h-10 w-10 rounded-full ${activeIndex === idx
-                                        ? "bg-gradient-to-br from-blue-500 via-blue-700 to-blue-400"
+                                        ? "dark:bg-gradient-to-br dark:from-blue-500 dark:via-blue-700 dark:to-blue-400"
                                         : "bg-gray-50 dark:bg-neutral-900"
                                         } flex items-center justify-center`}
                                 >
@@ -229,8 +229,8 @@ function IconContainer({
                 onMouseEnter={() => setHovered(true)}
                 onMouseLeave={() => setHovered(false)}
                 className={`aspect-square rounded-full ${isActive
-                    ? "bg-gradient-to-br from-blue-500 via-blue-700 to-blue-400"
-                    : "bg-gray-200 dark:bg-neutral-800"
+                    ? "dark:bg-gradient-to-br dark:from-blue-500 dark:to-blue-400 bg-purple-300"
+                    : "bg-gray-300 dark:bg-neutral-800"
                     } flex items-center justify-center relative`}
             >
                 <AnimatePresence>

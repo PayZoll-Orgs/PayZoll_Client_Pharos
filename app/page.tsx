@@ -3,37 +3,29 @@
 import React, { useEffect } from 'react'
 import useFullPageLoader from '@/hooks/usePageLoader'
 import Loader from '@/components/ui/loader'
-import Splashscreen from '@/components/home/Splashscreen';
+import Splashscreen from '@/app/pages/SplashScreen';
 import { motion, AnimatePresence } from 'framer-motion'
-import Hero from '@/components/home/Hero';
+import Home from '@/app/pages/Home'; // Assuming Hero is the component exported from '@/pages/Home'
 
-const HomePage = () => {
+const LandingPage = () => {
     const [isSplashscreenVisible, setSplashscreenVisible] = React.useState(false);
     const [isFirstLoad, setIsFirstLoad] = React.useState(true);
-    const [showSplashOption, setShowSplashOption] = React.useState(false);
 
     useEffect(() => {
-        // Check if this is the first visit
         const hasSeenSplash = localStorage.getItem('hasSeenSplash') === 'true';
-
         if (!hasSeenSplash) {
-            // First visit - show splash screen
             setSplashscreenVisible(true);
             localStorage.setItem('hasSeenSplash', 'true');
         } else {
-            // Returning visitor - show hero directly
             setSplashscreenVisible(false);
-            setShowSplashOption(true);
         }
         setIsFirstLoad(false);
     }, []);
 
     const handleShowSplash = () => {
         setSplashscreenVisible(true);
-        setShowSplashOption(false);
     };
 
-    // Don't render anything during the initial check to prevent flash
     if (isFirstLoad) return null;
 
     return (
@@ -47,11 +39,10 @@ const HomePage = () => {
                             opacity: 0,
                             transition: { duration: 0.8, ease: "easeInOut" }
                         }}
-                        className="fixed inset-0 z-50"
+                        className="fixed inset-0 z-50 dark:bg-black"
                     >
                         <Splashscreen onFinish={() => {
                             setSplashscreenVisible(false);
-                            setShowSplashOption(true);
                         }} />
                     </motion.div>
                 ) : (
@@ -66,25 +57,9 @@ const HomePage = () => {
                                 delay: 0.2
                             }
                         }}
-                        className="w-screen h-screen"
+                        className="bg-transparent"
                     >
-                        <Hero />
-
-                        {/* Option to view splash screen again */}
-                        {showSplashOption && (
-                            <motion.div
-                                initial={{ opacity: 0 }}
-                                animate={{ opacity: 1 }}
-                                className="fixed top-4 right-4 z-40"
-                            >
-                                <button
-                                    onClick={handleShowSplash}
-                                    className="px-3 py-2 text-xs rounded-full bg-blue-500 hover:bg-blue-600 text-white transition-colors"
-                                >
-                                    View Intro
-                                </button>
-                            </motion.div>
-                        )}
+                        <Home onShowSplash={handleShowSplash} />
                     </motion.div>
                 )}
             </AnimatePresence>
@@ -92,6 +67,6 @@ const HomePage = () => {
     );
 };
 
-const Home = useFullPageLoader(HomePage, <Loader />);
+const Landing = useFullPageLoader(LandingPage, <Loader />);
 
-export default Home
+export default Landing;

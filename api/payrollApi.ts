@@ -1,5 +1,5 @@
 import axiosClient from './axiosClient';
-import { PayrollData } from '@/interface/interface-utils';
+import { PayrollData } from '@/lib/interfaces';
 
 export const payrollApi = {
     addPayroll: async (payrollData: PayrollData) => {

@@ -7,132 +7,77 @@ export const TextRevealCard = ({
     text,
     revealText,
     className = "",
-    headingLevel = "h1",
-    typewriterSpeed =30, // ms per percentage point
-    startDelay = 400, // delay before animation starts
-    repeat = false, // whether to repeat the animation
-    repeatDelay = 3000, // delay before repeating animation
-    intermediateDelay = 100, // delay between intermediate text displays
-    onFinish, // callback when the animation finishes
+    startDelay = 600, // Faster initial delay
+    intermediateDelay = 1000, // Time each text is shown
+    onFinish,
 }: {
     text: string;
-    revealText: string[]; // Now an array of strings
+    revealText: string[];
     className?: string;
-    headingLevel?: "h1" | "h2" | "h3" | "h4";
-    typewriterSpeed?: number;
     startDelay?: number;
-    repeat?: boolean;
-    repeatDelay?: number;
     intermediateDelay?: number;
-    onFinish: () => void; // Callback when the animation finishes
+    onFinish: () => void;
 }) => {
-    const [widthPercentage, setWidthPercentage] = useState(0);
     const [isShowingReveal, setIsShowingReveal] = useState(false);
-    const [isRevealStarted, setIsRevealStarted] = useState(false);
-    const [currentTextIndex, setCurrentTextIndex] = useState(-1); // -1 means showing base text
+    const [isRevealStarted, setIsRevealStarted] = useState(false); // Keep to fade out base text
+    const [currentTextIndex, setCurrentTextIndex] = useState(-1);
     const cardRef = useRef<HTMLDivElement | null>(null);
-    const [localWidth, setLocalWidth] = useState(0);
     const isFinalReveal = currentTextIndex === revealText.length - 1;
 
-    // Initialize dimensions
-    useEffect(() => {
-        if (cardRef.current) {
-            const { width } = cardRef.current.getBoundingClientRect();
-            setLocalWidth(width);
-        }
-    }, []);
-
-    // Typewriter animation effect
+    // Animation effect - Simplified to cycle through texts
     useEffect(() => {
         let animationTimer: NodeJS.Timeout;
-        let resetTimer: NodeJS.Timeout;
-        let showRevealTimer: NodeJS.Timeout;
-        let hideRevealTimer: NodeJS.Timeout;
-        let nextTextTimer: NodeJS.Timeout;
+        let nextTextTimer: NodeJS.Timeout | null = null;
 
-        const runSingleAnimation = (textIndex: number) => {
-            let progress = 0;
+        // Function to show text at a given index
+        const showText = (textIndex: number) => {
             setCurrentTextIndex(textIndex);
+            setIsShowingReveal(true);
+            if (!isRevealStarted) setIsRevealStarted(true); // Trigger fade out of base text
 
-            // Initial state
-            setWidthPercentage(0);
-            setIsShowingReveal(false);
-
-            const typewriterInterval = setInterval(() => {
-                progress += 1;
-                setWidthPercentage(progress);
-                setIsRevealStarted(true);
-
-                // At 10% start fading in the reveal text
-                if (progress === 20) {
-                    showRevealTimer = setTimeout(() => {
-                        setIsShowingReveal(true);
-                    }, 200);
-                }
-
-                if (progress >= 100) {
-                    clearInterval(typewriterInterval);
-
-                    // If we're not yet at the final text, move to the next one after delay
-                    if (textIndex < revealText.length - 1) {
-                        hideRevealTimer = setTimeout(() => {
-                            setIsShowingReveal(false);
-                        }, intermediateDelay - 300);
-
-                        nextTextTimer = setTimeout(() => {
-                            runSingleAnimation(textIndex + 1);
-                        }, intermediateDelay);
-                    } else if (repeat) {
-                        // If at the last text and repeat is true
-                        hideRevealTimer = setTimeout(() => {
-                            setIsShowingReveal(false);
-                        }, repeatDelay - 800);
-
-                        resetTimer = setTimeout(() => {
-                            runSingleAnimation(-1); // Back to showing base text
-                        }, repeatDelay);
-                    }
-                }
-            }, typewriterSpeed);
-
-            return typewriterInterval;
+            // If not the last text, schedule the next one
+            if (textIndex < revealText.length - 1) {
+                nextTextTimer = setTimeout(() => {
+                    setIsShowingReveal(false); // Hide current text briefly
+                    // Short delay before showing the next text
+                    setTimeout(() => {
+                        showText(textIndex + 1);
+                    }, 50); // Small gap between texts
+                }, intermediateDelay); // How long each text stays visible
+            } else {
+                // Last text is shown, trigger onFinish after the delay
+                nextTextTimer = setTimeout(() => {
+                    onFinish();
+                }, intermediateDelay + 1500); // Add extra time for the last text visibility
+            }
         };
 
-        const startAnimation = () => {
-            // Start with the first intermediate text (index 0)
-            return runSingleAnimation(0);
-        };
-
+        // Start the animation sequence
         animationTimer = setTimeout(() => {
-            const interval = startAnimation();
-            return () => clearInterval(interval);
+            if (revealText.length > 0) {
+                showText(0); // Start with the first text
+            } else {
+                // If no reveal text, just finish after a delay
+                setTimeout(onFinish, startDelay + intermediateDelay);
+            }
         }, startDelay);
 
-
-
+        // Cleanup function
         return () => {
             clearTimeout(animationTimer);
-            clearTimeout(resetTimer);
-            clearTimeout(showRevealTimer);
-            clearTimeout(hideRevealTimer);
-            clearTimeout(nextTextTimer);
+            if (nextTextTimer) {
+                clearTimeout(nextTextTimer);
+            }
         };
 
-    }, [typewriterSpeed, startDelay, repeat, repeatDelay, revealText.length, intermediateDelay]);
+    }, [
+        startDelay,
+        revealText.length,
+        intermediateDelay,
+        onFinish
+    ]);
 
-    const rotateDeg = (widthPercentage - 50) * 0.1;
-
-    // Dynamic heading element based on prop
-    const HeadingTag = headingLevel;
-
-    // Get current text to display from the array
     const currentRevealText = currentTextIndex >= 0 ? revealText[currentTextIndex] : "";
-
-    if (isFinalReveal) {
-        setTimeout(() => {
-            onFinish();
-        }, 6000);
-    }
 
     return (
         <div
@@ -141,82 +86,65 @@ export const TextRevealCard = ({
         >
             <div className="h-auto relative flex text-center items-center justify-center overflow-hidden p-1">
                 <AnimatePresence>
-                    <motion.div
-                        key={`reveal-${currentTextIndex}`}
-                        style={{
-                            width: "100%",
-                        }}
-                        initial={{ opacity: 0 }}
-                        animate={{
-                            opacity: isShowingReveal ? 1 : 0,
-                            clipPath: `inset(0 ${100 - widthPercentage}% 0 0)`,
-                        }}
-                        exit={{ opacity: 0 }}
-                        transition={{
-                            opacity: { duration: 0.5, ease: "easeIn" },
-                            clipPath: { duration: 0.4, ease: "easeOut" }
-                        }}
-                        className="absolute z-20 will-change-transform"
-                    >
-                        <HeadingTag
-                            style={isFinalReveal ? {
-                                textShadow: "6px 6px 25px rgba(0,0,0,0.5)",
-                                fontSize: "clamp(4rem, 15vw, 14rem)",
-                                letterSpacing: "-0.02em",
-                                lineHeight: "0.9",
-                            } : {
-                                fontSize: "clamp(3rem, 8vw, 8rem)",
-                                letterSpacing: "-0.02em",
-                                lineHeight: "0.9",
+                    {/* AnimatePresence still useful for fade in/out */}
+                    {isShowingReveal && (
+                        <motion.div
+                            key={`reveal-${currentTextIndex}`}
+                            style={{
+                                width: "100%",
                             }}
-                            className={isFinalReveal ?
-                                `py-6 lg:py-10 bg-gradient-to-r from-indigo-500 to-purple-400 text-transparent bg-clip-text ${MONTSERRAT.className} font-black` :
-                                `py-6 lg:py-10 font-bold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-neutral-200 via-blue-200 to-gray-500 ${MONTSERRAT.className}`
-                            }
+                            initial={{ opacity: 0 }}
+                            animate={{ opacity: 1 }}
+                            exit={{ opacity: 0 }}
+                            transition={{ duration: 0.3 }} // Simple fade transition
+                            className="absolute z-20" // Removed will-change
                         >
-                            {currentRevealText}
-                        </HeadingTag>
-                    </motion.div>
+                            {/* Using h1 directly */}
+                            <h1
+                                style={isFinalReveal ? {
+                                    fontSize: "clamp(4rem, 15vw, 14rem)",
+                                    letterSpacing: "-0.02em",
+                                    lineHeight: "0.9",
+                                } : {
+                                    fontSize: "clamp(3rem, 8vw, 8rem)",
+                                    letterSpacing: "-0.02em",
+                                    lineHeight: "0.9",
+                                }}
+                                // Applying text colors based on final/intermediate state
+                                className={isFinalReveal ?
+                                    `py-6 lg:py-10 bg-gradient-to-br dark:from-indigo-500 dark:to-purple-400 from-indigo-400 to-purple-300 text-transparent bg-clip-text ${MONTSERRAT.className} font-black dark:text-shadow-3d transform hover:scale-105 transition-transform duration-300` : // Final text with 3D effect
+                                    `py-6 lg:py-10 font-bold tracking-tight text-neutral-700 dark:text-neutral-300 ${MONTSERRAT.className}` // Intermediate text color
+                                }
+                            >
+                                {currentRevealText}
+                            </h1>
+                        </motion.div>
+                    )}
                 </AnimatePresence>
 
-                <motion.div
-                    animate={{
-                        left: `${widthPercentage}%`,
-                        rotate: `${rotateDeg}deg`,
-                        opacity: widthPercentage > 0 && widthPercentage < 100 ? 1 : 0,
-                        height: ["80%", "90%", "80%"],
-                    }}
-                    transition={{
-                        duration: 0.4,
-                        ease: "easeInOut",
-                        height: {
-                            repeat: Infinity,
-                            duration: 2,
-                            ease: "easeInOut",
-                        }
-                    }}
-                    className="w-px bg-gradient-to-b from-transparent via-neutral-500 to-transparent absolute z-50 will-change-transform"
-                ></motion.div>
+                {/* REMOVED the typewriter cursor motion.div */}
 
                 <motion.div
                     className="overflow-hidden [mask-image:linear-gradient(to_bottom,transparent,white,transparent)]"
                     animate={{
-                        opacity: isRevealStarted ? 0.1 : 1,
+                        opacity: isRevealStarted ? 0.1 : 1, // Fade out base text when reveal starts
                     }}
                     transition={{
-                        opacity: { duration: 0.5, ease: "easeInOut" }
+                        opacity: { duration: 0.3, ease: "easeInOut" }
                     }}
                 >
-                    <HeadingTag
+                    {/* Using h1 directly */}
+                    <h1
                         style={{
                             fontSize: "clamp(2.5rem, 6vw, 6rem)",
                             letterSpacing: "-0.02em",
                             lineHeight: "0.9",
                         }}
-                        className={`py-6 lg:py-10 font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-gray-600 to-neutral-600`}
+                        // Added dark mode color for the base text
+                        className={`py-6 lg:py-10 font-extrabold tracking-tight text-neutral-600 dark:text-neutral-400`}
                     >
                         {text}
-                    </HeadingTag>
+                    </h1>
                     <MemoizedStars />
                 </motion.div>
             </div>
@@ -224,6 +152,7 @@ export const TextRevealCard = ({
     );
 };
 
+// Stars component remains the same
 const Stars = () => {
     const randomMove = () => Math.random() * 4 - 2;
     const randomOpacity = () => Math.random();
@@ -250,7 +179,7 @@ const Stars = () => {
                         left: `${random() * 100}%`,
                         width: `2px`,
                         height: `2px`,
-                        backgroundColor: "white",
+                        backgroundColor: "white", // Stars remain white
                         borderRadius: "50%",
                         zIndex: 1,
                     }}

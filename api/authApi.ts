@@ -1,5 +1,5 @@
 import axiosClient from './axiosClient';
-import { LoginFormData, RegisterFormData } from '@/interface/interface-utils';
+import { LoginFormData, RegisterFormData } from '@/lib/interfaces';
 
 export const authApi = {
     login: async (credentials: LoginFormData) => {
@@ -8,7 +8,7 @@ export const authApi = {
         if (response.data?.token) {
             localStorage.setItem('authToken', response.data.token);
         }
-        
+
         if (response.data?.safeUser) {
             localStorage.setItem("user", JSON.stringify(response.data.safeUser)); // <- fix here
         }
@@ -22,4 +22,14 @@ export const authApi = {
         const response = await axiosClient.post('/auth/register', data);
         return response.data;
     },
+
+    forgotPassword: async (email: string) => {
+        const response = await axiosClient.post('/auth/forgotPassword', { email });
+        return response.data;
+    },
+
+    ping: async () => {
+        const response = await axiosClient.post('/auth/ping');
+        return response.data;
+    }
 };

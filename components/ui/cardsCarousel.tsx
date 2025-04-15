@@ -198,7 +198,7 @@ export const Card = ({
         <>
             <AnimatePresence>
                 {open && (
-                    <div className="fixed inset-0 h-screen z-50 overflow-auto">
+                    <div className="fixed inset-0  z-50 overflow-auto">
                         <motion.div
                             initial={{ opacity: 0 }}
                             animate={{ opacity: 1 }}
@@ -211,7 +211,7 @@ export const Card = ({
                             exit={{ opacity: 0 }}
                             ref={containerRef}
                             layoutId={layout ? `card-${card.title}` : undefined}
-                            className="max-w-5xl mx-auto bg-white dark:bg-neutral-900 h-fit  z-[60] my-10 p-4 md:p-10 rounded-3xl font-sans relative"
+                            className="max-w-7xl mx-auto bg-white dark:bg-neutral-900 h-fit  z-[60] my-10 p-4 md:p-10 rounded-3xl font-sans relative"
                         >
                             <button
                                 className="sticky top-4 h-8 w-8 right-0 ml-auto bg-black dark:bg-white rounded-full flex items-center justify-center"
@@ -235,6 +235,7 @@ export const Card = ({
                         </motion.div>
                     </div>
                 )}
+
             </AnimatePresence>
             <motion.button
                 layoutId={layout ? `card-${card.title}` : undefined}

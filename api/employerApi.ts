@@ -1,5 +1,5 @@
 import axiosClient from './axiosClient';
-import { Employee } from '@/interface/interface-utils';
+import { Employee } from '@/lib/interfaces';
 
 export const employerApi = {
 
