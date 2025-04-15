@@ -4,8 +4,8 @@ import Loader from '@/components/ui/loader'
 import { AuroraBackground } from '@/components/ui/aurora';
 import { MONTSERRAT } from '@/lib/fonts';
 import { IntroCards } from '../intro/IntroCards';
-import { HoverBorderGradient } from '../ui/hoverBorderGradient';
 import { useRouter } from 'next/navigation';
+import { GlowingEffect } from '../ui/glowingEffect';
 
 function IntroPage() {
     const router = useRouter();
@@ -25,14 +25,13 @@ function IntroPage() {
                             Let's get started
                         </span>
                         <div className="mt-4 flex justify-center">
-                            <HoverBorderGradient
-                                containerClassName="rounded-full"
-                                as="button"
-                                onClick={() => handleAuth()}
-                                className="bg-black text-white flex items-center space-x-2 text-lg font-bold"
-                            >
-                                <span>Join Payzoll</span>
-                            </HoverBorderGradient>
+                                <button
+                                    className={`${MONTSERRAT.className} relative text-xl bg-gradient-to-r from-indigo-600 via-blue-600-400 to-blue-700 text-white py-3 px-8 rounded-full hover:shadow-[0_0_25px_rgba(168,85,247,0.5)] transition-all duration-300 transform hover:scale-105`}
+                                    onClick={handleAuth}
+                                >
+                                    <span>Join Payzoll</span>
+                                </button>
+
                         </div>
                         <span className='text-white max-w-xl mt-4'> Need to add that button that opens multiple menus one of which will lead you to the auth page, to the offramp etc and other service.</span>
                     </div>
