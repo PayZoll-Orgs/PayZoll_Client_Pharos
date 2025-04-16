@@ -82,7 +82,7 @@ function FeaturesPage() {
                     offers
                     <FlipWords words={["Security", "Seamlessness", "Fast Transfers", "Global Payments", "Multi-Chain Support", "Off-Ramps", "Stable Token Marketplace", "AI Finance Agents"]} className={` ${MONTSERRAT.className} text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-5xl`} />
                 </div>
-                <div className="">
+                <div className="max-w-7xl overflow-x-scroll">
                     <Carousel items={cards} />
                 </div>
             </div>

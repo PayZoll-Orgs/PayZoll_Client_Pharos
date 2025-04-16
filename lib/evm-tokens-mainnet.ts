@@ -18,7 +18,7 @@ export const contractMainnetAddresses = {
     [bnb.id]: '0x2c137aC6Bc804A9F798053347802F489F0025768',
     [arbitrum.id]: '0x2c137aC6Bc804A9F798053347802F489F0025768',
     [educhain.id]: '0xYourContractAddressOnEduchainMainnet',
-    [polygon.id]: '0xYourContractAddressOnPolygonMainnet',
+    [polygon.id]: '0x2c137aC6Bc804A9F798053347802F489F0025768',
     [avalanche.id]: '0xYourContractAddressOnAvalanche',
     [optimism.id]: '0xYourContractAddressOnOptimism',
     [bnbTestnet.id]: '0x9571BcCA765f30FF221dfB976ab530Ba44bd85AE',
