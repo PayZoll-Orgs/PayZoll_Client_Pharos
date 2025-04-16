@@ -139,14 +139,14 @@ function HomePage({ onShowSplash }: HomePageProps) { // Accept the prop
 
     return (
         // Use a relative container for positioning the Dock
-        <div ref={containerRef} className="relative w-full">
+        <div ref={containerRef} className="relative">
             {/* Render Sections */}
             {sections.map((section, index) => (
                 <div
                     key={section.id}
                     id={section.id}
                     ref={el => { sectionRefs.current[index] = el; }}
-                    className="min-h-screen max-h-screen w-full flex items-center justify-center" // Ensure sections take full height
+                    className="flex items-center justify-center" // Ensure sections take full height
                 >
                     {section.component}
                 </div>

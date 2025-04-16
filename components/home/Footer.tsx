@@ -8,8 +8,8 @@ import { Cover } from "../ui/cover";
 export default function Footer() {
     return (
         <AuroraBackground className='relative'>
-            <div className="min-h-screen min-w-screen xl:grid xl:grid-cols-2">
-                <div className='xl:h-screen pt-10 md:pt-0'>
+            <div className="h-screen w-screen grid xl:grid-cols-2 grid-cols-1 place-content-center">
+                <div className='xl:h-screen'>
                     <RevealLinks />
                 </div>
                 <div className='xl:h-screen xl:flex xl:items-center xl:justify-center'>
@@ -91,7 +91,7 @@ const FooterHelper = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center dark:text-white text-black">
+        <div className="xl:h-screen flex flex-col items-center justify-center dark:text-white text-black">
             <div className='flex items-center justify-center'>
                 <div>
                     <h1 className="text-3xl md:text-4xl xl:text-6xl font-semibold max-w-7xl md:mx-auto text-center z-20 xl:py-6 py-3 bg-clip-text text-transparent bg-gradient-to-b from-neutral-800 via-neutral-700 to-neutral-700 dark:from-neutral-800 dark:via-white dark:to-white">

@@ -11,9 +11,10 @@ const DummyContent = () => {
     return (
         <div
             key={"dummy-content"}
-            className="bg-[#F5F5F7] dark:bg-neutral-800 p-8 md:p-14 rounded-3xl mb-4"
+            // Adjust padding for responsiveness
+            className="bg-[#F5F5F7] dark:bg-neutral-800 p-4 md:p-6 lg:p-8 xl:p-14 rounded-3xl mb-4"
         >
-            <p className="text-neutral-600 dark:text-neutral-400 text-base md:text-2xl font-sans max-w-3xl mx-auto">
+            <p className="text-neutral-600 dark:text-neutral-400 text-sm md:text-base lg:text-lg font-sans max-w-xs sm:max-w-md md:max-w-lg lg:max-w-2xl xl:max-w-3xl mx-auto">
                 <span className="font-bold text-neutral-700 dark:text-neutral-200">
                     The first rule of Apple club is that you boast about Apple club.
                 </span>{" "}
@@ -22,13 +23,6 @@ const DummyContent = () => {
                 Langotiya jeetu ka mara hua yaar is ready to capture every
                 thought.
             </p>
-            <Image
-                src="https://assets.aceternity.com/macbook.png"
-                alt="Macbook mockup from Aceternity UI"
-                height="500"
-                width="500"
-                className="md:w-1/2 md:h-1/2 h-full w-full mx-auto object-contain"
-            />
         </div>
     );
 };
@@ -37,7 +31,7 @@ const data = [
     {
         category: "Artificial Intelligence",
         title: "You can do more with AI.",
-        src: "https://images.unsplash.com/photo-1593508512255-86ab42a8e620?q=80&w=3556&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        src: "./fiat-ramp.png",
         content: <DummyContent />,
     },
     {
@@ -49,7 +43,7 @@ const data = [
     {
         category: "Product",
         title: "Launching the new Apple Vision Pro.",
-        src: "https://images.unsplash.com/photo-1713869791518-a770879e60dc?q=80&w=2333&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        src: "./fiat-ramp.png",
         content: <DummyContent />,
     },
 
@@ -75,18 +69,22 @@ const data = [
 
 function FeaturesPage() {
     const cards = data.map((card, index) => (
-        <Card key={card.src} card={card} index={index} />
+        // Pass layout prop for smoother animation if desired
+        <Card key={card.src} card={card} index={index} layout />
     ));
 
     return (
-        <div className="w-[90%] h-[80%] flex items-center justify-center">
-            <div className="w-[90%] max-h-[80vh] flex justify-center items-center px-4 flex-col">
-                <div className="text-4xl mx-auto font-semibold text-neutral-600 dark:text-neutral-400">
-                    <span className={`bg-gradient-to-br dark:from-indigo-500 dark:to-purple-400 from-indigo-400 to-purple-300 text-transparent bg-clip-text ${MONTSERRAT.className} font-black dark:text-shadow-3d transform hover:scale-105 transition-transform duration-300`}>PayZoll </span>
+        // Adjust width, use min-height instead of fixed height percentage
+        <div className="h-screen w-screen dark:bg-black p-10 flex items-center justify-center mt-2">
+            <div className="grid grid-rows-1 place-content-center">
+                <div className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-5xl mx-auto font-semibold xl:font-bold text-neutral-600 dark:text-neutral-400 text-center flex flex-col sm:flex-row">
+                    <span className={`bg-gradient-to-br mr-2 dark:from-indigo-500 dark:to-purple-400 from-indigo-400 to-purple-300 text-transparent bg-clip-text ${MONTSERRAT.className}`}>PayZoll</span>
                     offers
-                    <FlipWords words={["Security", "Seamlessness", "Fast Transfers", "Global Payments", "Multi-Chain Support", "Off-Ramps", "Stable Token Marketplace", "AI Finance Agents"]} className={` ${MONTSERRAT.className}`} />
+                    <FlipWords words={["Security", "Seamlessness", "Fast Transfers", "Global Payments", "Multi-Chain Support", "Off-Ramps", "Stable Token Marketplace", "AI Finance Agents"]} className={` ${MONTSERRAT.className} text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-5xl`} />
                 </div>
-                <Carousel items={cards} />
+                <div className="">
+                    <Carousel items={cards} />
+                </div>
             </div>
         </div>
     );

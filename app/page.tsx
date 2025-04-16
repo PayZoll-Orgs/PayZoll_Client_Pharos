@@ -58,7 +58,7 @@ const LandingPage = () => {
                                 delay: 0.2
                             }
                         }}
-                        className="bg-transparent max-w-full max-h-full"
+                        className="bg-transparent"
                     >
                         <Home onShowSplash={handleShowSplash} />
                     </motion.div>

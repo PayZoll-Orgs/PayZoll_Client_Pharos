@@ -5,7 +5,7 @@ import { GlowingEffect } from "@/components/ui/glowingEffect";
 
 export function IntroCards() {
     return (
-        <ul className="grid grid-cols-1 grid-rows-none gap-4 md:grid-cols-12 md:grid-rows-3 lg:gap-4 xl:max-h-[34rem] xl:grid-rows-2">
+        <ul className="grid grid-cols-1 grid-rows-none gap-4 md:grid-cols-12 md:grid-rows-3 lg:gap-4 max-h-[40rem] xl:grid-rows-2">
             <GridItem
                 area="md:[grid-area:1/1/2/7] xl:[grid-area:1/1/2/5]"
                 icon={<Box className="h-4 w-4 text-neutral-200" />}
@@ -53,8 +53,8 @@ interface GridItemProps {
 
 const GridItem = ({ area, icon, title, description }: GridItemProps) => {
     return (
-        <li className={`min-h-[10rem] list-none ${area}`}>
-            <div className="relative h-full rounded-2xl border-3 border-gray-900 p-2 md:rounded-3xl md:p-3">
+        <li className={`max-h-[12rem] xl:max-h-full list-none ${area}`}>
+            <div className="relative h-full rounded-2xl border-3 border-gray-900 p-1 md:rounded-3xl lg:p-3">
                 <GlowingEffect
                     spread={100}
                     glow={true}
@@ -65,7 +65,7 @@ const GridItem = ({ area, icon, title, description }: GridItemProps) => {
                 />
                 <div className="border-1 border-gray-800 relative flex h-full flex-col justify-between gap-6 overflow-hidden rounded-xl p-6 md:p-6 shadow-[0px_0px_27px_0px_#2D2D2D]">
                     <div className="relative flex flex-1 flex-col justify-between gap-3">
-                        <div className="w-fit rounded-lg border border-gray-300 p-2">
+                        <div className="w-fit hidden xl:flex rounded-lg border border-gray-300 p-2">
                             {icon}
                         </div>
                         <div className="space-y-3">
