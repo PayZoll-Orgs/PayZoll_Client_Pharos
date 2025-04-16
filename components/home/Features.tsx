@@ -79,8 +79,8 @@ function FeaturesPage() {
     ));
 
     return (
-        <div className="w-full h-full flex items-center justify-center dark:bg-black">
-            <div className="w-[90%] flex justify-center items-center px-4 flex-col">
+        <div className="w-[90%] h-[80%] flex items-center justify-center">
+            <div className="w-[90%] max-h-[80vh] flex justify-center items-center px-4 flex-col">
                 <div className="text-4xl mx-auto font-semibold text-neutral-600 dark:text-neutral-400">
                     <span className={`bg-gradient-to-br dark:from-indigo-500 dark:to-purple-400 from-indigo-400 to-purple-300 text-transparent bg-clip-text ${MONTSERRAT.className} font-black dark:text-shadow-3d transform hover:scale-105 transition-transform duration-300`}>PayZoll </span>
                     offers

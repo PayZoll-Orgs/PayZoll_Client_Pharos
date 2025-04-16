@@ -293,7 +293,7 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                                 id="sort-select"
                                 value={sortConfig.key ?? ''}
                                 onChange={handleSortKeyChange}
-                                className="px-3 py-2 rounded-lg border border-gray-400 dark:border-gray-500 dark:bg-black/90 text-black dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                className="px-3 py-2 rounded-lg border border-gray-400 dark:border-gray-500 dark:bg-black/10 text-black dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
                                 aria-label="Sort by column"
                             >
                                 <option value="" disabled>Sort by...</option>

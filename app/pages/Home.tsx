@@ -146,7 +146,7 @@ function HomePage({ onShowSplash }: HomePageProps) { // Accept the prop
                     key={section.id}
                     id={section.id}
                     ref={el => { sectionRefs.current[index] = el; }}
-                    className="min-h-screen w-full flex items-center justify-center" // Ensure sections take full height
+                    className="min-h-screen max-h-screen w-full flex items-center justify-center" // Ensure sections take full height
                 >
                     {section.component}
                 </div>

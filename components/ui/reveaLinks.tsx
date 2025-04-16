@@ -24,7 +24,7 @@ const FlipLink = ({ children, href }: { children: string; href: string }) => {
             initial="initial"
             whileHover="hovered"
             href={href}
-            className={`relative block overflow-hidden whitespace-nowrap text-4xl font-black uppercase sm:text-xl md:text-7xl lg:text-8xl ${MONTSERRAT.className}`}
+            className={`relative block overflow-hidden whitespace-nowrap font-black uppercase text-4xl md:text-6xl lg:text-6xl xl:text-7xl ${MONTSERRAT.className}`}
             style={{
                 lineHeight: 0.75,
             }}

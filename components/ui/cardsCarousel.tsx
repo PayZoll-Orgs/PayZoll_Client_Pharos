@@ -90,7 +90,7 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
         <CarouselContext.Provider
             value={{ onCardClose: handleCardClose, currentIndex }}
         >
-            <div className="relative w-full">
+            <div className="relative w-full max-h-full">
                 <div
                     className="flex w-full overflow-x-scroll overscroll-x-auto py-10 md:py-20 scroll-smooth [scrollbar-width:none]"
                     ref={carouselRef}
@@ -98,7 +98,7 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
                 >
                     <div
                         className={cn(
-                            "absolute right-0  z-[1000] h-auto  w-[5%] overflow-hidden bg-gradient-to-l"
+                            "absolute right-0  z-[1000] h-auto w-[5%] overflow-hidden bg-gradient-to-l"
                         )}
                     ></div>
 
@@ -125,7 +125,7 @@ export const Carousel = ({ items, initialScroll = 0 }: CarouselProps) => {
                                     },
                                 }}
                                 key={"card" + index}
-                                className="last:pr-[5%] md:last:pr-[33%]  rounded-3xl"
+                                className="last:pr-[5%] md:last:pr-[33%] rounded-3xl"
                             >
                                 {item}
                             </motion.div>

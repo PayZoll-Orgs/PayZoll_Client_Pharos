@@ -54,7 +54,7 @@ function EncryptButton({ TARGET_TEXT, onClick, disabled }: EncryptButtonProps): 
 
   return (
     <motion.button
-      className="relative overflow-hidden rounded-full px-4 py-2 sm:text-lg text-sm p-2 border dark:border-gray-300 border-black font-bold uppercase dark:text-white text-black transition-colors"
+      className="relative overflow-hidden rounded-full px-4 py-2 md:text-lg text-sm p-2 border dark:border-gray-300 border-black font-bold uppercase dark:text-white text-black transition-colors"
       onMouseEnter={scramble}
       onMouseLeave={stopScramble}
       onClick={onClick}

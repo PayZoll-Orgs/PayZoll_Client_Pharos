@@ -51,7 +51,7 @@ export const Cover = ({
                                 duration: 0.2,
                             },
                         }}
-                        className="h-full w-full overflow-hidden absolute inset-0"
+                        className="xl:h-full h-[80%] w-full overflow-hidden absolute inset-0"
                     >
                         <motion.div
                             animate={{
@@ -64,7 +64,7 @@ export const Cover = ({
                                     repeat: Infinity,
                                 },
                             }}
-                            className="w-[200%] h-full flex"
+                            className="w-[200%] xl:h-full h-[80%] flex"
                         >
                             <SparklesCore
                                 background="transparent"

@@ -7,6 +7,7 @@ import Splashscreen from '@/app/pages/SplashScreen';
 import { motion, AnimatePresence } from 'framer-motion'
 import Home from '@/app/pages/Home'; // Assuming Hero is the component exported from '@/pages/Home'
 
+
 const LandingPage = () => {
     const [isSplashscreenVisible, setSplashscreenVisible] = React.useState(false);
     const [isFirstLoad, setIsFirstLoad] = React.useState(true);
@@ -57,7 +58,7 @@ const LandingPage = () => {
                                 delay: 0.2
                             }
                         }}
-                        className="bg-transparent"
+                        className="bg-transparent max-w-full max-h-full"
                     >
                         <Home onShowSplash={handleShowSplash} />
                     </motion.div>

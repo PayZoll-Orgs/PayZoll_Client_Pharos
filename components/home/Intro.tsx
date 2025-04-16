@@ -5,7 +5,6 @@ import { AuroraBackground } from '@/components/ui/aurora';
 import { MONTSERRAT } from '@/lib/fonts';
 import { IntroCards } from '../intro/IntroCards';
 import { useRouter } from 'next/navigation';
-import { GlowingEffect } from '../ui/glowingEffect';
 
 function IntroPage() {
     const router = useRouter();
@@ -15,13 +14,13 @@ function IntroPage() {
 
     return (
         <AuroraBackground>
-            <div className='w-screen h-screen flex items-center justify-center bg-black'>
-                <div className='2xl:grid 2xl:grid-cols-2 2xl:place-content-center bg-transparent p-4'>
-                    <div className='2xl:w-[55vw] 3xl:w-auto md:block hidden'>
+            <div className='w-screen h-100vh flex items-center justify-center bg-black'>
+                <div className='xl:grid xl:grid-cols-2 xl:place-content-center bg-transparent p-4'>
+                    <div className='2xl:w-[52vw] 3xl:w-auto md:block hidden'>
                         <IntroCards />
                     </div>
                     <div className='flex flex-col items-center justify-center mt-10'>
-                        <span className={`text-white text-6xl md:text-5xl lg:text-6xl xl:text-7xl mt-6 font-bold ${MONTSERRAT.className} text-center`}>
+                        <span className={`text-white text-6xl md:text-4xl lg:text-5xl xl:text-7xl mt-6 font-bold ${MONTSERRAT.className} text-center`}>
                             Let's get started
                         </span>
                         <div className="mt-4 flex justify-center">
@@ -33,7 +32,6 @@ function IntroPage() {
                                 </button>
 
                         </div>
-                        <span className='text-white max-w-xl mt-4'> Need to add that button that opens multiple menus one of which will lead you to the auth page, to the offramp etc and other service.</span>
                     </div>
                 </div>
             </div>

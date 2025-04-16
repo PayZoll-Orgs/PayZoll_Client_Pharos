@@ -78,22 +78,22 @@ const PaymentStatus = ({
         <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="w-full bg-gradient-to-br from-gray-900 to-black/95 backdrop-blur-xl border 
+            className="w-full bg-gradient-to-br dark:from-gray-900 dark:to-black/95 backdrop-blur-xl border 
                        border-[#a5b4fc]/20 rounded-xl p-4 md:p-5 lg:p-6 transition-all 
-                       shadow-lg shadow-black/60 hover:border-[#60a5fa]/30 h-full"
+                       shadow-lg shadow-black/60 hover:border-[#60a5fa]/30 h-full dark:text-white text-black"
         >
             <div className="flex items-center gap-3 mb-5">
                 <div className={`p-2 rounded-md ${statusState === "processing" ? "bg-amber-500/20 animate-pulse" :
-                        statusState === "success" ? "bg-green-400/20" :
-                            statusState === "error" ? "bg-red-400/20" :
-                                "bg-[#3b82f6]/20"
+                    statusState === "success" ? "bg-green-400/20" :
+                        statusState === "error" ? "bg-red-400/20" :
+                            "bg-[#3b82f6]/20"
                     }`}>
                     {statusState === "processing" && <Clock className="w-5 h-5 text-amber-400" />}
                     {statusState === "success" && <CheckCircle className="w-5 h-5 text-green-500" />}
                     {statusState === "error" && <XCircle className="w-5 h-5 text-red-400" />}
                     {statusState === "idle" && <Info className="w-5 h-5 text-[#93c5fd]" />}
                 </div>
-                <h2 className="text-lg font-bold text-[#F2F2F2]" style={{
+                <h2 className="text-lg font-bold  dark:text-white text-black " style={{
                     textShadow: "0 0 5px rgba(59, 130, 246, 0.4), 0 0 10px rgba(96, 165, 250, 0.2)"
                 }}>
                     Transaction Status
@@ -107,7 +107,7 @@ const PaymentStatus = ({
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         className="flex items-start gap-3 p-4 bg-red-400/10 border border-red-400/30 
-                                 text-[#F2F2F2] rounded-xl text-sm backdrop-blur-sm"
+                                  dark:text-white text-black rounded-xl text-sm backdrop-blur-sm"
                     >
                         <AlertCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
                         <div className="max-h-[150px] overflow-y-auto scrollbar-hide">
@@ -122,7 +122,7 @@ const PaymentStatus = ({
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         className="flex items-start gap-3 p-4 bg-amber-500/10 border border-amber-500/30 
-                                 text-[#F2F2F2] rounded-xl text-sm backdrop-blur-sm"
+                                  dark:text-white text-black rounded-xl text-sm backdrop-blur-sm"
                     >
                         <Clock className="w-5 h-5 text-amber-400 animate-spin flex-shrink-0 mt-0.5" />
                         <div className="max-h-[150px] overflow-y-auto scrollbar-hide">
@@ -131,7 +131,7 @@ const PaymentStatus = ({
                                     ? `Approving ${selectedTokenSymbol}...`
                                     : "Processing transaction..."}
                             </p>
-                            <p className="text-gray-400 ">
+                            <p className="dark:text-gray-300  text-gray-700">
                                 Please wait while the transaction is being processed
                             </p>
                         </div>
@@ -149,7 +149,7 @@ const PaymentStatus = ({
                         <CheckCircle className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
                         <div className="max-h-[150px] overflow-y-auto scrollbar-hide">
                             <p className="font-medium mb-1 ">Payment successful!</p>
-                            <p className="text-gray-400 ">
+                            <p className="dark:text-gray-300 text-gray-700 ">
                                 {selectedEmployeesCount > 0
                                     ? `${selectedEmployeesCount} employee${selectedEmployeesCount !== 1 ? 's' : ''} paid successfully`
                                     : 'Transaction completed successfully'}
@@ -164,7 +164,7 @@ const PaymentStatus = ({
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         className="flex items-start gap-3 p-4 bg-red-400/10 border border-red-400/30 
-                                 text-[#F2F2F2] rounded-xl text-sm backdrop-blur-sm"
+                                 dark:text-white  text-black rounded-xl text-sm backdrop-blur-sm"
                     >
                         <XCircle className="w-5 h-5 text-red-400 flex-shrink-0 mt-0.5" />
                         <div className="max-h-[150px] overflow-y-auto scrollbar-hide">
@@ -185,7 +185,7 @@ const PaymentStatus = ({
                     >
                         <p className="text-gray-400 mb-2 text-sm ">Approval Transaction:</p>
                         <div className="flex items-center justify-between gap-2">
-                            <div className="text-[#F2F2F2] text-xs truncate bg-gray-900/80 p-2 rounded-xl flex-1 overflow-x-auto scrollbar-hide">
+                            <div className="dark:text-white  text-black text-xs truncate bg-gray-900/80 p-2 rounded-xl flex-1 overflow-x-auto scrollbar-hide">
                                 {approvalTxHash}
                             </div>
                             <div className="flex gap-2">

@@ -156,10 +156,14 @@ const PaymentsPage: React.FC = () => {
       const response = await employerApi.getAllEmployees();
       if (response.status == "success") {
         setEmployees(response.employees || []);
+      } else {
+        // Handle potential API error responses even if status is not "success"
+        throw new Error(response.message || "Failed to fetch employees due to API error.");
       }
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to fetch employees:", error);
-      toast.error("Failed to load employees");
+      const message = error?.response?.data?.message || error?.message || "An unknown error occurred";
+      toast.error(`Failed to load employees: ${message}`);
     } finally {
       setIsLoading(false);
     }
@@ -437,9 +441,10 @@ const PaymentsPage: React.FC = () => {
       await employerApi.deleteEmployee(walletToDelete);
       setEmployees((prevEmployees) => prevEmployees.filter((employee) => employee.wallet !== walletToDelete));
       toast.success("Employee deleted successfully");
-    } catch (error) {
+    } catch (error: any) {
       console.error("Failed to delete employee:", error);
-      toast.error("Failed to delete employee");
+      const message = error?.response?.data?.message || error?.message || "An unknown error occurred";
+      toast.error(`Failed to delete employee: ${message}`);
     } finally {
       setIsDeleteDialogOpen(false);
       setWalletToDelete(null);
@@ -454,33 +459,48 @@ const PaymentsPage: React.FC = () => {
   const handleAddEmployee = async (employee: Employee) => {
     try {
       const response = await employerApi.addEmployee(employee);
-      const newEmployee = response.message;
-      setEmployees((prevEmployees) => [...prevEmployees, newEmployee]);
-      setShowAddModal(false);
-      fetchEmployees();
-      toast.success("Employee added successfully");
-    } catch (error) {
+      if (response.status === "success") {
+        const newEmployee = response.message; // Assuming message contains the new employee data on success
+        setEmployees((prevEmployees) => [...prevEmployees, newEmployee]);
+        setShowAddModal(false);
+        fetchEmployees(); // Refetch to ensure consistency, though adding locally might suffice
+        toast.success("Employee added successfully");
+      } else {
+        throw new Error(response.message || "Failed to add employee due to API error.");
+      }
+    } catch (error: any) {
       console.error("Failed to add employee:", error);
-      toast.error("Failed to add employee");
+      const message = error?.response?.data?.message || error?.message || "An unknown error occurred";
+      toast.error(`Failed to add employee: ${message}`);
+      // Optionally keep the modal open on failure
+      // setShowAddModal(true);
     }
   };
 
   const handleUpdateEmployee = async (wallet: string, updatedData: Partial<Employee>) => {
     try {
       const response = await employerApi.updateEmployee(wallet, updatedData);
-      const updatedEmployee = response.data;
-      setEmployees((prevEmployees) =>
-        prevEmployees.map((emp) =>
-          emp.wallet === wallet ? updatedEmployee : emp
-        )
-      );
-      setShowAddModal(false);
-      setSelectedEmployee(null);
-      toast.success("Employee updated successfully");
-      fetchEmployees();
-    } catch (error) {
+      if (response.status === "success") {
+        const updatedEmployee = response.data; // Assuming data contains the updated employee
+        setEmployees((prevEmployees) =>
+          prevEmployees.map((emp) =>
+            emp.wallet === wallet ? { ...emp, ...updatedEmployee } : emp // Ensure full update locally
+          )
+        );
+        setShowAddModal(false);
+        setSelectedEmployee(null);
+        toast.success("Employee updated successfully");
+        // Consider refetching if local update isn't reliable
+        // fetchEmployees();
+      } else {
+        throw new Error(response.message || "Failed to update employee due to API error.");
+      }
+    } catch (error: any) {
       console.error("Failed to update employee:", error);
-      toast.error("Failed to update employee");
+      const message = error?.response?.data?.message || error?.message || "An unknown error occurred";
+      toast.error(`Failed to update employee: ${message}`);
+      // Optionally keep the modal open on failure
+      // setShowAddModal(true);
     }
   };
 
