@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Head from "next/head";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { LoginFormData, RegisterFormData } from "@/lib/interfaces";
@@ -13,10 +13,7 @@ import { BackgroundBeams } from "@/components/ui/beams";
 import { Home } from "lucide-react";
 import Link from "next/link";
 import { MONTSERRAT } from "@/lib/fonts";
-import useFullPageLoader from "@/hooks/usePageLoader";
 import Loader from "@/components/ui/loader";
-
-
 
 // --- Type Definitions ---
 type AuthStep = "register" | "login" | "forgotPassword" | "resetPasswordOtp";
@@ -27,11 +24,13 @@ type ResetPasswordFormData = { otp: string; password: string; confirmPassword: s
 const AuthPage: React.FC = () => {
     const [authStep, setAuthStep] = useState<AuthStep>("register");
     const [isLoading, setIsLoading] = useState(false);
+    const [isVideoReady, setIsVideoReady] = useState(false);
     const [apiError, setApiError] = useState<string | null>(null);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [userEmailForOtp, setUserEmailForOtp] = useState<string | null>(null);
 
     const { login, register: registerUser } = useAuth();
+    const videoRef = useRef<HTMLVideoElement>(null);
 
     // Form Hooks
     const registerForm = useForm<RegisterFormData>();
@@ -39,7 +38,7 @@ const AuthPage: React.FC = () => {
     const forgotPasswordForm = useForm<ForgotPasswordFormData>();
     const resetPasswordForm = useForm<ResetPasswordFormData>();
 
-    // Submit Handlers (remain in the parent component to manage state and API calls)
+    // Submit Handlers
     const onRegisterSubmit: SubmitHandler<RegisterFormData> = async (data) => {
         setIsLoading(true);
         setApiError(null);
@@ -68,9 +67,8 @@ const AuthPage: React.FC = () => {
             const result = await login(data);
             if (result.success) {
                 console.log("Login successful");
-                setSuccessMessage("Login successful! Redirecting..."); // Add actual redirect logic here
+                setSuccessMessage("Login successful! Redirecting...");
                 loginForm.reset();
-                // Example: router.push('/dashboard');
             } else {
                 setApiError(result.error || "Login failed. Check your credentials.");
             }
@@ -132,6 +130,29 @@ const AuthPage: React.FC = () => {
         setSuccessMessage(null);
     }, [authStep]);
 
+    // Effect to handle video loading
+    useEffect(() => {
+        const videoElement = videoRef.current;
+        if (!videoElement) return;
+
+        const handleVideoReady = () => {
+            console.log("Video can play now.");
+            setIsVideoReady(true);
+        };
+
+        if (videoElement.readyState >= 3) {
+            handleVideoReady();
+        } else {
+            videoElement.addEventListener('canplay', handleVideoReady);
+        }
+
+        return () => {
+            if (videoElement) {
+                videoElement.removeEventListener('canplay', handleVideoReady);
+            }
+        };
+    }, []);
+
     // Render the correct form based on authStep
     const renderFormContent = () => {
         const commonProps = {
@@ -155,11 +176,33 @@ const AuthPage: React.FC = () => {
         }
     };
 
+    if (!isVideoReady) {
+        return (
+            <>
+                <Head>
+                    <link rel="preload" href="/auth.mp4" as="video" type="video/mp4" />
+                    <title>Loading...</title>
+                </Head>
+                <video
+                    ref={videoRef}
+                    src="/auth.mp4"
+                    autoPlay
+                    muted
+                    loop
+                    playsInline
+                    preload="auto"
+                    style={{ display: 'none' }}
+                />
+                <Loader />
+            </>
+        );
+    }
+
     return (
         <>
             <Head>
                 <link rel="preload" href="/auth.mp4" as="video" type="video/mp4" />
-                <title>Authentication</title> {/* Also good practice to set a title */}
+                <title>Authentication</title>
             </Head>
             <BackgroundBeams />
             <div className="absolute z-50 top-4 right-4">
@@ -171,12 +214,14 @@ const AuthPage: React.FC = () => {
                 <div className="dark:text-white text-black items-center justify-center hidden xl:flex">
                     <div className="relative w-full h-[100vh] overflow-hidden">
                         <video
+                            ref={videoRef}
                             className="absolute inset-0 w-full h-full object-cover"
                             src="/auth.mp4"
                             autoPlay
                             muted
                             loop
                             playsInline
+                            preload="auto"
                         />
                     </div>
                     <div className="absolute w-auto">
@@ -193,5 +238,4 @@ const AuthPage: React.FC = () => {
     );
 };
 
-const Auth = useFullPageLoader(AuthPage, <Loader />);
-export default Auth;
+export default AuthPage;

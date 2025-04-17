@@ -1,11 +1,23 @@
 "use client";
-import Image from "next/image";
+
 import React from "react";
-import { Carousel, Card } from "@/components/ui/cardsCarousel";
+import dynamic from "next/dynamic";
+import Loader from "@/components/ui/loader";
+
 import { FlipWords } from "@/components/ui/flipWords";
 import { MONTSERRAT } from "@/lib/fonts";
 import useFullPageLoader from "@/hooks/usePageLoader";
-import Loader from "@/components/ui/loader";
+
+const Carousel = dynamic(() => import("@/components/ui/cardsCarousel").then(mod => mod.Carousel), {
+    ssr: false,
+    loading: () => <Loader />
+});
+
+const Card = dynamic(() => import("@/components/ui/cardsCarousel").then(mod => mod.Card), {
+    ssr: false,
+    loading: () => <Loader />
+});
+
 
 const DummyContent = () => {
     return (
@@ -18,7 +30,7 @@ const DummyContent = () => {
                 <span className="font-bold text-neutral-700 dark:text-neutral-200">
                     Feature Description
                 </span>{" "}
-              Have all the details about the features and the functionality.
+                Have all the details about the features and the functionality.
             </p>
         </div>
     );

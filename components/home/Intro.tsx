@@ -14,7 +14,7 @@ function IntroPage() {
 
     return (
         <AuroraBackground>
-            <div className='max-w-screen h-screen flex dark:bg-black p-2'>
+            <div className='max-w-screen h-screen flex items-center justify-center dark:bg-black p-2'>
                 <div className='2xl:grid 2xl:grid-cols-2 grid-cols-1 place-content-center bg-transparent p-4'>
                     <div className='2xl:w-[52vw] 3xl:w-auto lg:block hidden'>
                         <IntroCards />
