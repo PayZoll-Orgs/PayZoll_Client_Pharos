@@ -5,7 +5,7 @@ import { GlowingEffect } from "@/components/ui/glowingEffect";
 
 export function IntroCards() {
     return (
-        <ul className="grid grid-cols-1 grid-rows-none gap-4 md:grid-cols-12 md:grid-rows-3 lg:gap-4 max-h-[40rem] xl:grid-rows-2">
+        <ul className="grid grid-cols-1 grid-rows-none gap-1 md:grid-cols-12 md:grid-rows-3 lg:gap-2 2xl:gap-4 max-h-[40rem] xl:grid-rows-2">
             <GridItem
                 area="md:[grid-area:1/1/2/7] xl:[grid-area:1/1/2/5]"
                 icon={<Box className="h-4 w-4 text-neutral-200" />}
@@ -68,8 +68,8 @@ const GridItem = ({ area, icon, title, description }: GridItemProps) => {
                         <div className="w-fit hidden xl:flex rounded-lg border border-gray-300 p-2">
                             {icon}
                         </div>
-                        <div className="space-y-3">
-                            <h3 className="-tracking-4 pt-0.5 font-sans text-xl/[1.375rem] font-semibold text-balance text-white md:text-2xl/[1.875rem] dark:text-white">
+                        <div className="space-y-1 2xl:space-y-3">
+                            <h3 className="-tracking-4 pt-0.5 font-sans font-semibold text-balance text-white md:text-lg dark:text-white">
                                 {title}
                             </h3>
                             <h2 className="font-sans text-sm/[1.125rem] text-white md:text-base/[1.375rem] dark:text-neutral-400 [&_b]:md:font-semibold [&_strong]:md:font-semibold">

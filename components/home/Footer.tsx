@@ -16,9 +16,6 @@ export default function Footer() {
                     <FooterHelper />
                 </div>
             </div>
-            <div className='absolute bottom-0 right-0 font-bold text-dark dark:text-white'>
-            <p>Dev @18Abhinav07</p>
-            </div>
         </AuroraBackground>
     );
 }
