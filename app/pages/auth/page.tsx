@@ -162,7 +162,7 @@ const AuthPage: React.FC = () => {
                 <title>Authentication</title> {/* Also good practice to set a title */}
             </Head>
             <BackgroundBeams />
-            <div className="absolute top-4 right-4">
+            <div className="absolute z-50 top-4 right-4">
                 <Link href="/">
                     <Home className="text-black dark:hover:text-gray-200 hover:text-gray-800 dark:text-white" size={30} />
                 </Link>
