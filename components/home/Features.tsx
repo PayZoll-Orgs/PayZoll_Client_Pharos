@@ -16,12 +16,9 @@ const DummyContent = () => {
         >
             <p className="text-neutral-600 dark:text-neutral-400 text-sm md:text-base lg:text-lg font-sans max-w-xs sm:max-w-md md:max-w-lg lg:max-w-2xl xl:max-w-3xl mx-auto">
                 <span className="font-bold text-neutral-700 dark:text-neutral-200">
-                    The first rule of Apple club is that you boast about Apple club.
+                    Feature Description
                 </span>{" "}
-                Keep a journal, quickly jot down a grocery list, and take amazing
-                class notes. Want to convert those notes to text? No problem.
-                Langotiya jeetu ka mara hua yaar is ready to capture every
-                thought.
+              Have all the details about the features and the functionality.
             </p>
         </div>
     );
@@ -29,40 +26,34 @@ const DummyContent = () => {
 
 const data = [
     {
-        category: "Artificial Intelligence",
-        title: "You can do more with AI.",
+        category: "Fiat Ramps",
+        title: "Buy crypto with your fiat, get fiat for your crypto",
         src: "./fiat-ramp.png",
         content: <DummyContent />,
     },
     {
-        category: "Productivity",
-        title: "Enhance your productivity.",
-        src: "https://images.unsplash.com/photo-1531554694128-c4c6665f59c2?q=80&w=3387&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        category: "Payroll",
+        title: "Globally pay your workforce.",
+        src: "./fiat-ramp.png",
         content: <DummyContent />,
     },
     {
-        category: "Product",
-        title: "Launching the new Apple Vision Pro.",
+        category: "Streaming",
+        title: "Long Term Payroll",
         src: "./fiat-ramp.png",
         content: <DummyContent />,
     },
 
     {
-        category: "Product",
-        title: "Maps for your iPhone 15 Pro Max.",
-        src: "https://images.unsplash.com/photo-1599202860130-f600f4948364?q=80&w=2515&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        category: "Secure Payments",
+        title: "Recoverable Secure Payments",
+        src: "./fiat-ramp.png",
         content: <DummyContent />,
     },
     {
-        category: "iOS",
-        title: "Photography just got better.",
-        src: "https://images.unsplash.com/photo-1602081957921-9137a5d6eaee?q=80&w=2793&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-        content: <DummyContent />,
-    },
-    {
-        category: "Hiring",
-        title: "Hiring for a Staff Software Engineer",
-        src: "https://images.unsplash.com/photo-1511984804822-e16ba72f5848?q=80&w=2048&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        category: "AI Finance Agents",
+        title: "Fintech just got better.",
+        src: "./fiat-ramp.png",
         content: <DummyContent />,
     },
 ];
