@@ -1,12 +1,13 @@
 "use client";
-import React, { useState, useMemo, useEffect, useRef } from 'react';
+import React, { useState, useMemo, useEffect, useRef, Fragment } from 'react';
 import {
     Edit, Trash2, Search, Download, DollarSign, Eye, RefreshCcw, CheckSquare, Square,
-    ChevronLeft, ChevronRight, SortAsc, SortDesc, X, ArrowUpDown
+    ChevronLeft, ChevronRight, SortAsc, SortDesc, X, ArrowUpDown, MoreVertical
 } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { Employee } from '@/lib/interfaces';
 import EmployeeDetailsModal from "./EmployeeDetailsModal";
+import { Menu as HeadlessMenu, Transition } from '@headlessui/react';
 
 const sortableColumns: { key: keyof Employee; label: string }[] = [
     { key: 'name', label: 'Name' },
@@ -120,6 +121,7 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
     const [selectedEmployeeDetails, setSelectedEmployeeDetails] = useState<Employee | null>(null);
     const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
     const [isRefreshing, setIsRefreshing] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
@@ -273,27 +275,27 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
     };
 
     return (
-        <div className={`w-full h-full bg-transparent dark:text-white text-black shadow-sm rounded-lg overflow-hidden `}>
-            <div className="p-4 border-b border-gray-800 bg-transparent">
-                <div className="flex flex-col md:flex-row gap-4 justify-between items-center">
-                    <div className="relative w-full md:w-auto">
+        <div className={`w-[90vw] xl:w-[75vw] h-full bg-transparent dark:text-white text-black shadow-sm rounded-lg overflow-hidden `}>
+            <div className="p-4 border-b border-gray-300 dark:border-gray-700 bg-transparent">
+                <div className="flex flex-col lg:flex-row gap-4 justify-between items-center">
+                    <div className="relative w-full lg:w-auto lg:flex-grow max-w-md">
                         <input
                             type="text"
                             placeholder="Search employees..."
                             value={searchTerm}
                             onChange={(e) => setSearchTerm(e.target.value)}
-                            className="w-full md:w-70 px-4 py-2 pl-10 rounded-sm border border-gray-500 dark:border-gray-700 bg-transparent text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-400"
+                            className="w-full px-4 py-2 pl-10 rounded-md border border-gray-400 dark:border-gray-600 bg-white dark:bg-transparent text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm"
                         />
-                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-400" />
+                        <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400 dark:text-gray-500" />
                     </div>
 
-                    <div className="flex flex-wrap items-center gap-4 w-full md:w-auto justify-end">
+                    <div className="hidden lg:flex flex-wrap items-center gap-3">
                         <div className="flex items-center gap-2">
                             <select
-                                id="sort-select"
+                                id="sort-select-desktop"
                                 value={sortConfig.key ?? ''}
                                 onChange={handleSortKeyChange}
-                                className="px-3 py-2 rounded-lg border border-gray-400 dark:border-gray-500 dark:bg-black/10 text-black dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"
+                                className="px-3 py-2 rounded-md border border-gray-400 dark:border-gray-600 bg-white dark:bg-transparent text-black dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                                 aria-label="Sort by column"
                             >
                                 <option value="" disabled>Sort by...</option>
@@ -304,7 +306,7 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                             <button
                                 onClick={toggleSortDirection}
                                 disabled={!sortConfig.key}
-                                className="p-2 rounded-lg border border-gray-400 dark:border-gray-500 bg-transparent text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                                className="p-2 rounded-md border border-gray-400 dark:border-gray-600 bg-white dark:bg-transparent text-black dark:text-white hover:bg-gray-200 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
                                 aria-label={`Sort direction: ${sortConfig.direction}`}
                                 title={`Sort ${sortConfig.direction === 'asc' ? 'Descending' : 'Ascending'}`}
                             >
@@ -314,9 +316,9 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
 
                         <div className="relative">
                             <button
-                                id="columns-button"
+                                id="columns-button-desktop"
                                 onClick={() => setIsColumnMenuOpen(prev => !prev)}
-                                className="px-4 py-2 bg-transparent border border-gray-400 dark:border-gray-500 rounded-lg text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 flex items-center gap-2 text-sm"
+                                className="px-3 py-2 bg-white dark:bg-transparent border border-gray-400 dark:border-gray-600 rounded-md text-black dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500 flex items-center gap-2 text-sm"
                                 aria-haspopup="true"
                                 aria-expanded={isColumnMenuOpen}
                             >
@@ -340,14 +342,14 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                                                         onChange={() => toggleColumn(column.key)}
                                                         disabled={visibleColumns.has(column.key) && visibleColumns.size <= 3}
                                                         className={`
-                                                                    appearance-none 
-                                                                    mr-2 h-4 w-4 
-                                                                    rounded-sm 
-                                                                    border-2 dark:border-white 
-                                                                    bg-transparent 
-                                                                    dark:checked:bg-gray-100 
+                                                                    appearance-none
+                                                                    mr-2 h-4 w-4
+                                                                    rounded-sm
+                                                                    border-2 dark:border-white
+                                                                    bg-transparent
+                                                                    dark:checked:bg-gray-100
                                                                     dark:checked:border-gray-800 checked:bg-indigo-600
-                                                                    transition-colors duration-200 
+                                                                    transition-colors duration-200
                                                                     disabled:opacity-50
                                                                 `}
                                                     />
@@ -360,14 +362,14 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                             )}
                         </div>
 
-                        <div className="px-4 py-2 bg-transparent rounded-lg border border-gray-400 dark:border-gray-500 flex-shrink-0">
+                        <div className="px-3 py-2 bg-gray-100 dark:bg-transparent rounded-md border border-gray-400 dark:border-gray-600 flex-shrink-0">
                             <span className="text-indigo-600 dark:text-indigo-300 font-bold text-sm">1 USD = {exchangeRate.toFixed(6)} {selectedTokenSymbol}</span>
                         </div>
 
                         <button
                             onClick={handleExportCSV}
-                            className={`px-4 py-2 bg-transparent border border-gray-400 dark:border-gray-500 rounded-lg text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 flex items-center gap-2 text-sm
-                                       ${selectedEmployees.length === 0 ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-100 dark:hover:bg-gray-800'}`}
+                            className={`px-3 py-2 bg-white dark:bg-gray-900/40 border border-gray-400 dark:border-gray-600 rounded-md text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500 flex items-center gap-2 text-sm
+                                       ${selectedEmployees.length === 0 ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-100 dark:hover:bg-gray-700'}`}
                             aria-label="Export selected employees"
                             title={selectedEmployees.length === 0 ? "Select employees to export" : `Export ${selectedEmployees.length} selected employee(s)`}
                             disabled={selectedEmployees.length === 0 || isLoading || isLoadingDerived}
@@ -376,11 +378,106 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                             <span>Export</span>
                         </button>
 
-                        <div className="ml-auto flex items-center bg-transparent px-4 py-2 rounded-lg border border-gray-400 dark:border-gray-500">
+                        <div className="px-3 py-2 bg-gray-100 dark:bg-transparent rounded-md border border-gray-400 dark:border-gray-600 flex-shrink-0">
                             <span className="text-black dark:text-white text-sm">
                                 {selectedEmployees.length} / {employees.length}
                             </span>
                         </div>
+                    </div>
+
+                    <div className="lg:hidden flex items-center gap-3 w-full justify-end">
+                        <div className="px-3 py-2 bg-gray-100 dark:bg-gray-800 rounded-md border border-gray-400 dark:border-gray-600 flex-shrink-0">
+                            <span className="text-black dark:text-white text-sm">
+                                {selectedEmployees.length} / {employees.length}
+                            </span>
+                        </div>
+                        <HeadlessMenu as="div" className="relative inline-block text-left">
+                            <div>
+                                <HeadlessMenu.Button className="inline-flex justify-center w-full rounded-md border border-gray-400 dark:border-gray-600 shadow-sm px-3 py-2 bg-white dark:bg-gray-800 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500">
+                                    <MoreVertical className="h-5 w-5" aria-hidden="true" />
+                                    <span className="sr-only">More options</span>
+                                </HeadlessMenu.Button>
+                            </div>
+
+                            <Transition
+                                as={Fragment}
+                                enter="transition ease-out duration-100"
+                                enterFrom="transform opacity-0 scale-95"
+                                enterTo="transform opacity-100 scale-100"
+                                leave="transition ease-in duration-75"
+                                leaveFrom="transform opacity-100 scale-100"
+                                leaveTo="transform opacity-0 scale-95"
+                            >
+                                <HeadlessMenu.Items className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-800 ring-1 ring-black dark:ring-gray-700 ring-opacity-5 focus:outline-none z-20">
+                                    <div className="py-1">
+                                        <div className="px-4 py-2 text-xs uppercase text-gray-500 dark:text-gray-400">Sort</div>
+                                        <HeadlessMenu.Item>
+                                            {({ active }) => (
+                                                <div className="px-4 py-2 flex items-center gap-2">
+                                                    <select
+                                                        id="sort-select-mobile"
+                                                        value={sortConfig.key ?? ''}
+                                                        onChange={handleSortKeyChange}
+                                                        className={`w-full px-3 py-1.5 rounded-md border border-gray-400 dark:border-gray-600 text-sm focus:outline-none focus:ring-1 focus:ring-indigo-500 ${active ? 'bg-gray-100 dark:bg-gray-700' : 'bg-white dark:bg-gray-800'} text-black dark:text-white`}
+                                                        aria-label="Sort by column"
+                                                        onClick={(e) => e.stopPropagation()}
+                                                    >
+                                                        <option value="" disabled>Sort by...</option>
+                                                        {sortableColumns.map(col => (
+                                                            <option key={col.key} value={col.key}>{col.label}</option>
+                                                        ))}
+                                                    </select>
+                                                    <button
+                                                        onClick={(e) => { e.stopPropagation(); toggleSortDirection(); }}
+                                                        disabled={!sortConfig.key}
+                                                        className={`p-1.5 rounded-md border border-gray-400 dark:border-gray-600 focus:outline-none focus:ring-1 focus:ring-indigo-500 disabled:opacity-50 ${active ? 'bg-gray-100 dark:bg-gray-700' : 'bg-white dark:bg-gray-800'} text-black dark:text-white`}
+                                                        aria-label={`Sort direction: ${sortConfig.direction}`}
+                                                    >
+                                                        {sortConfig.direction === 'asc' ? <SortAsc className="h-4 w-4" /> : <SortDesc className="h-4 w-4" />}
+                                                    </button>
+                                                </div>
+                                            )}
+                                        </HeadlessMenu.Item>
+                                        <div className="border-t border-gray-200 dark:border-gray-700 my-1"></div>
+
+                                        <HeadlessMenu.Item>
+                                            {({ active }) => (
+                                                <button
+                                                    onClick={() => setIsColumnMenuOpen(true)}
+                                                    className={`${active ? 'bg-gray-100 dark:bg-gray-700' : ''
+                                                        } group flex w-full items-center rounded-md px-4 py-2 text-sm text-gray-900 dark:text-gray-200`}
+                                                >
+                                                    <ArrowUpDown className="mr-3 h-5 w-5 text-gray-500 dark:text-gray-400" aria-hidden="true" />
+                                                    Columns
+                                                </button>
+                                            )}
+                                        </HeadlessMenu.Item>
+
+                                        <HeadlessMenu.Item disabled={selectedEmployees.length === 0 || isLoading || isLoadingDerived}>
+                                            {({ active, disabled }) => (
+                                                <button
+                                                    onClick={handleExportCSV}
+                                                    disabled={disabled}
+                                                    className={`${active && !disabled ? 'bg-gray-100 dark:bg-gray-700' : ''} ${disabled ? 'opacity-50 cursor-not-allowed' : ''
+                                                        } group flex w-full items-center rounded-md px-4 py-2 text-sm text-gray-900 dark:text-gray-200`}
+                                                >
+                                                    <Download className="mr-3 h-5 w-5 text-indigo-600 dark:text-indigo-400" aria-hidden="true" />
+                                                    Export Selected
+                                                </button>
+                                            )}
+                                        </HeadlessMenu.Item>
+
+                                        <HeadlessMenu.Item>
+                                            {({ active }) => (
+                                                <div className={`${active ? 'bg-gray-100 dark:bg-gray-700' : ''} px-4 py-2 text-sm text-gray-700 dark:text-gray-300`}>
+                                                    1 USD = {exchangeRate.toFixed(4)} {selectedTokenSymbol}
+                                                </div>
+                                            )}
+                                        </HeadlessMenu.Item>
+                                    </div>
+                                </HeadlessMenu.Items>
+                            </Transition>
+                        </HeadlessMenu>
                     </div>
                 </div>
             </div>
@@ -391,11 +488,11 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                 </motion.div>
             )}
 
-            <div className="overflow-x-auto m-10">
-                <table className={`w-full min-w-[768px] font-sans`}>
+            <div className="overflow-x-auto">
+                <table className={`w-full min-w-[640px] sm:min-w-[768px] font-sans`}>
                     <thead className="bg-transparent dark:text-white text-black border-b border-gray-200 dark:border-gray-700">
-                        <tr className='m-4'>
-                            <th className="px-4 py-4 w-12">
+                        <tr>
+                            <th className="px-2 sm:px-4 py-3 w-10 sm:w-12">
                                 <input
                                     type="checkbox"
                                     checked={allPaginatedSelected}
@@ -403,16 +500,17 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                                     onChange={handleSelectAllOnPage}
                                     disabled={isLoading || isLoadingDerived || paginatedEmployees.length === 0}
                                     className={`
-                                                                    appearance-none 
-                                                                    mr-2 h-4 w-4 
-                                                                    rounded-sm 
-                                                                    border-2 dark:border-white 
-                                                                    bg-transparent 
-                                                                    dark:checked:bg-gray-400 
-                                                                    dark:checked:border-gray-800 checked:bg-indigo-600
-                                                                    transition-colors duration-200 
-                                                                    disabled:opacity-50
-                                                                `}
+                                        appearance-none
+                                        h-4 w-4
+                                        rounded-sm
+                                        border-2 border-gray-400 dark:border-white
+                                        bg-transparent
+                                        checked:bg-indigo-600 checked:border-indigo-600
+                                        dark:checked:bg-indigo-500 dark:checked:border-indigo-500
+                                        transition-colors duration-200
+                                        disabled:opacity-50
+                                        focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500 dark:focus:ring-offset-gray-900
+                                    `}
                                     aria-label="Select all employees on this page"
                                 />
                             </th>
@@ -421,9 +519,9 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                                 .map((column) => (
                                     <th
                                         key={column.key}
-                                        className={`px-4 py-3 text-left md:text-2xl text-xl md:font-extrabold font-bold  text-gray-600 dark:text-gray-300 uppercase tracking-wider whitespace-nowrap
+                                        className={`px-2 sm:px-4 py-3 text-left text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider whitespace-nowrap
                                             ${column.key === 'salary' || column.key === tokenAmountColumnKey ? 'text-right' : 'text-left'}
-                                            ${column.key === 'actions' ? 'text-center w-32' : ''}
+                                            ${column.key === 'actions' ? 'text-center w-24 sm:w-32' : ''}
                                             ${(column.key === 'email' || column.key === 'company') ? 'hidden md:table-cell' : ''}
                                             ${column.key === 'wallet' ? 'hidden lg:table-cell' : ''}
                                             `}
@@ -435,38 +533,39 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                                 ))}
                         </tr>
                     </thead>
-                    <tbody className="divide-y divide-gray-100 dark:divide-gray-900 bg-transparent m-4">
+                    <tbody className="divide-y divide-gray-100 dark:divide-gray-900 bg-transparent">
                         {(isLoading && paginatedEmployees.length === 0) && (
-                            <tr><td colSpan={visibleColumns.size + 1} className="px-4 py-10 text-center text-gray-500 dark:text-gray-400">Loading employees...</td></tr>
+                            <tr><td colSpan={visibleColumns.size + 1} className="px-4 py-10 text-center text-gray-500 dark:text-gray-400 text-sm sm:text-base">Loading employees...</td></tr>
                         )}
                         {(!isLoading && sortedEmployees.length === 0) && (
-                            <tr><td colSpan={visibleColumns.size + 1} className="px-4 py-10 text-center text-gray-500 dark:text-gray-400">No employees added yet.</td></tr>
+                            <tr><td colSpan={visibleColumns.size + 1} className="px-4 py-10 text-center text-gray-500 dark:text-gray-400 text-sm sm:text-base">No employees added yet.</td></tr>
                         )}
                         {(!isLoading && sortedEmployees.length > 0 && paginatedEmployees.length === 0) && (
-                            <tr><td colSpan={visibleColumns.size + 1} className="px-4 py-10 text-center text-gray-500 dark:text-gray-400">No employees match your search/filters.</td></tr>
+                            <tr><td colSpan={visibleColumns.size + 1} className="px-4 py-10 text-center text-gray-500 dark:text-gray-400 text-sm sm:text-base">No employees match your search/filters.</td></tr>
                         )}
                         {paginatedEmployees.map((employee, index) => (
                             <tr
                                 key={employee.wallet || index}
                                 className={`hover:bg-gray-100 dark:hover:bg-gray-800/20 transition-colors ${selectedEmployees.includes(employee.wallet) ? 'bg-indigo-50 dark:bg-indigo-900/30' : ''}`}
                             >
-                                <td className="px-4 py-3">
+                                <td className="px-2 sm:px-4 py-3">
                                     <input
                                         type="checkbox"
                                         checked={selectedEmployees.includes(employee.wallet)}
                                         onChange={() => toggleEmployeeSelection(employee.wallet)}
                                         disabled={isLoading || isLoadingDerived}
                                         className={`
-                                                                    appearance-none 
-                                                                    mr-2 h-4 w-4 
-                                                                    rounded-sm 
-                                                                    border-2 dark:border-white 
-                                                                    bg-transparent 
-                                                                    dark:checked:bg-gray-400 
-                                                                    dark:checked:border-gray-800 checked:bg-indigo-600
-                                                                    transition-colors duration-200 
-                                                                    disabled:opacity-50
-                                                                `}
+                                            appearance-none
+                                            h-4 w-4
+                                            rounded-sm
+                                            border-2 border-gray-400 dark:border-white
+                                            bg-transparent
+                                            checked:bg-indigo-600 checked:border-indigo-600
+                                            dark:checked:bg-indigo-500 dark:checked:border-indigo-500
+                                            transition-colors duration-200
+                                            disabled:opacity-50
+                                            focus:outline-none focus:ring-2 focus:ring-offset-1 focus:ring-indigo-500 dark:focus:ring-offset-gray-900
+                                        `}
                                         aria-label={`Select employee ${employee.name}`}
                                     />
                                 </td>
@@ -475,19 +574,19 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                                     .map((column) => (
                                         <td
                                             key={`${employee.wallet}-${column.key}`}
-                                            className={`px-4 py-3 md:text-xl md:font-semibold text-black dark:text-white whitespace-nowrap align-middle
-                                                ${column.key === 'salary' || column.key === tokenAmountColumnKey ? 'text-right' : 'text-left'}
+                                            className={`px-2 sm:px-4 py-3 text-sm sm:text-base text-black dark:text-white whitespace-nowrap align-middle
+                                                ${column.key === 'salary' || column.key === tokenAmountColumnKey ? 'text-right font-medium' : 'text-left'}
                                                 ${column.key === 'actions' ? 'text-center' : ''}
                                                 ${(column.key === 'email' || column.key === 'company') ? 'hidden md:table-cell' : ''}
-                                                ${column.key === 'wallet' ? 'hidden lg:table-cell text-sm text-gray-500 dark:text-gray-400' : ''}
-                                                ${column.key === tokenAmountColumnKey ? 'text-indigo-600 dark:text-indigo-400' : ''}
-                                                ${column.key === 'name' ? 'group cursor-pointer' : ''}
+                                                ${column.key === 'wallet' ? 'hidden lg:table-cell text-xs text-gray-500 dark:text-gray-400' : ''}
+                                                ${column.key === tokenAmountColumnKey ? 'text-indigo-600 dark:text-indigo-400 font-semibold' : ''}
+                                                ${column.key === 'name' ? 'group cursor-pointer font-medium' : ''}
                                                 `}
                                             title={column.key === 'wallet' ? employee.wallet : undefined}
                                             onClick={column.key === 'name' ? () => handleViewDetails(employee) : undefined}
                                         >
                                             {column.key === 'actions' ? (
-                                                <div className="flex justify-center space-x-2">
+                                                <div className="flex justify-center space-x-1 sm:space-x-2">
                                                     <button onClick={() => handleViewDetails(employee)} className="text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 p-1 rounded disabled:opacity-50" disabled={isLoading || isLoadingDerived} title="View Details"><Eye className="h-4 w-4" /></button>
                                                     {onEditEmployee && <button onClick={() => onEditEmployee(employee)} className="text-yellow-600 dark:text-yellow-400 hover:text-yellow-800 dark:hover:text-yellow-300 p-1 rounded disabled:opacity-50" disabled={isLoading || isLoadingDerived} title="Edit employee"><Edit className="h-4 w-4" /></button>}
                                                     <button onClick={() => deleteEmployeeById(employee.wallet)} className="text-red-600 dark:text-red-400 hover:text-red-800 dark:hover:text-red-300 p-1 rounded disabled:opacity-50" disabled={isLoading || isLoadingDerived} title="Delete employee"><Trash2 className="h-4 w-4" /></button>
@@ -500,7 +599,7 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                                             ) : column.key === 'salary' ? (
                                                 `$${parseFloat(employee.salary || '0').toFixed(2)}`
                                             ) : column.key === 'wallet' ? (
-                                                `${employee.wallet.substring(0, 8)}...${employee.wallet.substring(employee.wallet.length - 6)}`
+                                                `${employee.wallet.substring(0, 6)}...${employee.wallet.substring(employee.wallet.length - 4)}`
                                             ) : column.key === tokenAmountColumnKey ? (
                                                 usdToToken(employee.salary || '0')
                                             ) : (
@@ -515,26 +614,23 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                         <tfoot>
                             <tr className="border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
                                 <td colSpan={
-                                    visibleColumns.size -
-                                    (visibleColumns.has('salary') ? 1 : 0) -
-                                    (visibleColumns.has(tokenAmountColumnKey) ? 1 : 0) -
-                                    (visibleColumns.has('actions') ? 1 : 0) + 1
+                                    Array.from(visibleColumns).filter(key => key !== 'salary' && key !== tokenAmountColumnKey && key !== 'actions').length + 1
                                 }
-                                    className="px-4 py-3 text-right text-gray-600 dark:text-gray-300 font-medium text-sm">
-                                    Total Selected ({selectedEmployees.length}):
+                                    className="px-2 sm:px-4 py-2 sm:py-3 text-right text-gray-600 dark:text-gray-300 font-medium text-xs sm:text-sm">
+                                    Total ({selectedEmployees.length}):
                                 </td>
                                 {visibleColumns.has('salary') && (
-                                    <td className="px-4 py-3 text-right text-indigo-700 dark:text-indigo-300 font-bold text-sm">
+                                    <td className="px-2 sm:px-4 py-2 sm:py-3 text-right text-indigo-700 dark:text-indigo-300 font-bold text-xs sm:text-sm">
                                         ${totalUsd.toFixed(2)}
                                     </td>
                                 )}
                                 {visibleColumns.has(tokenAmountColumnKey) && (
-                                    <td className="px-4 py-3 text-right text-indigo-700 dark:text-indigo-300 font-bold text-sm">
+                                    <td className="px-2 sm:px-4 py-2 sm:py-3 text-right text-indigo-700 dark:text-indigo-300 font-bold text-xs sm:text-sm">
                                         {totalTokens} {selectedTokenSymbol}
                                     </td>
                                 )}
                                 {visibleColumns.has('actions') && (
-                                    <td className="px-4 py-3"></td>
+                                    <td className="px-2 sm:px-4 py-2 sm:py-3"></td>
                                 )}
                             </tr>
                         </tfoot>
@@ -542,9 +638,9 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                 </table>
             </div>
 
-            <div className="px-4 py-3 border-t border-gray-400 dark:border-gray-500 bg-transparent">
-                <div className="flex flex-col sm:flex-row justify-between items-center gap-2">
-                    <span className="text-sm text-black dark:text-white">
+            <div className="px-4 py-3 border-t border-gray-300 dark:border-gray-700 bg-transparent">
+                <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+                    <span className="text-sm text-black dark:text-white order-2 md:order-1 text-center md:text-left">
                         Showing{' '}
                         <span className="font-medium">{sortedEmployees.length > 0 ? Math.min((currentPage - 1) * ITEMS_PER_PAGE + 1, sortedEmployees.length) : 0}</span>
                         {' '}to{' '}
@@ -553,8 +649,9 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                         <span className="font-medium">{sortedEmployees.length}</span>
                         {' '}entries {searchTerm && '(filtered)'}
                     </span>
+
                     {totalPages > 1 && (
-                        <div className="inline-flex items-center -space-x-px rounded-md shadow-sm">
+                        <div className="inline-flex items-center -space-x-px rounded-md shadow-sm order-1 md:order-2">
                             <button
                                 onClick={() => setCurrentPage((p) => Math.max(1, p - 1))}
                                 disabled={currentPage === 1 || isLoading || isLoadingDerived}
@@ -563,7 +660,7 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                             >
                                 <ChevronLeft className="h-5 w-5" />
                             </button>
-                            <span className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-black dark:text-white ring-1 ring-inset ring-gray-300 dark:ring-gray-700">
+                            <span className="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-black dark:text-white ring-1 ring-inset ring-gray-300 dark:ring-gray-700 bg-white dark:bg-gray-800">
                                 Page {currentPage} of {totalPages}
                             </span>
                             <button
@@ -576,8 +673,9 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                             </button>
                         </div>
                     )}
+
                     <motion.div
-                        className="mt-6 mb-4 mx-4 flex flex-row justify-end"
+                        className="w-[80%] sm:w-[60%] md:w-auto order-3 mt-4 md:mt-0"
                         whileHover={{ scale: selectedEmployees.length > 0 && !isLoadingDerived ? 1.02 : 1.0 }}
                         whileTap={{ scale: selectedEmployees.length > 0 && !isLoadingDerived ? 0.98 : 1.0 }}
                         transition={{ duration: 0.2 }}
@@ -585,10 +683,10 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                         <button
                             onClick={handleTransaction}
                             disabled={isLoadingDerived || selectedEmployees.length === 0 || isLoading}
-                            className={`w-auto px-6 py-3 rounded-xl font-medium text-base transition-all flex items-center justify-center gap-3
+                            className={`w-full px-1 py-2 sm:px-6 sm:py-3 rounded-xl font-medium sm:text-base text-sm transition-all flex items-center justify-center gap-3
                       ${isLoadingDerived || selectedEmployees.length === 0 || isLoading
-                                    ? 'bg-gray-300 dark:bg-gray-700 text-gray-500 dark:text-gray-400 cursor-not-allowed border border-gray-400 dark:border-gray-600'
-                                    : 'bg-gradient-to-r from-[#60a5fa] to-[#3b82f6] text-white hover:from-[#3b82f6] hover:to-[#2563eb] shadow-lg shadow-[#3b82f6]/20 hover:shadow-[#3b82f6]/30'
+                                    ? 'bg-gray-300 dark:bg-gray-900/50 text-gray-500 dark:text-gray-300 cursor-not-allowed border border-gray-400 dark:border-gray-600'
+                                    : 'bg-gradient-to-r from-[#4890e9] to-[#3b82f6] text-white hover:from-[#3b82f6] hover:to-[#2563eb] shadow-lg shadow-[#3b82f6]/20 hover:shadow-[#3b82f6]/30'
                                 }`}
                         >
                             <DollarSign className="w-5 h-5" />
@@ -596,18 +694,17 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
                                 {isApproving
                                     ? `Approving ${selectedTokenSymbol || selectedToken?.symbol}...`
                                     : isSending || isWritePending || isTxLoading
-                                        ? 'Processing Transaction...'
+                                        ? 'Processing...'
                                         : selectedEmployees.length === 0
-                                            ? 'Select Employees to Pay'
+                                            ? 'Select Employees'
                                             : needsApproval && selectedToken?.address !== 'NATIVE_ADDRESS'
-                                                ? `Approve & Send ${selectedTokenSymbol || selectedToken?.symbol}`
-                                                : `Pay Selected Employees (${selectedEmployees.length})`}
+                                                ? `Approve & Send`
+                                                : `Pay Selected (${selectedEmployees.length})`}
                             </span>
                         </button>
                     </motion.div>
                 </div>
             </div>
-
 
             <EmployeeDetailsModal
                 isOpen={isDetailsModalOpen}

@@ -85,8 +85,9 @@ const TokenSelector = ({
 
     if (!isConnected) {
         return (
-            <div className="flex items-center justify-center py-4 rounded-lg bg-gray-100 dark:bg-gray-900 border border-gray-200 dark:border-[#a5b4fc]/10 backdrop-blur-sm">
-                <p className="text-gray-600 dark:text-gray-400 text-sm">
+            // Updated disconnected state style
+            <div className="flex items-center justify-center p-4 rounded-lg bg-gray-100 dark:bg-gray-800/30 border border-gray-200 dark:border-gray-800/60 backdrop-blur-sm">
+                <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">
                     Connect your wallet to select payment tokens
                 </p>
             </div>
@@ -94,8 +95,8 @@ const TokenSelector = ({
     }
 
     return (
-        <div className="space-y-4">
-            {/* Token Selection */}
+        <div className="space-y-3 sm:space-y-4">
+            {/* Token Selection - Updated styles */}
             <div className="relative">
                 <select
                     value={selectedToken.address}
@@ -103,9 +104,11 @@ const TokenSelector = ({
                         const token = tokens.find(t => t.address === e.target.value);
                         if (token) onTokenChange(token);
                     }}
-                    className="w-full p-3 bg-gray-100 dark:bg-gray-900 border border-gray-300 dark:border-[#a5b4fc]/20 rounded-xl
-                             text-black dark:text-[#F2F2F2] focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-[#60a5fa]/50
-                             transition-all text-base appearance-none backdrop-blur-sm"
+                    // Updated select styles
+                    className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700/50 rounded-xl
+                             text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-blue-500/50
+                             focus:border-blue-500 dark:focus:border-blue-500
+                             transition-all text-sm sm:text-base appearance-none backdrop-blur-sm"
                     disabled={isLoading}
                 >
                     {tokens?.map(token => (
@@ -114,11 +117,12 @@ const TokenSelector = ({
                         </option>
                     ))}
                 </select>
-                <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-2">
+                <div className="absolute right-3 top-1/2 -translate-y-1/2 flex items-center gap-1 sm:gap-2">
                     {selectedToken.address !== NATIVE_ADDRESS && (
                         <button
                             onClick={handleAddToken}
-                            className="p-1.5 text-blue-600 dark:text-[#93c5fd] rounded-md hover:bg-blue-100 dark:hover:bg-[#3b82f6] transition-colors"
+                            // Updated add token button styles
+                            className="p-1 sm:p-1.5 text-blue-600 dark:text-blue-300 rounded-md hover:bg-blue-100 dark:hover:bg-blue-900/20 transition-colors"
                             title="Add token to wallet"
                             disabled={isLoading}
                         >
@@ -129,60 +133,61 @@ const TokenSelector = ({
                 </div>
             </div>
 
-            {/* Token Info Grid */}
-            <div className="grid grid-cols-2 gap-3">
-                {/* Balance */}
-                <div className="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-[#a5b4fc]/20 backdrop-blur-sm">
-                    <div className="flex items-center justify-between mb-1">
+            {/* Token Info Grid - Updated styles */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
+                {/* Balance - Updated styles */}
+                <div className="p-3 sm:p-4 bg-gray-50/50 dark:bg-gray-800/20 rounded-lg border border-gray-200 dark:border-gray-700/30 backdrop-blur-sm">
+                    <div className="flex items-center justify-between mb-1.5">
                         <div className="flex items-center gap-1.5">
-                            <Wallet className="w-3.5 h-3.5 text-blue-600 dark:text-[#93c5fd]" />
+                            <Wallet className="w-3.5 h-3.5 text-blue-600 dark:text-blue-300" />
                             <p className="text-gray-600 dark:text-gray-400 text-xs">Balance</p>
                         </div>
                         <button
                             onClick={() => refetchBalance()}
-                            className="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-[#93c5fd] transition-colors"
+                            className="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-300 transition-colors"
                             title="Refresh balance"
                             disabled={isBalanceLoading}
                         >
-                            <RefreshCw className={`w-3.5 h-3.5 ${isBalanceLoading ? 'animate-spin' : ''}`} />
+                            <RefreshCw className={`w-3 h-3 sm:w-3.5 sm:h-3.5 ${isBalanceLoading ? 'animate-spin' : ''}`} />
                         </button>
                     </div>
                     <div className="flex items-center justify-between">
-                        <p className="text-black dark:text-[#F2F2F2] text-sm">
-                            {isBalanceLoading ? 'Loading...' : formattedBalance}
+                        <p className="text-black dark:text-white text-sm sm:text-base font-medium truncate mr-2">
+                            {isBalanceLoading ? '...' : formattedBalance}
                         </p>
-                        <span className="text-blue-800 dark:text-[#93c5fd] text-xs px-1.5 py-0.5 bg-blue-100 dark:bg-[#3b82f6]/10 rounded">
+                        <span className="text-blue-800 dark:text-blue-200 text-xs px-1.5 py-0.5 bg-blue-100 dark:bg-blue-900/20 rounded font-medium">
                             {selectedToken?.symbol}
                         </span>
                     </div>
                 </div>
 
-                {/* Exchange Rate */}
-                <div className="p-3 bg-gray-50 dark:bg-gray-900 rounded-lg border border-gray-200 dark:border-[#a5b4fc]/20 backdrop-blur-sm">
-                    <div className="flex items-center gap-1.5 mb-1">
-                        <BarChart3 className="w-3.5 h-3.5 text-blue-600 dark:text-[#93c5fd]" />
+                {/* Exchange Rate - Updated styles */}
+                <div className="p-3 sm:p-4 bg-gray-50/50 dark:bg-gray-800/20 rounded-lg border border-gray-200 dark:border-gray-700/30 backdrop-blur-sm">
+                    <div className="flex items-center gap-1.5 mb-1.5">
+                        <BarChart3 className="w-3.5 h-3.5 text-blue-600 dark:text-blue-300" />
                         <p className="text-gray-600 dark:text-gray-400 text-xs">Exchange Rate</p>
                     </div>
                     <div className="flex items-baseline justify-between">
-                        <div className="text-black dark:text-[#F2F2F2] text-sm flex items-baseline gap-1">
-                            <span>1 USD =</span>
-                            <span className="text-blue-700 dark:text-[#93c5fd]">
+                        <div className="text-black dark:text-white text-sm sm:text-base font-medium flex items-baseline gap-1">
+                            <span className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm">1 USD =</span>
+                            <span className="text-blue-700 dark:text-blue-300">
                                 {isLoading ? '...' : exchangeRate.toFixed(4)}
                             </span>
                         </div>
-                        <span className="text-blue-800 dark:text-[#93c5fd] text-xs px-1.5 py-0.5 bg-blue-100 dark:bg-[#3b82f6]/10 rounded">
+                        <span className="text-blue-800 dark:text-blue-200 text-xs px-1.5 py-0.5 bg-blue-100 dark:bg-blue-900/20 rounded font-medium">
                             {selectedToken?.symbol}
                         </span>
                     </div>
                 </div>
             </div>
 
-            {/* Error message */}
+            {/* Error message - Updated styles */}
             {balanceError && (
-                <div className="p-2.5 bg-red-100 dark:bg-red-400/10 border border-red-300 dark:border-red-400/30 rounded-lg flex gap-2 items-center backdrop-blur-sm">
+                // Style similar to upload status error message
+                <div className="p-3 sm:p-4 bg-red-50 dark:bg-red-400/10 border border-red-300 dark:border-red-400/20 rounded-lg flex gap-2 sm:gap-3 items-center backdrop-blur-sm">
                     <AlertTriangle className="w-4 h-4 text-red-600 dark:text-red-400 flex-shrink-0" />
-                    <p className="text-red-800 dark:text-gray-200 text-xs">
-                        Error fetching balance. Please check your connection.
+                    <p className="text-red-800 dark:text-red-200 text-xs sm:text-sm">
+                        Error fetching balance. Please check connection or try again.
                     </p>
                 </div>
             )}

@@ -69,7 +69,7 @@ const PaymentDashboard = ({
 }: PaymentDashboardProps) => {
 
     return (
-        <div className="max-h-screen w-[70vw] flex flex-col md:mt-10">
+        <div className="max-h-screen w-[90vw] flex flex-col items-center justify-center md:mt-10">
                 <div className="flex flex-col">
                     <motion.div
                         className="space-y-6"
@@ -134,7 +134,7 @@ const PaymentDashboard = ({
                             />
                         ) : (
                             <motion.div
-                                className="dark:bg-[#0D1321] rounded-lg p-12 border border-[#1F2A45] flex flex-col items-center justify-center space-y-6 text-center"
+                                className="dark:bg-black rounded-lg p-12 border flex flex-col items-center justify-center space-y-6 text-center"
                                 style={{ boxShadow: '0 4px 12px rgba(0, 0, 0, 0.3)' }}
                                 initial={{ opacity: 0, scale: 0.9 }}
                                 animate={{ opacity: 1, scale: 1 }}

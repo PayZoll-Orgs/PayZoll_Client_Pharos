@@ -10,6 +10,7 @@ import { allMainnetChains as chains } from '@/lib/evm-chains-mainnet';
 import { tokensPerMainnetChain as tokens, Token } from '@/lib/evm-tokens-mainnet';
 import { getExchangeRate } from '@/lib/chainlink-helper';
 import { ethers } from 'ethers';
+import { CardSpotlight } from "../ui/cardSpotlight";
 
 interface ConfigurePayModalProps {
   isOpen: boolean;
@@ -250,204 +251,287 @@ const ConfigurePayModal: React.FC<ConfigurePayModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <AnimatePresence>
-      <motion.div
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black/75 backdrop-blur-md flex items-center justify-center z-50 p-4"
-        onClick={onClose}
-      >
+
+    (isConnected && selectedToken && selectedChain) ? (
+
+      <AnimatePresence>
+        {/* Updated overlay style */}
         <motion.div
-          initial={{ scale: 0.95, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0.95, opacity: 0 }}
-          transition={{ type: "spring", damping: 20 }}
-          onClick={(e) => e.stopPropagation()}
-          className="bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black/95 w-full max-w-2xl rounded-2xl border border-gray-200 dark:border-[#a5b4fc]/20 overflow-hidden shadow-2xl shadow-black/60 backdrop-blur-xl"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 dark:bg-black/90 bg-white/90 z-50 p-4 overflow-y-auto"
+          onClick={onClose}
         >
-          {/* Header */}
-          <div className="p-6 border-b border-gray-200 dark:border-[#a5b4fc]/10">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center space-x-3">
-                <div className="p-2.5 rounded-full bg-blue-100 dark:bg-[#3b82f6]/20 shadow-inner shadow-blue-200/50 dark:shadow-[#60a5fa]/10">
-                  <DollarSign className="w-6 h-6 text-blue-600 dark:text-[#93c5fd]" />
-                </div>
-                <h2 className="text-2xl font-bold text-black dark:text-white tracking-tight">
-                  Configure Payments
-                </h2>
-              </div>
-              <motion.button
-                whileHover={{ scale: 1.1, rotate: 90 }}
-                whileTap={{ scale: 0.9 }}
-                onClick={onClose}
-                className="text-gray-500 hover:text-blue-600 dark:text-gray-400 dark:hover:text-[#93c5fd] transition-colors p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-white/5"
-                aria-label="Close modal"
-                disabled={isCalculating}
+          <div className="relative w-full min-h-full flex items-center justify-center py-6">
+            <CardSpotlight>
+              <motion.div
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.95, opacity: 0 }}
+                transition={{ type: "spring", damping: 20 }}
+                onClick={(e) => e.stopPropagation()}
+                className="bg-transparent relative w-full max-w-md sm:max-w-lg md:max-w-xl"
               >
-                <X className="w-5 h-5" />
-              </motion.button>
-            </div>
-          </div>
-
-          {/* Content */}
-          <div className="p-6 space-y-6">
-            {/* Wallet Connection Section */}
-            <div className={`p-5 rounded-xl border backdrop-blur-sm
-                ${isConnected
-                ? 'border-blue-300 dark:border-[#60a5fa]/20 bg-blue-50/50 dark:bg-[#3b82f6]/5 shadow-md shadow-blue-500/5 dark:shadow-[#3b82f6]/5'
-                : 'border-gray-200 dark:border-gray-800/60 bg-gray-50/50 dark:bg-gray-900/30'}`}>
-              <div className="flex items-center justify-between gap-3 mb-3">
-                <div className="flex items-center gap-3">
-                  <Wallet className={`w-5 h-5 ${isConnected ? 'text-blue-600 dark:text-[#93c5fd]' : 'text-gray-500 dark:text-gray-500'}`} />
-                  <span className={`font-semibold ${isConnected ? 'text-black dark:text-white' : 'text-gray-600 dark:text-gray-400'}`}>
-                    Wallet Connection
-                  </span>
-                </div>
-                <ConnectButton showBalance={false} accountStatus="avatar" chainStatus="name" />
-              </div>
-
-              {!isConnected && (
-                <div className="py-3 px-4 mt-3 rounded-lg bg-gray-100 dark:bg-gray-800/30 border border-gray-200 dark:border-gray-800/60">
-                  <p className="text-center text-gray-600 dark:text-gray-400 text-sm">
-                    Connect your wallet to configure payment settings
-                  </p>
-                </div>
-              )}
-            </div>
-
-            {/* Token Settings - Only visible when wallet is connected */}
-            {isConnected && selectedToken && selectedChain && (
-              <div className="space-y-5">
-                {/* Token Selection */}
-                <div className="p-5 rounded-xl border border-gray-200 dark:border-gray-800/60 bg-white dark:bg-gradient-to-br dark:from-gray-900 dark:to-black/95 backdrop-blur-sm">
-                  <div className="flex items-center justify-between gap-3 mb-5">
-                    <div className="flex items-center gap-3">
-                      <DollarSign className="w-5 h-5 text-blue-600 dark:text-[#93c5fd]" />
-                      <span className="font-semibold text-black dark:text-white">Payment Token</span>
+                <div className="p-4 sm:p-6 border-b border-gray-200 dark:border-gray-800/10">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-2 sm:space-x-3">
+                      <div className="p-2 sm:p-2.5 rounded-full bg-gray-100 dark:bg-gray-800/20 shadow-inner shadow-gray-200/50 dark:shadow-gray-700/10">
+                        <DollarSign className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600 dark:text-gray-300" />
+                      </div>
+                      <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-black dark:text-white tracking-tight">
+                        Configure Payments
+                      </h2>
                     </div>
-                    <div className="flex items-center px-3 py-1.5 rounded-full bg-blue-100 dark:bg-[#3b82f6]/10 border border-blue-200 dark:border-[#3b82f6]/20">
-                      <RefreshCw className={`w-3.5 h-3.5 mr-2 ${isCalculating ? 'animate-spin text-blue-600 dark:text-[#93c5fd]' : 'text-blue-500 dark:text-[#60a5fa]'}`} />
-                      <span className="text-xs text-blue-800 dark:text-[#ddd6fe]">Auto-updates every 30s</span>
-                    </div>
-                  </div>
-
-                  <TokenSelector
-                    tokens={tokens[selectedChain] || []}
-                    selectedToken={selectedToken}
-                    onTokenChange={handleTokenChange}
-                    address={address as `0x${string}`}
-                    chainId={selectedChain}
-                    isConnected={isConnected}
-                    isLoading={isCalculating}
-                    exchangeRate={exchangeRate}
-                    onExchangeRateChange={() => { }}
-                  />
-                </div>
-
-                {/* Exchange Rate Status */}
-                {isCalculating && !calculationComplete && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="p-4 rounded-lg border border-gray-200 dark:border-gray-800/60 bg-gray-50 dark:bg-gray-900/30 backdrop-blur-sm flex items-center gap-3"
-                  >
-                    <div className="p-1.5 rounded-full bg-blue-100 dark:bg-[#3b82f6]/10">
-                      <RefreshCw className="w-4 h-4 text-blue-600 dark:text-[#93c5fd] animate-spin" />
-                    </div>
-                    <span className="text-gray-700 dark:text-gray-300 text-sm">
-                      Fetching Chainlink price feed for {selectedToken?.symbol}...
-                    </span>
-                  </motion.div>
-                )}
-
-                {calculationComplete && !error && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="p-4 rounded-lg border border-green-300 dark:border-[#3b82f6]/20 bg-green-50 dark:bg-[#3b82f6]/5 backdrop-blur-sm flex items-center gap-3"
-                  >
-                    <div className="p-1.5 rounded-full bg-green-100 dark:bg-[#3b82f6]/10">
-                      <CheckCircle className="w-4 h-4 text-green-600 dark:text-[#93c5fd]" />
-                    </div>
-                    <span className="text-green-800 dark:text-gray-200 text-sm">
-                      Exchange rate updated from Chainlink: 1 USD = {exchangeRate.toFixed(6)} {selectedToken?.symbol}
-                    </span>
-                  </motion.div>
-                )}
-
-                {error && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -5 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="p-4 rounded-lg border border-amber-400 dark:border-amber-500/20 bg-amber-50 dark:bg-amber-900/10 backdrop-blur-sm flex items-center gap-3"
-                  >
-                    <div className="p-1.5 rounded-full bg-amber-100 dark:bg-amber-500/10">
-                      <AlertCircle className="w-4 h-4 text-amber-600 dark:text-amber-400" />
-                    </div>
-                    <span className="text-amber-800 dark:text-amber-200 text-sm">
-                      {error}
-                    </span>
-                  </motion.div>
-                )}
-
-                {/* Info Block */}
-                <div className="p-5 rounded-lg border border-blue-200 dark:border-[#a5b4fc]/20 bg-blue-50/50 dark:bg-[#a5b4fc]/5 backdrop-blur-sm">
-                  <div className="flex items-start gap-4">
-                    <div className="p-2 rounded-full bg-blue-100 dark:bg-[#a5b4fc]/10 mt-0.5">
-                      <AlertCircle className="w-4 h-4 text-blue-600 dark:text-[#ddd6fe] flex-shrink-0" />
-                    </div>
-                    <div className="flex-1">
-                      <p className="text-black dark:text-white font-medium text-sm mb-2">About Exchange Rates</p>
-                      <p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed">
-                        Exchange rates are fetched from Chainlink price feeds to provide accurate
-                        market data. Employee salaries will be converted from USD to the selected
-                        token using this exchange rate.
-                      </p>
-                    </div>
+                    <motion.button
+                      whileHover={{ scale: 1.1, rotate: 90 }}
+                      whileTap={{ scale: 0.9 }}
+                      onClick={onClose}
+                      // Updated close button styles
+                      className="text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200 transition-colors p-1 sm:p-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-white/5"
+                      aria-label="Close modal"
+                      disabled={isCalculating}
+                    >
+                      <X className="w-4 h-4 sm:w-5 sm:h-5" />
+                    </motion.button>
                   </div>
                 </div>
-              </div>
-            )}
-          </div>
 
-          {/* Action Buttons */}
-          <div className="px-6 py-5 border-t border-gray-200 dark:border-gray-800/60 bg-gray-50/50 dark:bg-transparent backdrop-blur-sm">
-            <div className="flex justify-end gap-4">
-              <motion.button
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                onClick={onClose}
-                className="px-6 py-3 rounded-xl border border-gray-300 dark:border-gray-700/80 bg-white dark:bg-gray-800/50 text-black dark:text-gray-300
-                        hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white hover:border-gray-400 dark:hover:border-gray-600 transition-all duration-200 backdrop-blur-sm"
-                disabled={isCalculating}
-              >
-                {isCalculating ? (
-                  <span className="flex items-center">
-                    <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
-                    Processing...
-                  </span>
-                ) : "Cancel"}
-              </motion.button>
+                <div className="space-y-4 sm:space-y-5">
+                  {/* Token Selection - Updated styles */}
+                  <div className="p-4 sm:p-5 rounded-xl border border-gray-200 dark:border-gray-800/60 bg-white/50 dark:bg-gray-900/20 backdrop-blur-sm">
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-4 sm:mb-5">
+                      <div className="flex items-center gap-3">
+                        <div className="p-1.5 sm:p-2 rounded-full bg-blue-100 dark:bg-blue-900/10">
+                          <DollarSign className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-300" />
+                        </div>
+                        <span className="font-semibold text-sm sm:text-base text-black dark:text-white">Payment Token</span>
+                      </div>
+                      <div className="flex items-center px-2.5 py-1 rounded-full bg-blue-100 dark:bg-blue-900/10 border border-blue-200 dark:border-blue-700/20">
+                        <RefreshCw className={`w-3 h-3 sm:w-3.5 sm:h-3.5 mr-1.5 ${isCalculating ? 'animate-spin text-blue-600 dark:text-blue-300' : 'text-blue-500 dark:text-blue-400'}`} />
+                        <span className="text-xs text-blue-800 dark:text-blue-200">Auto-updates every 30s</span>
+                      </div>
+                    </div>
 
-              {isConnected && !isCalculating && (
-                <motion.button
-                  whileHover={{ scale: 1.02 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={handleApplySettings}
-                  className="px-6 py-3 rounded-xl bg-gradient-to-r from-blue-500 to-blue-600 dark:from-[#60a5fa] dark:to-[#3b82f6]
-                          hover:from-blue-600 hover:to-blue-700 dark:hover:from-[#3b82f6] dark:hover:to-[#2563eb] text-white transition-all duration-200
-                          shadow-lg shadow-blue-500/20 dark:shadow-[#3b82f6]/20 hover:shadow-blue-500/30 dark:hover:shadow-[#3b82f6]/30 font-medium"
-                >
-                  Apply Settings
-                </motion.button>
-              )}
-            </div>
+                    <TokenSelector
+                      tokens={tokens[selectedChain] || []}
+                      selectedToken={selectedToken}
+                      onTokenChange={handleTokenChange}
+                      address={address as `0x${string}`}
+                      chainId={selectedChain}
+                      isConnected={isConnected}
+                      isLoading={isCalculating}
+                      exchangeRate={exchangeRate}
+                      onExchangeRateChange={() => { }}
+                    />
+                  </div>
+
+                  {/* Exchange Rate Status - Updated styles */}
+                  {isCalculating && !calculationComplete && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      // Style similar to upload status pending
+                      className="rounded-xl p-4 sm:p-5 border border-blue-300 dark:border-blue-700/20 bg-blue-50 dark:bg-blue-900/10 backdrop-blur-sm"
+                    >
+                      <div className="flex items-start space-x-3 sm:space-x-4">
+                        <div className="p-1.5 sm:p-2 rounded-full bg-blue-100 dark:bg-blue-900/10">
+                          <RefreshCw className="w-4 h-4 sm:w-5 sm:h-5 text-blue-600 dark:text-blue-300 animate-spin" />
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-sm sm:text-base text-blue-700 dark:text-blue-300">
+                            Fetching Price Feed
+                          </h4>
+                          <p className="mt-1 text-xs sm:text-sm text-gray-600 dark:text-gray-300">
+                            Getting latest Chainlink rate for {selectedToken?.symbol}...
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {calculationComplete && !error && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      // Style similar to upload status success
+                      className="rounded-xl p-4 sm:p-5 border border-green-300 dark:border-green-700/20 bg-green-50 dark:bg-green-900/10 backdrop-blur-sm"
+                    >
+                      <div className="flex items-start space-x-3 sm:space-x-4">
+                        <div className="p-1.5 sm:p-2 rounded-full bg-green-100 dark:bg-green-900/10">
+                          <CheckCircle className="w-4 h-4 sm:w-5 sm:h-5 text-green-600 dark:text-green-300" />
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-sm sm:text-base text-green-700 dark:text-green-300">
+                            Rate Updated
+                          </h4>
+                          <p className="mt-1 text-xs sm:text-sm text-gray-600 dark:text-gray-300">
+                            1 USD = {exchangeRate.toFixed(6)} {selectedToken?.symbol}
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {error && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      // Style similar to upload status error
+                      className="rounded-xl p-4 sm:p-5 border border-red-300 dark:border-red-400/20 bg-red-50 dark:bg-red-400/10 backdrop-blur-sm"
+                    >
+                      <div className="flex items-start space-x-3 sm:space-x-4">
+                        <div className="p-1.5 sm:p-2 rounded-full bg-red-100 dark:bg-red-400/10">
+                          <AlertCircle className="w-4 h-4 sm:w-5 sm:h-5 text-red-600 dark:text-red-400" />
+                        </div>
+                        <div className="flex-1">
+                          <h4 className="font-semibold text-sm sm:text-base text-red-700 dark:text-red-400">
+                            Update Failed
+                          </h4>
+                          <p className="mt-1 text-xs sm:text-sm text-gray-600 dark:text-gray-300">
+                            {error} Using estimated rate.
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {/* Info Block - Updated styles */}
+                  <div className="p-4 sm:p-5 rounded-lg border border-gray-200 dark:border-gray-700/20 bg-gray-50/50 dark:bg-gray-800/10 backdrop-blur-sm">
+                    <div className="flex items-start gap-3 sm:gap-4">
+                      <div className="p-1.5 sm:p-2 rounded-full bg-gray-200 dark:bg-gray-800/30 mt-0.5 flex-shrink-0">
+                        <AlertCircle className="w-4 h-4 text-gray-600 dark:text-gray-300 flex-shrink-0" />
+                      </div>
+                      <div className="flex-1">
+                        <p className="text-black dark:text-white font-medium text-sm sm:text-base mb-1.5 sm:mb-2">About Exchange Rates</p>
+                        <p className="text-gray-600 dark:text-gray-400 text-xs sm:text-sm leading-relaxed">
+                          Rates are fetched from Chainlink price feeds. Salaries are converted from USD to the selected token using this rate.
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {/* Action Buttons - Updated styles */}
+                <div className="px-4 py-4 sm:px-6 sm:py-5 border-t border-gray-200 dark:border-gray-800/60 bg-gray-50/50 dark:bg-transparent backdrop-blur-sm">
+                  <div className="flex flex-col-reverse sm:flex-row justify-center sm:justify-end gap-3 sm:gap-4">
+                    <motion.button
+                      whileHover={{ scale: 1.02 }}
+                      whileTap={{ scale: 0.98 }}
+                      onClick={onClose}
+                      // Style similar to BulkUpload Cancel button
+                      className="w-full sm:w-auto px-4 py-2.5 sm:px-6 sm:py-3 rounded-xl border border-gray-300 dark:border-gray-700/80 bg-white dark:bg-gray-800/50 text-black dark:text-gray-300
+                    hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-black dark:hover:text-white hover:border-gray-400 dark:hover:border-gray-600 transition-all duration-200 backdrop-blur-sm text-sm sm:text-base"
+                      disabled={isCalculating}
+                    >
+                      {isCalculating ? (
+                        <span className="flex items-center justify-center"> {/* Added justify-center */}
+                          <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                          Processing...
+                        </span>
+                      ) : "Cancel"}
+                    </motion.button>
+
+                    {isConnected && ( // Show Apply button if connected, handle disabled state inside
+                      <motion.button
+                        whileHover={!isCalculating ? { scale: 1.02 } : {}}
+                        whileTap={!isCalculating ? { scale: 0.98 } : {}}
+                        onClick={handleApplySettings}
+                        disabled={isCalculating}
+                        // Style similar to BulkUpload Upload button
+                        className={`w-full sm:w-auto px-4 py-2.5 sm:px-6 sm:py-3 rounded-xl transition-all font-medium text-sm sm:text-base
+                        ${isCalculating
+                            ? "bg-gradient-to-r from-gray-400/70 to-gray-500/70 dark:from-gray-600/40 dark:to-gray-700/40 text-white/70 cursor-not-allowed"
+                            // Use blue gradient for primary action
+                            : "bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 dark:from-blue-500 dark:to-blue-600 dark:hover:from-blue-600 dark:hover:to-blue-700 text-white shadow-lg shadow-blue-500/20 dark:shadow-blue-800/20 hover:shadow-blue-500/30 dark:hover:shadow-blue-800/30"
+                          }`}
+                      >
+                        {isCalculating ? (
+                          <span className="flex items-center justify-center"> {/* Added justify-center */}
+                            <RefreshCw className="w-4 h-4 mr-2 animate-spin" />
+                            Processing...
+                          </span>
+                        ) : (
+                          "Apply Settings"
+                        )}
+                      </motion.button>
+                    )}
+                  </div>
+                </div>
+              </motion.div>
+            </CardSpotlight>
           </div>
         </motion.div>
-      </motion.div>
-    </AnimatePresence>
-  );
+      </AnimatePresence >
+    ) : (
+      <AnimatePresence>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 dark:bg-black bg-white z-50 p-4 overflow-y-auto"
+        >
+          <div className="relative w-full min-h-full flex items-center justify-center py-6">
+            <CardSpotlight>
+              <motion.div
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                exit={{ scale: 0.95, opacity: 0 }}
+                transition={{ type: "spring", damping: 20 }}
+                className="relative w-full max-w-md sm:max-w-lg md:max-w-xl p-6 sm:p-8 rounded-xl bg-transparent"
+              >
+                <div className="flex flex-col items-center text-center space-y-6">
+                  <div className="p-3 rounded-full bg-blue-100 dark:bg-blue-900/20">
+                    <Wallet className="w-8 h-8 text-blue-600 dark:text-blue-300" />
+                  </div>
+                  
+                  <div className="space-y-3">
+                    <h2 className="text-xl sm:text-2xl font-bold text-black dark:text-white tracking-tight">
+                      Connect Your Wallet
+                    </h2>
+                    <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base max-w-sm mx-auto">
+                      Connect your wallet to configure payment settings and manage your payroll tokens.
+                    </p>
+                  </div>
+                  
+                  <div className="w-full max-w-xs mx-auto pt-2">
+                    <ConnectButton.Custom>
+                      {({ account, chain, openConnectModal, mounted }) => {
+                        return (
+                          <div
+                            {...(!mounted && {
+                              'aria-hidden': true,
+                              'style': {
+                                opacity: 0,
+                                pointerEvents: 'none',
+                                userSelect: 'none',
+                              },
+                            })}
+                          >
+                            {(() => {
+                              return (
+                                <motion.button
+                                  whileHover={{ scale: 1.03 }}
+                                  whileTap={{ scale: 0.97 }}
+                                  onClick={openConnectModal}
+                                  className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-medium shadow-lg shadow-blue-500/20 dark:shadow-blue-800/20 transition-all"
+                                >
+                                  Connect Wallet
+                                </motion.button>
+                              )
+                            })()}
+                          </div>
+                        )
+                      }}
+                    </ConnectButton.Custom>
+                  </div>
+                </div>
+              </motion.div>
+            </CardSpotlight>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+    )
+  )
 };
 
 export default ConfigurePayModal;
