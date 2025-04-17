@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from 'react';
 import { useRouter, usePathname } from 'next/navigation';
-import { toast, ToastBar, Toaster } from 'react-hot-toast';
+import { toast } from 'react-hot-toast';
 import { authApi } from '@/api';
 import { LoginFormData, RegisterFormData } from '@/lib/interfaces';
 // Import react-icons
@@ -13,7 +13,7 @@ import { FiCheckCircle, FiXCircle, FiAlertTriangle, FiClock, FiUserPlus, FiSlash
 const CustomToast = ({ t, icon, title, message, borderColor }: { t: any, icon: ReactNode, title: string, message: string, borderColor: string }) => (
     <div
         className={`${t.visible ? 'animate-enter' : 'animate-leave'
-            } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 border-l-4 ${borderColor}`}
+            } max-w-md w-full bg-white dark:bg-black dark:text-white text-black shadow-lg rounded-lg pointer-events-auto flex border-l-4 ${borderColor}`}
     >
         <div className="flex-1 w-0 p-4">
             <div className="flex items-start">
@@ -22,22 +22,14 @@ const CustomToast = ({ t, icon, title, message, borderColor }: { t: any, icon: R
                     {icon}
                 </div>
                 <div className="ml-3 flex-1">
-                    <p className="text-sm font-medium text-gray-900">
+                    <p className="text-sm font-medium text-gray-900 dark:text-white">
                         {title}
                     </p>
-                    <p className="mt-1 text-sm text-gray-500">
+                    <p className="mt-1 text-sm text-gray-800 dark:text-gray-400">
                         {message}
                     </p>
                 </div>
             </div>
-        </div>
-        <div className="flex border-l border-gray-200">
-            <button
-                onClick={() => toast.dismiss(t.id)}
-                className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-500"
-            >
-                Close
-            </button>
         </div>
     </div>
 );

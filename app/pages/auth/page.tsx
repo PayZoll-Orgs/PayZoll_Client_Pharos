@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import Head from "next/head";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { LoginFormData, RegisterFormData } from "@/lib/interfaces";
 import { useAuth } from "@/context/authContext";
@@ -9,6 +10,11 @@ import { backendDomain } from "@/lib/network";
 
 import { LoginForm, RegisterForm, ResetPasswordForm, ForgotPasswordForm } from "@/components/auth/Forms"
 import { BackgroundBeams } from "@/components/ui/beams";
+import { Home } from "lucide-react";
+import Link from "next/link";
+import { MONTSERRAT } from "@/lib/fonts";
+import useFullPageLoader from "@/hooks/usePageLoader";
+import Loader from "@/components/ui/loader";
 
 
 
@@ -151,14 +157,33 @@ const AuthPage: React.FC = () => {
 
     return (
         <>
+            <Head>
+                <link rel="preload" href="/auth.mp4" as="video" type="video/mp4" />
+                <title>Authentication</title> {/* Also good practice to set a title */}
+            </Head>
             <BackgroundBeams />
-            <div className="grid xl:grid-cols-2 min-h-screen xl:place-content-center bg-white dark:bg-black p-4">
+            <div className="absolute top-4 right-4">
+                <Link href="/">
+                    <Home className="text-black dark:hover:text-gray-200 hover:text-gray-800 dark:text-white" size={30} />
+                </Link>
+            </div>
+            <div className="grid xl:grid-cols-2 min-h-screen xl:place-content-center bg-white dark:bg-black">
                 <div className="dark:text-white text-black items-center justify-center hidden xl:flex">
-                    <p className="text-5xl font-bold">
-                        Welcome to our platform! <br /> Please register or log in to continue.
-                    </p>
+                    <div className="relative w-full h-[100vh] overflow-hidden">
+                        <video
+                            className="absolute inset-0 w-full h-full object-cover"
+                            src="/auth.mp4"
+                            autoPlay
+                            muted
+                            loop
+                            playsInline
+                        />
+                    </div>
+                    <div className="absolute w-auto">
+                        <span className={`${MONTSERRAT.className} font-bold text-8xl`}>WELCOME</span>
+                    </div>
                 </div>
-                <div className="flex relative items-center justify-center">
+                <div className="flex relative items-center justify-center p-4">
                     <div className="w-full max-w-xl rounded-lg">
                         {renderFormContent()}
                     </div>
@@ -168,4 +193,5 @@ const AuthPage: React.FC = () => {
     );
 };
 
-export default AuthPage;
+const Auth = useFullPageLoader(AuthPage, <Loader />);
+export default Auth;

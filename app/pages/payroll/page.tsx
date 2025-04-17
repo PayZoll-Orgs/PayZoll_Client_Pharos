@@ -21,6 +21,8 @@ import { waitForTransactionReceipt } from "@wagmi/core";
 import { useReadContract } from "wagmi";
 import useFullPageLoader from "@/hooks/usePageLoader";
 import Loader from "@/components/ui/loader";
+import { Home } from "lucide-react";
+import Link from "next/link";
 
 const PaymentsPage: React.FC = () => {
   // Original state
@@ -514,6 +516,11 @@ const PaymentsPage: React.FC = () => {
 
   return (
     <div className="relative h-screen w-screen dark:text-white text-black p-6 z-10">
+      <div className="absolute top-4 left-4">
+        <Link href="/">
+          <Home className="text-black dark:hover:text-gray-200 hover:text-gray-800 dark:text-white" size={30} />
+        </Link>
+      </div>
       <div className="flex flex-col max-w-screen max-h-screen items-center m-10">
         <PaymentsHeader
           onConfigurePayments={() => setShowConfigurePayModal(true)}
