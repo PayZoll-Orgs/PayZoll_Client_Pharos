@@ -264,22 +264,22 @@ const ConfigurePayModal: React.FC<ConfigurePayModalProps> = ({
           onClick={onClose}
         >
           <div className="relative w-full min-h-full flex items-center justify-center py-6">
-            <CardSpotlight>
+            <CardSpotlight className="dark:bg-black/60 border border-gray-200">
               <motion.div
                 initial={{ scale: 0.95, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 exit={{ scale: 0.95, opacity: 0 }}
                 transition={{ type: "spring", damping: 20 }}
                 onClick={(e) => e.stopPropagation()}
-                className="bg-transparent relative w-full max-w-md sm:max-w-lg md:max-w-xl"
+                className="bg-transparent relative w-full max-w-md sm:max-w-lg md:max-w-lg"
               >
-                <div className="p-4 sm:p-6 border-b border-gray-200 dark:border-gray-800/10">
+                <div className="border-b border-gray-200 dark:border-gray-800/10">
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2 sm:space-x-3">
                       <div className="p-2 sm:p-2.5 rounded-full bg-gray-100 dark:bg-gray-800/20 shadow-inner shadow-gray-200/50 dark:shadow-gray-700/10">
                         <DollarSign className="w-5 h-5 sm:w-6 sm:h-6 text-gray-600 dark:text-gray-300" />
                       </div>
-                      <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-black dark:text-white tracking-tight">
+                      <h2 className="text-lg sm:text-xl md:text-2xl font-bold text-black/70 dark:text-white tracking-tight">
                         Configure Payments
                       </h2>
                     </div>
@@ -295,6 +295,86 @@ const ConfigurePayModal: React.FC<ConfigurePayModalProps> = ({
                       <X className="w-4 h-4 sm:w-5 sm:h-5" />
                     </motion.button>
                   </div>
+                </div>
+                <div className="p-4 sm:p-5 rounded-xl bg-white/50 dark:bg-gray-900/20 backdrop-blur-sm">
+                  <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3">
+                    <div className="p-1.5 sm:p-2 rounded-full bg-purple-100 dark:bg-purple-900/10">
+                    <Wallet className="w-4 h-4 sm:w-5 sm:h-5 text-purple-600 dark:text-purple-300" />
+                    </div>
+                    <span className="font-semibold text-sm sm:text-base text-black dark:text-white">Wallet Connection</span>
+                  </div>
+                  </div>
+                  
+                  <ConnectButton.Custom>
+                  {({ account, chain, openAccountModal, openChainModal, openConnectModal, authenticationStatus, mounted }) => {
+                    const ready = mounted && authenticationStatus !== 'loading';
+                    const connected = ready && account && chain;
+                    
+                    return (
+                    <div
+                      className="w-full"
+                      {...(!ready && {
+                      'aria-hidden': true,
+                      'style': {
+                        opacity: 0,
+                        pointerEvents: 'none',
+                        userSelect: 'none',
+                      },
+                      })}
+                    >
+                      {(() => {
+                      if (!connected) {
+                        return (
+                        <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={openConnectModal}
+                          className="w-full py-3 px-4 rounded-xl bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 dark:from-purple-500 dark:to-blue-500 dark:hover:from-purple-600 dark:hover:to-blue-600 text-white font-medium shadow-lg shadow-purple-500/20 dark:shadow-purple-800/20 transition-all"
+                        >
+                          Connect Wallet
+                        </motion.button>
+                        );
+                      }
+
+                      return (
+                        <div className="flex flex-col sm:flex-row gap-3">
+                        <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={openChainModal}
+                          className="flex-1 py-2.5 px-4 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-all flex items-center justify-center gap-2"
+                        >
+                          {chain.hasIcon && (
+                          <div className="w-5 h-5 overflow-hidden rounded-full">
+                            {chain.iconUrl && (
+                            <img
+                              alt={chain.name ?? 'Chain icon'}
+                              src={chain.iconUrl}
+                              className="w-5 h-5"
+                            />
+                            )}
+                          </div>
+                          )}
+                          <span>{chain.name ?? chain.id}</span>
+                        </motion.button>
+                        
+                        <motion.button
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
+                          onClick={openAccountModal}
+                          className="flex-1 py-2.5 px-4 rounded-xl border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-200 text-sm font-medium hover:bg-gray-50 dark:hover:bg-gray-700 transition-all flex items-center justify-center gap-2"
+                        >
+                          <div className="w-5 h-5 rounded-full bg-gradient-to-r from-purple-500 to-blue-500"></div>
+                          <span>{account.displayName}</span>
+                        </motion.button>
+                        </div>
+                      );
+                      })()}
+                    </div>
+                    );
+                  }}
+                  </ConnectButton.Custom>
                 </div>
 
                 <div className="space-y-4 sm:space-y-5">

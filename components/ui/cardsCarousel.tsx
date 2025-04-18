@@ -247,16 +247,16 @@ export const Card = ({
                 <div className="relative z-40 p-8">
                     <motion.p
                         layoutId={layout ? `category-${card.category}` : undefined}
-                        className="text-left font-sans text-sm font-medium text-white md:text-base"
+                        className="text-left font-sans text-sm md:text-lg  font-medium text-white md:font-bold font-semibold"
                     >
                         {card.category}
                     </motion.p>
-                    <motion.p
+                    {/* <motion.p
                         layoutId={layout ? `title-${card.title}` : undefined}
                         className="mt-2 max-w-xs text-left font-sans text-xl font-semibold [text-wrap:balance] text-white md:text-3xl"
                     >
                         {card.title}
-                    </motion.p>
+                    </motion.p> */}
                 </div>
                 <BlurImage
                     src={card.src}

@@ -210,7 +210,7 @@ const AuthPage: React.FC = () => {
                     <Home className="text-black dark:hover:text-gray-200 hover:text-gray-800 dark:text-white" size={30} />
                 </Link>
             </div>
-            <div className="grid xl:grid-cols-2 min-h-screen xl:place-content-center bg-white dark:bg-black">
+            <div className="grid xl:grid-cols-2 h-screen xl:place-content-center bg-white dark:bg-black overflow-scroll">
                 <div className="dark:text-white text-black items-center justify-center hidden xl:flex">
                     <div className="relative w-full h-[100vh] overflow-hidden">
                         <video
@@ -225,11 +225,11 @@ const AuthPage: React.FC = () => {
                         />
                     </div>
                     <div className="absolute w-auto">
-                        <span className={`${MONTSERRAT.className} font-bold text-8xl`}>WELCOME</span>
+                        <span className={`${MONTSERRAT.className} font-bold text-white text-8xl`}>WELCOME</span>
                     </div>
                 </div>
-                <div className="flex relative items-center justify-center p-4">
-                    <div className="w-full max-w-xl rounded-lg">
+                <div className="flex relative items-center justify-center overflow-scroll p-4">
+                    <div className="relative w-full max-w-xl h-[90%] rounded-lg overflow-scroll">
                         {renderFormContent()}
                     </div>
                 </div>

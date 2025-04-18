@@ -59,7 +59,7 @@ const bnb = {
 const educhain = {
     id: 41923,
     name: 'Educhain',
-    iconUrl: './public/edu.png',
+    iconUrl: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTpjMQ4MGp7aYgKaBR2zwKZ6vmfknjRgVbE1w&s',
     iconBackground: 'Black',
     nativeCurrency: { name: 'Educhain', symbol: 'EDU', decimals: 18 },
     rpcUrls: {
@@ -87,7 +87,7 @@ const optimism = {
 const avalanche = {
     id: 43114,
     name: 'Avalanche',
-    iconUrl: './public/avax.png',
+    iconUrl: 'https://upload.wikimedia.org/wikipedia/en/0/03/Avalanche_logo_without_text.png',
     iconBackground: 'Black',
     nativeCurrency: { name: 'Avalanche', symbol: 'AVAX', decimals: 18 },
     rpcUrls: {

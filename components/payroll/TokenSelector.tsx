@@ -105,7 +105,7 @@ const TokenSelector = ({
                         if (token) onTokenChange(token);
                     }}
                     // Updated select styles
-                    className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900 border border-gray-300 dark:border-gray-700/50 rounded-xl
+                    className="w-full px-4 py-3 bg-gray-50 dark:bg-gray-900  rounded-xl
                              text-black dark:text-white focus:outline-none focus:ring-2 focus:ring-blue-500/50 dark:focus:ring-blue-500/50
                              focus:border-blue-500 dark:focus:border-blue-500
                              transition-all text-sm sm:text-base appearance-none backdrop-blur-sm"

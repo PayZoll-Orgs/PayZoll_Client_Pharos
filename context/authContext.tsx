@@ -59,7 +59,7 @@ interface AuthContextType {
 }
 
 // Routes configuration
-const PUBLIC_ROUTES = ['/', '/login', '/register', '/forgot-password'];
+const PUBLIC_ROUTES = ['/', '/login', '/register', '/forgot-password','/pages/services','/pages/auth'];
 const ADMIN_ROUTES = ['/pages/payroll'];
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -374,7 +374,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
             if (!token || !userJson) {
                 if (!PUBLIC_ROUTES.includes(pathname || '') && pathname !== '/') {
-                    router.replace('/pages/auth');
+                    router.replace('/');
                 }
                 return;
             }
@@ -392,7 +392,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
                         borderColor="border-red-500"
                     />
                 ));
-                router.replace('/pages/auth');
+                router.replace('/');
             }
         }
     }, [pathname, initialCheckComplete, user]);
@@ -477,7 +477,7 @@ export const ProtectedRoute = ({
                         borderColor="border-red-500"
                     />
                 ));
-                router.replace('/pages/auth');
+                router.replace('/');
                 return;
             }
 

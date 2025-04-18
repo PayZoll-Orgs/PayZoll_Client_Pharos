@@ -8,10 +8,9 @@ import { useRouter } from 'next/navigation';
 
 function IntroPage() {
     const router = useRouter();
-    const handleAuth = () => {
-        router.push('/pages/auth')
-    };
-
+    const handleRedirect = () => {
+        router.push('/pages/services');
+    }
     return (
         <AuroraBackground>
             <div className='max-w-screen h-screen flex items-center justify-center dark:bg-black p-2 z-500'>
@@ -20,15 +19,15 @@ function IntroPage() {
                         <IntroCards />
                     </div>
                     <div className='flex flex-col lg:flex-row 2xl:flex-col items-center justify-center mt-5 gap-4'>
-                        <span className={`text-white text-6xl md:text-7xl lg:text-4xl xl:text-6xl mt-6 font-bold ${MONTSERRAT.className} text-center`}>
+                        <span className={`dark:text-white text-black/70 text-6xl md:text-7xl lg:text-4xl xl:text-6xl mt-6 font-bold ${MONTSERRAT.className} text-center`}>
                             Let's get started
                         </span>
                         <div className="mt-4 lg:mt-6 2xl:mt-4 flex justify-center">
                             <button
                                 className={`${MONTSERRAT.className} relative lg:text-xl text-lg bg-gradient-to-r from-indigo-600 via-blue-600-400 to-blue-700 text-white py-2 px-8 rounded-full hover:shadow-[0_0_25px_rgba(168,85,247,0.5)] transition-all duration-300 transform hover:scale-105`}
-                                onClick={handleAuth}
+                                onClick={handleRedirect}
                             >
-                                <span>Join Payzoll</span>
+                                <span>Payzoll</span>
                             </button>
                         </div>
                     </div>
