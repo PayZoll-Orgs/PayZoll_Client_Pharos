@@ -225,13 +225,13 @@ export const Card = ({
                                 layoutId={layout ? `category-${card.title}` : undefined}
                                 className="text-base font-medium text-black dark:text-white"
                             >
-                                {card.category}
+                                {card.title}
                             </motion.p>
                             <motion.p
                                 layoutId={layout ? `title-${card.title}` : undefined}
                                 className="mt-4 text-2xl font-semibold text-neutral-700 md:text-5xl dark:text-white"
                             >
-                                {card.title}
+                                {card.category}
                             </motion.p>
                             <div className="py-10">{card.content}</div>
                         </motion.div>
@@ -241,13 +241,16 @@ export const Card = ({
             <motion.button
                 layoutId={layout ? `card-${card.title}` : undefined}
                 onClick={handleOpen}
-                className="relative z-10 flex h-70 w-50 flex-col items-start justify-start overflow-hidden rounded-3xl bg-gray-100 md:h-[30rem] md:w-75 dark:bg-neutral-900"
+                className={`relative z-10 flex h-70 w-50 flex-col items-start justify-start overflow-hidden rounded-3xl bg-gray-100     
+                    ${typeof window !== 'undefined' && window.innerHeight > 800
+                        ? 'lg:h-[38rem] lg:w-90'
+                        : 'h-70 w-50 md:h-[30rem] md:w-75'} dark:bg-neutral-900`}
             >
                 <div className="pointer-events-none absolute inset-x-0 top-0 z-30 h-full bg-gradient-to-b from-black/50 via-transparent to-transparent" />
                 <div className="relative z-40 p-8">
                     <motion.p
                         layoutId={layout ? `category-${card.category}` : undefined}
-                        className="text-left font-sans text-sm md:text-lg  font-medium text-white md:font-bold font-semibold"
+                        className="text-left font-sans text-sm md:text-lg text-white md:font-bold font-semibold"
                     >
                         {card.category}
                     </motion.p>

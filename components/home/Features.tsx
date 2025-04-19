@@ -7,6 +7,7 @@ import Loader from "@/components/ui/loader";
 import { FlipWords } from "@/components/ui/flipWords";
 import { MONTSERRAT } from "@/lib/fonts";
 import useFullPageLoader from "@/hooks/usePageLoader";
+import { AuroraBackground } from "../ui/aurora";
 
 const Carousel = dynamic(() => import("@/components/ui/cardsCarousel").then(mod => mod.Carousel), {
     ssr: false,
@@ -152,10 +153,10 @@ const data = [
         content: <FiatRampsContent />,
     },
     {
-        category: "Secure Payments (Launching Soon)",
-        title: "Send crypto worry-free. Recover if wrong",
-        src: "./P2P.png",
-        content: <SecurePaymentsContent />,
+        category: "AI Finance Agents (In Development)",
+        title: "Let AI manage your crypto like a pro",
+        src: "./AI_Assistants.png",
+        content: <AIFinanceContent />,
     },
     {
         category: "Streaming (In Development)",
@@ -164,11 +165,11 @@ const data = [
         content: <StreamingContent />,
     },
     {
-        category: "AI Finance Agents (In Development)",
-        title: "Let AI manage your crypto like a pro",
-        src: "./AI_Assistants.png",
-        content: <AIFinanceContent />,
-    },
+        category: "Secure Payments (Launching Soon)",
+        title: "Send crypto worry-free. Recover if wrong",
+        src: "./P2P.png",
+        content: <SecurePaymentsContent />,
+    }
 ];
 
 function FeaturesPage() {
@@ -179,18 +180,20 @@ function FeaturesPage() {
 
     return (
         // Adjust width, use min-height instead of fixed height percentage
-        <div className="h-screen w-screen dark:bg-black p-10 flex items-center justify-center mt-2">
-            <div className="grid grid-rows-1 place-content-center">
-                <div className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-5xl mx-auto font-semibold xl:font-bold text-neutral-600 dark:text-neutral-400 text-center flex flex-col sm:flex-row">
-                    <span className={`bg-gradient-to-br mr-2 dark:from-indigo-500 dark:to-purple-400 from-indigo-400 to-purple-300 text-transparent bg-clip-text ${MONTSERRAT.className}`}>PayZoll</span>
-                    offers
-                    <FlipWords words={["Security", "Seamlessness", "Fast Transfers", "Global Payments", "Multi-Chain Support", "Off-Ramps", "Stable Token Marketplace", "AI Finance Agents"]} className={` ${MONTSERRAT.className} text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-5xl`} />
-                </div>
-                <div className="max-w-7xl overflow-x-scroll">
-                    <Carousel items={cards} />
+        <AuroraBackground className="relative dark:bg-black bg-white">
+            <div className="relative h-screen w-screen p-10 flex items-center justify-center mt-2">
+                <div className="grid grid-rows-1 place-content-center">
+                    <div className="text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-5xl mx-auto font-semibold xl:font-bold text-neutral-600 dark:text-neutral-400 text-center flex flex-col sm:flex-row">
+                        <span className={`bg-gradient-to-br mr-2 dark:from-indigo-500 dark:to-purple-400 from-indigo-400 to-purple-300 text-transparent bg-clip-text ${MONTSERRAT.className}`}>PayZoll</span>
+                        offers
+                        <FlipWords words={["Security", "Seamlessness", "Fast Transfers", "Global Payments", "Multi-Chain Support", "Off-Ramps", "Stable Token Marketplace", "AI Finance Agents"]} className={` ${MONTSERRAT.className} text-2xl sm:text-3xl md:text-3xl lg:text-4xl xl:text-5xl`} />
+                    </div>
+                    <div className="max-w-7xl overflow-x-scroll">
+                        <Carousel items={cards} />
+                    </div>
                 </div>
             </div>
-        </div>
+        </AuroraBackground>
     );
 }
 
