@@ -13,13 +13,13 @@ function IntroPage() {
     }
     return (
         <AuroraBackground>
-            <div className='max-w-screen h-screen flex items-center justify-center dark:bg-black p-2 z-500'>
+            <div className='max-w-screen h-screen flex items-center justify-center bg-black p-2 z-500'>
                 <div className='2xl:grid 2xl:grid-cols-2 grid-cols-1 place-content-center bg-transparent p-4'>
                     <div className='2xl:w-[52vw] 3xl:w-auto lg:block hidden my-auto'>
                         <IntroCards />
                     </div>
                     <div className='flex flex-col lg:flex-row 2xl:flex-col items-center justify-center mt-5 gap-4'>
-                        <span className={`dark:text-white text-black/70 text-6xl md:text-7xl lg:text-4xl xl:text-6xl mt-6 font-bold ${MONTSERRAT.className} text-center`}>
+                        <span className={`text-white text-6xl md:text-7xl lg:text-4xl xl:text-6xl mt-6 font-bold ${MONTSERRAT.className} text-center`}>
                             Let's get started
                         </span>
                         <div className="mt-4 lg:mt-6 2xl:mt-4 flex justify-center">
