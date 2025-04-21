@@ -56,12 +56,6 @@ export function Dock({
             icon: <IconUser className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
             href: "/about", // Assuming these are actual routes
             type: "link"
-        },
-        {
-            title: "Services",
-            icon: <IconBriefcase className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
-            href: "/services",
-            type: "link"
         }
     ];
 

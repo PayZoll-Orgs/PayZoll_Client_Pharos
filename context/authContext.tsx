@@ -59,7 +59,7 @@ interface AuthContextType {
 }
 
 // Routes configuration
-const PUBLIC_ROUTES = ['/', '/login', '/register', '/forgot-password','/pages/services','/pages/auth'];
+const PUBLIC_ROUTES = ['/', '/login', '/register', '/forgot-password', '/pages/services', '/pages/auth', '/pages/ramps','/pages/admin'];
 const ADMIN_ROUTES = ['/pages/payroll'];
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);

@@ -1,16 +1,22 @@
-import React from 'react';
+import React, { useState } from 'react';
 import useFullPageLoader from '@/hooks/usePageLoader'
 import Loader from '@/components/ui/loader'
 import { AuroraBackground } from '@/components/ui/aurora';
 import { MONTSERRAT } from '@/lib/fonts';
 import { IntroCards } from '../intro/IntroCards';
-import { useRouter } from 'next/navigation';
+import ServiceModal from '@/components/intro/ServiceModal';
 
 function IntroPage() {
-    const router = useRouter();
-    const handleRedirect = () => {
-        router.push('/pages/services');
-    }
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const openModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+    };
+
     return (
         <AuroraBackground>
             <div className='max-w-screen h-screen flex items-center justify-center bg-black p-2 z-500'>
@@ -25,14 +31,17 @@ function IntroPage() {
                         <div className="mt-4 lg:mt-6 2xl:mt-4 flex justify-center">
                             <button
                                 className={`${MONTSERRAT.className} relative lg:text-xl text-lg bg-gradient-to-r from-indigo-600 via-blue-600-400 to-blue-700 text-white py-2 px-8 rounded-full hover:shadow-[0_0_25px_rgba(168,85,247,0.5)] transition-all duration-300 transform hover:scale-105`}
-                                onClick={handleRedirect}
+                                onClick={openModal}
                             >
                                 <span>Payzoll</span>
                             </button>
                         </div>
                     </div>
                 </div>
+
+                {/* Services Modal */}
             </div>
+            <ServiceModal isOpen={isModalOpen} onClose={closeModal} />
         </AuroraBackground>
     );
 }

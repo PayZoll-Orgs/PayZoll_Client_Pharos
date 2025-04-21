@@ -1,4 +1,11 @@
-
+export interface Window {
+    ethereum?: {
+        isMetaMask?: boolean;
+        request: (request: { method: string; params?: any[] }) => Promise<any>;
+        on: (eventName: string, callback: (...args: any[]) => void) => void;
+        removeListener: (eventName: string, callback: (...args: any[]) => void) => void;
+    };
+}
 export interface Employee {
     name: string;
     email: string;
@@ -39,6 +46,30 @@ export interface LoginFormData {
     email: string;
     password: string;
 }
+export interface BuyFormData {
+    wallet: string;
+    tokenBought: string;
+    chain: string; // Ensure this is a string, not a number
+    amountToken: string;
+    fiatType: string;
+    amountFiat: string;
+    exchangeRate: string;
+    orderId: string;
+}
+export interface SellFormData {
+    wallet: string;
+    tokenSold: string;
+    chain: string;
+    amountToken: string;
+    fiatType: string;
+    amountFiat: string;
+    exchangeRate: string;
+    orderId: string;
+    transactionHash: string;
+    paymentMethod: string;
+    paymentDetails: string;
+}
+
 
 export interface AuditLogData {
     company: string;
@@ -59,3 +90,9 @@ export interface EmailResponse {
 
 export interface NewsletterSubscriptionRequest extends EmailRequest { }
 export interface WaitlistRegistrationRequest extends EmailRequest { }
+
+export interface PaymentQR {
+    id: string;
+    name: string;
+    image: string;
+}
