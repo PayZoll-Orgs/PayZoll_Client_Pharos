@@ -131,7 +131,7 @@ const tokenToCoingeckoId: { [key: string]: string } = {
     'DAI.e': 'dai',
     'WETH': 'weth',
     'WBTC': 'wrapped-bitcoin',
-    'EDU': 'education-ecosystem',
+    'EDU': 'edu-coin',
 };
 
 // Function to fetch price from CoinGecko API
