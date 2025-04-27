@@ -493,7 +493,7 @@ const PaymentsPage: React.FC = () => {
         setSelectedEmployee(null);
         toast.success("Employee updated successfully");
         // Consider refetching if local update isn't reliable
-        // fetchEmployees();
+        fetchEmployees();
       } else {
         throw new Error(response.message || "Failed to update employee due to API error.");
       }
