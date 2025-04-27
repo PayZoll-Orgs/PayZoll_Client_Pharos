@@ -17,7 +17,7 @@ export const NATIVE_ADDRESS = '0x0000000000000000000000000000000000000000';
 export const contractMainnetAddresses = {
     [bnb.id]: '0x2c137aC6Bc804A9F798053347802F489F0025768',
     [arbitrum.id]: '0x2c137aC6Bc804A9F798053347802F489F0025768',
-    [educhain.id]: '0xYourContractAddressOnEduchainMainnet',
+    [educhain.id]: '0x2c137aC6Bc804A9F798053347802F489F0025768',
     [polygon.id]: '0x2c137aC6Bc804A9F798053347802F489F0025768',
     [avalanche.id]: '0xYourContractAddressOnAvalanche',
     [optimism.id]: '0xYourContractAddressOnOptimism',
