@@ -79,6 +79,17 @@ export const rampApi = {
         return response.data;
     },
 
+    // Get exchange rates for a specific token
+    getExchangeRates: async (tokenSymbol: string) => {
+        try {
+            const response = await axiosClient.get(`/exchange-rates/${tokenSymbol}`);
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching exchange rates:', error);
+            throw error;
+        }
+    },
+
     // Admin Functions
     admin: {
         // Buy Order Functions

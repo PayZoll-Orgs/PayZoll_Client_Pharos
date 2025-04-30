@@ -191,8 +191,8 @@ const AdminBuyOrdersPage = () => {
     };
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <h1 className="text-2xl font-bold mb-6">Buy Order Management</h1>
+        <div className="container mx-auto px-4 py-8 text-gray-900 dark:text-gray-100">
+            <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Buy Order Management</h1>
 
             {error && (
                 <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -202,7 +202,7 @@ const AdminBuyOrdersPage = () => {
 
             <div className="flex justify-between mb-6">
                 <select
-                    className="border rounded p-2 w-48"
+                    className="border rounded p-2 w-48 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700"
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
                 >
@@ -215,7 +215,7 @@ const AdminBuyOrdersPage = () => {
 
                 <div className="flex space-x-2">
                     <button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center"
+                        className="bg-blue-500 dark:bg-gray-700 hover:bg-blue-600 dark:hover:bg-gray-600 text-white font-bold py-2 px-4 rounded flex items-center"
                         onClick={() => loadOrders()}
                     >
                         <RefreshCw className="h-4 w-4 mr-1" />
@@ -230,10 +230,10 @@ const AdminBuyOrdersPage = () => {
                 </div>
             ) : (
                 <>
-                    <div className="overflow-x-auto bg-white shadow-md rounded">
+                    <div className="overflow-x-auto bg-white dark:bg-gray-800 shadow-md rounded">
                         <table className="min-w-full">
                             <thead>
-                                <tr className="bg-gray-100 text-gray-700 border-b">
+                                <tr className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 border-b border-gray-200 dark:border-gray-600">
                                     <th className="py-3 px-4 text-left">Order ID</th>
                                     <th className="py-3 px-4 text-left">Date</th>
                                     <th className="py-3 px-4 text-left">Wallet</th>
@@ -247,18 +247,18 @@ const AdminBuyOrdersPage = () => {
                             <tbody>
                                 {orders.length > 0 ? (
                                     orders.map((order) => (
-                                        <tr key={order._id} className="border-b hover:bg-gray-50">
-                                            <td className="py-3 px-4">{order.orderId}</td>
-                                            <td className="py-3 px-4">{new Date(order.createdAt).toLocaleString()}</td>
+                                        <tr key={order._id} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                            <td className="py-3 px-4 text-gray-900 dark:text-gray-100">{order.orderId}</td>
+                                            <td className="py-3 px-4 text-gray-900 dark:text-gray-100">{new Date(order.createdAt).toLocaleString()}</td>
                                             <td className="py-3 px-4">
-                                                <span title={order.wallet} className="cursor-pointer hover:text-blue-500">
+                                                <span className="text-gray-900 dark:text-gray-100 hover:text-blue-500 dark:hover:text-blue-400 cursor-pointer">
                                                     {order.wallet.substring(0, 6)}...{order.wallet.substring(order.wallet.length - 4)}
                                                 </span>
                                             </td>
-                                            <td className="py-3 px-4">
+                                            <td className="py-3 px-4 text-gray-900 dark:text-gray-100">
                                                 {order.amountToken} {order.tokenBought}
                                             </td>
-                                            <td className="py-3 px-4">
+                                            <td className="py-3 px-4 text-gray-900 dark:text-gray-100">
                                                 {order.amountFiat} {order.fiatType}
                                             </td>
                                             <td className="py-3 px-4">
@@ -333,7 +333,7 @@ const AdminBuyOrdersPage = () => {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={8} className="py-4 text-center text-gray-500">
+                                        <td colSpan={8} className="py-4 text-center text-gray-500 dark:text-gray-400">
                                             No orders found.
                                         </td>
                                     </tr>
@@ -346,17 +346,17 @@ const AdminBuyOrdersPage = () => {
                     {totalPages > 1 && (
                         <div className="flex justify-center items-center mt-6">
                             <button
-                                className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border rounded-l disabled:opacity-50"
+                                className="bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 font-semibold py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-l disabled:opacity-50"
                                 disabled={page === 1}
                                 onClick={() => setPage(p => Math.max(1, p - 1))}
                             >
                                 Previous
                             </button>
-                            <span className="px-4 py-2">
+                            <span className="px-4 py-2 text-gray-900 dark:text-gray-100">
                                 Page {page} of {totalPages}
                             </span>
                             <button
-                                className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border rounded-r disabled:opacity-50"
+                                className="bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 font-semibold py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-r disabled:opacity-50"
                                 disabled={page === totalPages}
                                 onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                             >
@@ -370,18 +370,18 @@ const AdminBuyOrdersPage = () => {
             {/* Complete Order Modal */}
             {showModal && selectedOrder && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-6 max-w-lg w-full">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-lg w-full">
                         <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-xl font-bold">Complete Buy Order</h3>
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Complete Buy Order</h3>
                             <button
-                                className="text-gray-500 hover:text-gray-700"
+                                className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
                                 onClick={() => setShowModal(false)}
                             >
                                 &times;
                             </button>
                         </div>
 
-                        <div className="mb-4">
+                        <div className="mb-4 text-gray-900 dark:text-gray-100">
                             <p><strong>Order ID:</strong> {selectedOrder.orderId}</p>
                             <p><strong>Wallet:</strong> {selectedOrder.wallet}</p>
                             <p><strong>Amount:</strong> {selectedOrder.amountToken} {selectedOrder.tokenBought}</p>
@@ -389,27 +389,27 @@ const AdminBuyOrdersPage = () => {
                         </div>
 
                         <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2">
+                            <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
                                 Transaction Hash
                             </label>
                             <input
                                 type="text"
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 value={transactionHash}
                                 onChange={(e) => setTransactionHash(e.target.value)}
                                 placeholder="Enter blockchain transaction hash"
                             />
-                            <p className="text-gray-600 text-xs mt-1">
+                            <p className="text-gray-600 dark:text-gray-400 text-xs mt-1">
                                 Enter the transaction hash for this payment
                             </p>
                         </div>
 
                         <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2">
+                            <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
                                 Notes (Optional)
                             </label>
                             <textarea
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 rows={2}
                                 value={notes}
                                 onChange={(e) => setNotes(e.target.value)}
@@ -419,7 +419,7 @@ const AdminBuyOrdersPage = () => {
 
                         <div className="flex justify-end">
                             <button
-                                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
+                                className="bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-bold py-2 px-4 rounded mr-2"
                                 onClick={() => setShowModal(false)}
                             >
                                 Cancel
@@ -439,18 +439,18 @@ const AdminBuyOrdersPage = () => {
             {/* Edit Order Modal */}
             {showEditModal && selectedOrder && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-6 max-w-lg w-full">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-lg w-full">
                         <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-xl font-bold">Edit Buy Order</h3>
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Edit Buy Order</h3>
                             <button
-                                className="text-gray-500 hover:text-gray-700"
+                                className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
                                 onClick={() => setShowEditModal(false)}
                             >
                                 &times;
                             </button>
                         </div>
 
-                        <div className="mb-4">
+                        <div className="mb-4 text-gray-900 dark:text-gray-100">
                             <p><strong>Order ID:</strong> {selectedOrder.orderId}</p>
                             <p><strong>Customer:</strong> {selectedOrder.wallet.substring(0, 6)}...{selectedOrder.wallet.substring(selectedOrder.wallet.length - 4)}</p>
                             <p><strong>Amount:</strong> {selectedOrder.amountToken} {selectedOrder.tokenBought}</p>
@@ -459,11 +459,11 @@ const AdminBuyOrdersPage = () => {
                         </div>
 
                         <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2">
+                            <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
                                 Status
                             </label>
                             <select
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 value={editedOrder.status || selectedOrder.status}
                                 onChange={(e) => setEditedOrder({ ...editedOrder, status: e.target.value as Order['status'] })}
                             >
@@ -476,28 +476,28 @@ const AdminBuyOrdersPage = () => {
 
                         {editedOrder.status === 'completed' && !selectedOrder.transactionHash && (
                             <div className="mb-4">
-                                <label className="block text-gray-700 text-sm font-bold mb-2">
+                                <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
                                     Transaction Hash
                                 </label>
                                 <input
                                     type="text"
-                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
                                     value={editedOrder.transactionHash || ''}
                                     onChange={(e) => setEditedOrder({ ...editedOrder, transactionHash: e.target.value })}
                                     placeholder="Enter blockchain transaction hash"
                                 />
-                                <p className="text-gray-600 text-xs mt-1">
+                                <p className="text-gray-600 dark:text-gray-400 text-xs mt-1">
                                     Required to set status to 'completed'
                                 </p>
                             </div>
                         )}
 
                         <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2">
+                            <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
                                 Notes
                             </label>
                             <textarea
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 border-gray-300 dark:border-gray-600 leading-tight focus:outline-none focus:ring-2 focus:ring-blue-500"
                                 rows={3}
                                 value={editedOrder.notes || ''}
                                 onChange={(e) => setEditedOrder({ ...editedOrder, notes: e.target.value })}
@@ -507,7 +507,7 @@ const AdminBuyOrdersPage = () => {
 
                         <div className="flex justify-end">
                             <button
-                                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
+                                className="bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-bold py-2 px-4 rounded mr-2"
                                 onClick={() => setShowEditModal(false)}
                             >
                                 Cancel
@@ -527,24 +527,24 @@ const AdminBuyOrdersPage = () => {
             {/* Receipt Image Modal */}
             {showImageModal && selectedOrder && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-6 max-w-4xl w-full">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-4xl w-full">
                         <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-xl font-bold">Payment Receipt</h3>
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Payment Receipt</h3>
                             <button
-                                className="text-gray-500 hover:text-gray-700"
+                                className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
                                 onClick={() => setShowImageModal(false)}
                             >
                                 &times;
                             </button>
                         </div>
 
-                        <div className="text-center">
+                        <div className="text-center text-gray-900 dark:text-gray-100">
                             <div className="mb-4">
                                 <p><strong>Order ID:</strong> {selectedOrder.orderId}</p>
                                 <p><strong>Amount:</strong> {selectedOrder.amountFiat} {selectedOrder.fiatType}</p>
                             </div>
 
-                            <div className="border p-2">
+                            <div className="border p-2 border-gray-300 dark:border-gray-600">
                                 <img
                                     src={`${backendDomain}${selectedOrder.paymentReceiptPath}`}
                                     alt="Payment Receipt"
@@ -554,7 +554,7 @@ const AdminBuyOrdersPage = () => {
 
                             <div className="mt-4">
                                 <button
-                                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+                                    className="bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-bold py-2 px-4 rounded"
                                     onClick={() => setShowImageModal(false)}
                                 >
                                     Close

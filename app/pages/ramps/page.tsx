@@ -5,11 +5,12 @@ import BuyModal from '@/components/ramps/Buy'
 import SellModal from '@/components/ramps/Sell'
 import { ConnectButton } from '@rainbow-me/rainbowkit'
 import { useAccount } from 'wagmi'
-import { Wallet, Receipt, ArrowDownToLine, ArrowUpFromLine, ExternalLink, Eye, X } from 'lucide-react'
+import { Wallet, Receipt, ArrowDownToLine, ArrowUpFromLine, ExternalLink, Eye, X, Home, RefreshCw } from 'lucide-react'
 import { motion } from 'framer-motion'
 import { rampApi } from '@/api/rampApi'
 import { backendDomain } from '@/lib/network'
 import { allMainnetChains } from '@/lib/evm-chains-mainnet'
+import Link from 'next/link'
 
 // Define interfaces for order types
 interface BaseOrder {
@@ -46,9 +47,22 @@ interface ImageModalProps {
   imagePath: string;
 }
 
+// Update the buy/sell modal prop interfaces
+interface BuyModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onComplete: () => Promise<void>;  // Remove optional ?
+}
+
+interface SellModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+  onComplete: () => Promise<void>;  // Remove optional ?
+}
+
 export default function Page() {
   // Modal states
-  const [isBuyVisible, setIsBuyVisible] = useState(true)
+  const [isBuyVisible, setIsBuyVisible] = useState(false)  // Changed from true to false
   const [isSellVisible, setIsSellVisible] = useState(false)
 
   // Order states with proper typing
@@ -208,9 +222,23 @@ export default function Page() {
     );
   };
 
+  // Update the OrderListHeader component
+  const OrderListHeader = () => (
+    <div className="grid grid-cols-7 gap-6 px-6 py-3 border-b border-gray-200 dark:border-gray-700 sticky top-0 bg-white/80 dark:bg-gray-800/80 backdrop-blur-sm">
+      <div className="text-sm font-semibold text-gray-600 dark:text-gray-300">Order ID</div>
+      <div className="text-sm font-semibold text-gray-600 dark:text-gray-300">Amount Token</div>
+      <div className="text-sm font-semibold text-gray-600 dark:text-gray-300">Amount Fiat</div>
+      <div className="text-sm font-semibold text-gray-600 dark:text-gray-300">Exchange Rate</div>
+      <div className="text-sm font-semibold text-gray-600 dark:text-gray-300">Chain</div>
+      <div className="text-sm font-semibold text-gray-600 dark:text-gray-300">Status</div>
+      <div className="text-sm font-semibold text-gray-600 dark:text-gray-300 text-right">Actions</div>
+    </div>
+  );
+
   // Component for Buy Orders List
   const BuyOrdersList = () => (
-    <div className="space-y-4">
+    <div className="space-y-2">
+      <OrderListHeader />
       {isLoading ? (
         <div className="flex justify-center p-10">
           <div className="animate-pulse rounded-full h-10 w-10 bg-gray-200 dark:bg-gray-800"></div>
@@ -221,77 +249,42 @@ export default function Page() {
         </div>
       ) : (
         buyOrders.map((order) => (
-          <div key={order.orderId} className="overflow-hidden border rounded-lg shadow-sm dark:border-gray-800">
-            <div className="p-4 pb-2">
-              <div className="flex justify-between items-center">
-                <h3 className="text-lg font-medium flex items-center gap-2">
-                  <ArrowDownToLine className="h-5 w-5 text-green-500" />
-                  Buy Order: {order.tokenBought}
-                </h3>
-                <span className={`text-xs px-2 py-1 rounded-full font-medium ${getStatusColor(order.status)}`}>
-                  {order.status.toUpperCase()}
-                </span>
-              </div>
-              <p className="text-sm text-gray-500">Order ID: {order.orderId}</p>
+          <div key={order.orderId} className="grid grid-cols-7 gap-6 px-6 py-4 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50/50 dark:hover:bg-gray-700/50 transition-colors">
+            <div className="text-sm font-medium text-gray-600 dark:text-gray-300">{order.orderId}</div>
+            <div className="text-lg font-medium">{order.amountToken} {order.tokenBought}</div>
+            <div className="text-lg font-medium">{order.amountFiat} {order.fiatType}</div>
+            <div className="text-lg font-medium">1 {order.tokenBought} = {order.exchangeRate} {order.fiatType}</div>
+            <div>
+              <p className="text-lg font-medium">
+                {allMainnetChains.find(c => c.name.toLowerCase() === order.chain.toLowerCase())?.name || order.chain}
+              </p>
+              <span className="text-xs text-gray-500">{formatDate(order.createdAt)}</span>
             </div>
-
-            <div className="px-4 text-sm pb-2">
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <p className="text-gray-500 dark:text-gray-400">Amount Token:</p>
-                  <p className="font-medium">{order.amountToken} {order.tokenBought}</p>
-                </div>
-                <div>
-                  <p className="text-gray-500 dark:text-gray-400">Amount Fiat:</p>
-                  <p className="font-medium">{order.amountFiat} {order.fiatType}</p>
-                </div>
-                <div>
-                  <p className="text-gray-500 dark:text-gray-400">Exchange Rate:</p>
-                  <p className="font-medium">1 {order.tokenBought} = {order.exchangeRate} {order.fiatType}</p>
-                </div>
-                <div>
-                  <p className="text-gray-500 dark:text-gray-400">Chain:</p>
-                  <p className="font-medium">{order.chain}</p>
-                </div>
-                <div>
-                  <p className="text-gray-500 dark:text-gray-400">Created:</p>
-                  <p className="font-medium">{formatDate(order.createdAt)}</p>
-                </div>
-                {order.notes && (
-                  <div className="col-span-2">
-                    <p className="text-gray-500 dark:text-gray-400">Notes:</p>
-                    <p className="font-medium">{order.notes}</p>
-                  </div>
-                )}
-              </div>
-
-              {/* Transaction Hash (if exists) */}
-              {order.transactionHash && (
-                <div className="mt-2 pt-2 border-t border-gray-100 dark:border-gray-800">
-                  <p className="text-gray-500 dark:text-gray-400">Transaction Hash:</p>
-                  <a
-                    href={getExplorerUrl(order.chain, order.transactionHash)}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-blue-500 hover:text-blue-700 flex items-center gap-1 font-medium overflow-hidden text-ellipsis"
-                  >
-                    {order.transactionHash ? order.transactionHash.substring(0, 25) + '...' : 'N/A'}
-                    <ExternalLink className="h-3 w-3" />
-                  </a>
-                </div>
-              )}
+            <div>
+              <span className={`text-xs px-2 py-1 rounded-full font-medium ${getStatusColor(order.status)}`}>
+                {order.status.toUpperCase()}
+              </span>
             </div>
-
-            <div className="px-4 py-3">
-              {/* Receipt Image Button */}
+            <div className="flex items-center justify-end space-x-2 flex-col gap-2">
               {order.paymentReceiptPath && (
                 <button
                   onClick={() => openImageModal(order.paymentReceiptPath || '', 'Payment Receipt', order.orderId, 'receipt')}
-                  className="w-full py-1.5 px-3 text-sm border border-gray-300 rounded-md hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800 flex items-center justify-center"
+                  className="w-full py-1.5 px-3 text-sm border border-gray-300 rounded-md hover:bg-purple-500 dark:border-gray-700 dark:hover:bg-purple-500 flex items-center justify-center"
                 >
                   <Receipt className="h-4 w-4 mr-2" />
                   View Receipt
                 </button>
+              )}
+              {order.transactionHash && (
+                <a
+                  href={getExplorerUrl(order.chain, order.transactionHash)}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-1.5 px-3 text-sm border border-gray-300 rounded-md hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-700 flex items-center justify-center text-blue-500 hover:text-blue-700"
+                >
+                  <ExternalLink className="h-4 w-4 mr-2" />
+                  View Hash
+                </a>
               )}
             </div>
           </div>
@@ -302,7 +295,8 @@ export default function Page() {
 
   // Component for Sell Orders List
   const SellOrdersList = () => (
-    <div className="space-y-4">
+    <div className="space-y-2">
+      <OrderListHeader />
       {isLoading ? (
         <div className="flex justify-center p-10">
           <div className="animate-pulse rounded-full h-10 w-10 bg-gray-200 dark:bg-gray-800"></div>
@@ -313,90 +307,51 @@ export default function Page() {
         </div>
       ) : (
         sellOrders.map((order) => (
-          <div key={order.orderId} className="overflow-hidden border rounded-lg shadow-sm dark:border-gray-800">
-            <div className="p-4 pb-2">
-              <div className="flex justify-between items-center">
-                <h3 className="text-lg font-medium flex items-center gap-2">
-                  <ArrowUpFromLine className="h-5 w-5 text-blue-500" />
-                  Sell Order: {order.tokenSold}
-                </h3>
-                <span className={`text-xs px-2 py-1 rounded-full font-medium ${getStatusColor(order.status)}`}>
-                  {order.status.toUpperCase()}
-                </span>
-              </div>
-              <p className="text-sm text-gray-500">Order ID: {order.orderId}</p>
+          <div key={order.orderId} className="grid grid-cols-7 gap-6 px-6 py-4 border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50/50 dark:hover:bg-gray-700/50 transition-colors">
+            <div className="text-sm font-medium text-gray-600 dark:text-gray-300">{order.orderId}</div>
+            <div className="text-lg font-medium">{order.amountToken} {order.tokenSold}</div>
+            <div className="text-lg font-medium">{order.amountFiat} {order.fiatType}</div>
+            <div className="text-lg font-medium">1 {order.tokenSold} = {order.exchangeRate} {order.fiatType}</div>
+            <div>
+              <p className="text-lg font-medium">
+                {allMainnetChains.find(c => c.name.toLowerCase() === order.chain.toLowerCase())?.name || order.chain}
+              </p>
+              <span className="text-xs text-gray-500">{formatDate(order.createdAt)}</span>
             </div>
-
-            <div className="px-4 text-sm pb-2">
-              <div className="grid grid-cols-2 gap-2">
-                <div>
-                  <p className="text-gray-500 dark:text-gray-400">Amount Token:</p>
-                  <p className="font-medium">{order.amountToken} {order.tokenSold}</p>
-                </div>
-                <div>
-                  <p className="text-gray-500 dark:text-gray-400">Amount Fiat:</p>
-                  <p className="font-medium">{order.amountFiat} {order.fiatType}</p>
-                </div>
-                <div>
-                  <p className="text-gray-500 dark:text-gray-400">Exchange Rate:</p>
-                  <p className="font-medium">1 {order.tokenSold} = {order.exchangeRate} {order.fiatType}</p>
-                </div>
-                <div>
-                  <p className="text-gray-500 dark:text-gray-400">Chain:</p>
-                  <p className="font-medium">{order.chain}</p>
-                </div>
-                <div>
-                  <p className="text-gray-500 dark:text-gray-400">Payment Method:</p>
-                  <p className="font-medium">{order.paymentMethod.toUpperCase()}</p>
-                </div>
-                <div>
-                  <p className="text-gray-500 dark:text-gray-400">Created:</p>
-                  <p className="font-medium">{formatDate(order.createdAt)}</p>
-                </div>
-                {order.notes && (
-                  <div className="col-span-2">
-                    <p className="text-gray-500 dark:text-gray-400">Notes:</p>
-                    <p className="font-medium">{order.notes}</p>
-                  </div>
-                )}
-              </div>
-
-              {/* Transaction Hash */}
-              <div className="mt-2 pt-2 border-t border-gray-100 dark:border-gray-800">
-                <p className="text-gray-500 dark:text-gray-400">Transaction Hash:</p>
+            <div>
+              <span className={`text-xs px-2 py-1 rounded-full font-medium ${getStatusColor(order.status)}`}>
+                {order.status.toUpperCase()}
+              </span>
+            </div>
+            <div className="flex items-center justify-end space-x-2 flex-col gap-2">
+              {order.paymentQrPath && (
+                <button
+                  onClick={() => openImageModal(order.paymentQrPath || '', 'Payment QR Code', order.orderId, 'qr')}
+                  className="w-full py-1.5 px-3 text-sm border border-gray-300 rounded-md hover:bg-purple-500 dark:border-gray-700 dark:hover:bg-purple-500 flex items-center justify-center"
+                >
+                  <Eye className="h-4 w-4 mr-2" />
+                  View QR
+                </button>
+              )}
+              {order.paymentProofPath && (
+                <button
+                  onClick={() => openImageModal(order.paymentProofPath || '', 'Payment Proof', order.orderId, 'proof')}
+                  className="w-full py-1.5 px-3 text-sm border border-gray-300 rounded-md hover:bg-purple-500 dark:border-gray-700 dark:hover:bg-purple-500 flex items-center justify-center"
+                >
+                  <Receipt className="h-4 w-4 mr-2" />
+                  View Proof
+                </button>
+              )}
+              {order.transactionHash && (
                 <a
                   href={getExplorerUrl(order.chain, order.transactionHash)}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-blue-500 hover:text-blue-700 flex items-center gap-1 font-medium overflow-hidden text-ellipsis"
+                  className="w-full py-1.5 px-3 text-sm border border-gray-300 rounded-md hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-700 flex items-center justify-center text-blue-500 hover:text-blue-700"
                 >
-                  {order.transactionHash ? order.transactionHash.substring(0, 25) + '...' : 'N/A'}
-                  <ExternalLink className="h-3 w-3" />
+                  <ExternalLink className="h-4 w-4 mr-2" />
+                  View Hash
                 </a>
-              </div>
-            </div>
-
-            <div className="px-4 py-3 flex flex-col sm:flex-row gap-2">
-              {/* QR Code Image Button */}
-              {order.paymentQrPath && (
-                <button
-                  onClick={() => openImageModal(order.paymentQrPath || '', 'Payment QR Code', order.orderId, 'qr')}
-                  className="flex-1 py-1.5 px-3 text-sm border border-gray-300 rounded-md hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800 flex items-center justify-center"
-                >
-                  <Eye className="h-4 w-4 mr-2" />
-                  View QR Code
-                </button>
-              )}
-
-              {/* Payment Proof Image Button */}
-              {order.paymentProofPath && (
-                <button
-                  onClick={() => openImageModal(order.paymentProofPath || '', 'Payment Proof', order.orderId, 'proof')}
-                  className="flex-1 py-1.5 px-3 text-sm border border-gray-300 rounded-md hover:bg-gray-50 dark:border-gray-700 dark:hover:bg-gray-800 flex items-center justify-center"
-                >
-                  <Receipt className="h-4 w-4 mr-2" />
-                  View Payment Proof
-                </button>
               )}
             </div>
           </div>
@@ -406,44 +361,74 @@ export default function Page() {
   );
 
   return (
-    <div className='w-screen min-h-screen relative'>
+    <div className="relative h-screen w-screen dark:text-white text-black p-6 z-10">
+      {/* Home button */}
+      <div className="absolute top-4 left-4">
+        <Link href="/">
+          <Home className="text-black dark:hover:text-gray-200 hover:text-gray-800 dark:text-white" size={30} />
+        </Link>
+      </div>
+
       {isConnected ? (
-        // Connected state - show orders and RampDock
-        <div className="container mx-auto py-8 px-4 md:px-6">
-          <h1 className="text-2xl font-bold text-center mb-6">PayZoll Ramp</h1>
+        <div className="flex flex-col max-w-screen max-h-screen items-center m-10">
+          {/* Header Section */}
+          <div className="w-full max-w-7xl mb-8"> {/* Changed from max-w-4xl */}
+            <h1 className="text-2xl font-bold text-black dark:text-white mb-6">PayZoll Ramp</h1>
+            
+            {/* Action Buttons Row */}
+            <div className="flex justify-between items-center mb-6">
+              {/* Left side - Tabs */}
+              <div className="flex space-x-4">
+                <button
+                  onClick={() => setActiveTab('buy')}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    activeTab === 'buy'
+                      ? 'bg-white dark:bg-gray-700 shadow-sm text-black dark:text-white'
+                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                  }`}
+                >
+                  Buy Orders
+                </button>
+                <button
+                  onClick={() => setActiveTab('sell')}
+                  className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors ${
+                    activeTab === 'sell'
+                      ? 'bg-white dark:bg-gray-700 shadow-sm text-black dark:text-white'
+                      : 'text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                  }`}
+                >
+                  Sell Orders
+                </button>
+              </div>
 
-          {/* Custom Tabs implementation */}
-          <div className="w-full max-w-4xl mx-auto mb-16">
-            {/* Tab buttons */}
-            <div className="grid grid-cols-2 mb-4 bg-gray-100 dark:bg-gray-800 p-1 rounded-lg">
-              <button
-                onClick={() => setActiveTab('buy')}
-                className={`py-2 px-4 rounded-md text-sm font-medium transition-colors ${activeTab === 'buy'
-                  ? 'bg-white dark:bg-gray-700 shadow-sm text-black dark:text-white'
-                  : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                  }`}
-              >
-                Buy Orders
-              </button>
-              <button
-                onClick={() => setActiveTab('sell')}
-                className={`py-2 px-4 rounded-md text-sm font-medium transition-colors ${activeTab === 'sell'
-                  ? 'bg-white dark:bg-gray-700 shadow-sm text-black dark:text-white'
-                  : 'text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700'
-                  }`}
-              >
-                Sell Orders
-              </button>
+              {/* Right side - Create Order and Refresh Buttons */}
+              <div className="flex items-center space-x-3">
+                <button
+                  onClick={fetchUserOrders}
+                  className="p-2 text-gray-600 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-200 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors"
+                  title="Refresh Orders"
+                >
+                  <RefreshCw className="h-5 w-5" />
+                </button>
+                <button
+                  onClick={() => activeTab === 'buy' ? setIsBuyVisible(true) : setIsSellVisible(true)}
+                  className="px-4 py-2 bg-blue-600 dark:bg-gray-700 hover:bg-green-500 dark:hover:bg-green-500 text-white rounded-lg text-sm font-medium transition-colors"
+                >
+                  Create {activeTab === 'buy' ? 'Buy' : 'Sell'} Order
+                </button>
+              </div>
             </div>
+          </div>
 
-            {/* Tab content */}
-            <div className="mt-2">
+          {/* Main Content Area */}
+          <div className="w-full max-w-7xl flex-1 overflow-hidden"> {/* Changed from max-w-6xl */}
+            <div className="bg-transparent rounded-xl overflow-hidden"> {/* Removed background color */}
               {activeTab === 'buy' && <BuyOrdersList />}
               {activeTab === 'sell' && <SellOrdersList />}
             </div>
           </div>
 
-          {/* RampDock */}
+          {/* RampDock at bottom */}
           <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-30">
             <RampDock
               onShowBuy={onShowBuy}
@@ -452,7 +437,7 @@ export default function Page() {
           </div>
         </div>
       ) : (
-        // Not connected - show connect wallet UI
+        // Not connected state remains the same
         <div className="w-screen h-screen flex items-center justify-center">
           <motion.div
             initial={{ opacity: 0, y: 10 }}
@@ -465,7 +450,7 @@ export default function Page() {
             </div>
 
             <div className="space-y-3">
-              <h2 className="text-xl sm:text-2xl font-bold text-black dark:text-white tracking-tight">
+              <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-black dark:text-white">
                 Connect Your Wallet
               </h2>
               <p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base max-w-sm mx-auto">
@@ -480,7 +465,7 @@ export default function Page() {
         </div>
       )}
 
-      {/* Image Modals */}
+      {/* Modals remain the same */}
       <ImageModal
         isOpen={receiptModalOpen}
         onClose={() => setReceiptModalOpen(false)}
@@ -488,7 +473,6 @@ export default function Page() {
         orderId={modalOrderId}
         imagePath={modalImagePath}
       />
-
       <ImageModal
         isOpen={qrModalOpen}
         onClose={() => setQrModalOpen(false)}
@@ -496,7 +480,6 @@ export default function Page() {
         orderId={modalOrderId}
         imagePath={modalImagePath}
       />
-
       <ImageModal
         isOpen={proofModalOpen}
         onClose={() => setProofModalOpen(false)}
@@ -508,8 +491,20 @@ export default function Page() {
       {/* Modals - Only render when mounted and conditions are met */}
       {isMounted && (
         <div className='text-black dark:text-white relative'>
-          {isBuyVisible && <BuyModal isOpen={isBuyVisible && isConnected} onClose={() => setIsBuyVisible(false)} />}
-          {isSellVisible && <SellModal isOpen={isSellVisible && isConnected} onClose={() => setIsSellVisible(false)} />}
+          {isBuyVisible && (
+            <BuyModal 
+              isOpen={isBuyVisible && isConnected} 
+              onClose={() => setIsBuyVisible(false)}
+              onComplete={fetchUserOrders}
+            />
+          )}
+          {isSellVisible && (
+            <SellModal 
+              isOpen={isSellVisible && isConnected} 
+              onClose={() => setIsSellVisible(false)}
+              onComplete={fetchUserOrders}
+            />
+          )}
         </div>
       )}
     </div>

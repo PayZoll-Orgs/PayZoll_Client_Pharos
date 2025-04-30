@@ -184,8 +184,8 @@ const AdminSellOrdersPage = () => {
     };
 
     return (
-        <div className="container mx-auto px-4 py-8">
-            <h1 className="text-2xl font-bold mb-6">Admin Sell Order Management</h1>
+        <div className="container mx-auto px-4 py-8 text-gray-900 dark:text-gray-100">
+            <h1 className="text-2xl font-bold mb-6 text-gray-900 dark:text-white">Admin Sell Order Management</h1>
 
             {error && (
                 <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
@@ -195,7 +195,7 @@ const AdminSellOrdersPage = () => {
 
             <div className="flex justify-between mb-6">
                 <select
-                    className="border rounded p-2 w-48"
+                    className="border rounded p-2 w-48 bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 border-gray-300 dark:border-gray-700"
                     value={statusFilter}
                     onChange={(e) => setStatusFilter(e.target.value)}
                 >
@@ -208,7 +208,7 @@ const AdminSellOrdersPage = () => {
 
                 <div className="flex space-x-2">
                     <button
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded flex items-center"
+                        className="bg-blue-500 dark:bg-gray-700 hover:bg-blue-600 dark:hover:bg-gray-600 text-white font-bold py-2 px-4 rounded flex items-center"
                         onClick={() => loadOrders()}
                     >
                         <RefreshCw className="h-4 w-4 mr-1" />
@@ -223,10 +223,10 @@ const AdminSellOrdersPage = () => {
                 </div>
             ) : (
                 <>
-                    <div className="overflow-x-auto">
-                        <table className="min-w-full bg-white border">
+                    <div className="overflow-x-auto bg-white dark:bg-gray-800 rounded-lg shadow">
+                        <table className="min-w-full">
                             <thead>
-                                <tr className="bg-gray-100 text-gray-700">
+                                <tr className="bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-200 border-b border-gray-200 dark:border-gray-600">
                                     <th className="py-2 px-3 text-left">Order ID</th>
                                     <th className="py-2 px-3 text-left">Date</th>
                                     <th className="py-2 px-3 text-left">Wallet</th>
@@ -241,18 +241,18 @@ const AdminSellOrdersPage = () => {
                             <tbody>
                                 {orders.length > 0 ? (
                                     orders.map((order) => (
-                                        <tr key={order._id} className="border-t hover:bg-gray-50">
-                                            <td className="py-2 px-3">{order.orderId}</td>
-                                            <td className="py-2 px-3">{new Date(order.createdAt).toLocaleString()}</td>
-                                            <td className="py-2 px-3">
+                                        <tr key={order._id} className="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700">
+                                            <td className="py-2 px-3 text-gray-900 dark:text-gray-100">{order.orderId}</td>
+                                            <td className="py-2 px-3 text-gray-900 dark:text-gray-100">{new Date(order.createdAt).toLocaleString()}</td>
+                                            <td className="py-2 px-3 text-gray-900 dark:text-gray-100">
                                                 <span title={order.wallet}>
                                                     {order.wallet.substring(0, 6)}...{order.wallet.substring(order.wallet.length - 4)}
                                                 </span>
                                             </td>
-                                            <td className="py-2 px-3">
+                                            <td className="py-2 px-3 text-gray-900 dark:text-gray-100">
                                                 {order.amountToken} {order.tokenSold}
                                             </td>
-                                            <td className="py-2 px-3">
+                                            <td className="py-2 px-3 text-gray-900 dark:text-gray-100">
                                                 {order.amountFiat} {order.fiatType}
                                             </td>
                                             <td className="py-2 px-3">
@@ -260,13 +260,13 @@ const AdminSellOrdersPage = () => {
                                                     {order.status}
                                                 </span>
                                             </td>
-                                            <td className="py-2 px-3">
+                                            <td className="py-2 px-3 text-gray-900 dark:text-gray-100">
                                                 UPI
                                             </td>
                                             <td className="py-2 px-3">
                                                 <div className="flex space-x-1">
                                                     <button
-                                                        className="bg-gray-200 hover:bg-gray-300 text-gray-800 font-semibold py-1 px-2 rounded text-sm"
+                                                        className="bg-gray-200 dark:bg-gray-700 hover:bg-gray-300 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-semibold py-1 px-2 rounded text-sm"
                                                         onClick={() => {
                                                             setSelectedOrder(order);
                                                             setShowDetailsModal(true);
@@ -276,7 +276,7 @@ const AdminSellOrdersPage = () => {
                                                     </button>
                                                     {order.paymentQrPath && (
                                                         <button
-                                                            className="bg-indigo-200 hover:bg-indigo-300 text-indigo-800 font-semibold py-1 px-2 rounded text-sm"
+                                                            className="bg-indigo-200 dark:bg-gray-700 hover:bg-indigo-300 dark:hover:bg-gray-600 text-indigo-800 dark:text-gray-200 font-semibold py-1 px-2 rounded text-sm"
                                                             onClick={() => {
                                                                 setSelectedOrder(order);
                                                                 setShowQrImageModal(true);
@@ -338,7 +338,7 @@ const AdminSellOrdersPage = () => {
                                     ))
                                 ) : (
                                     <tr>
-                                        <td colSpan={9} className="py-4 text-center text-gray-500">
+                                        <td colSpan={9} className="py-4 text-center text-gray-500 dark:text-gray-400">
                                             No orders found.
                                         </td>
                                     </tr>
@@ -351,17 +351,17 @@ const AdminSellOrdersPage = () => {
                     {totalPages > 1 && (
                         <div className="flex justify-center items-center mt-6">
                             <button
-                                className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border rounded-l disabled:opacity-50"
+                                className="bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 font-semibold py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-l disabled:opacity-50"
                                 disabled={page === 1}
                                 onClick={() => setPage(p => Math.max(1, p - 1))}
                             >
                                 Previous
                             </button>
-                            <span className="px-4 py-2">
+                            <span className="px-4 py-2 text-gray-900 dark:text-gray-100">
                                 Page {page} of {totalPages}
                             </span>
                             <button
-                                className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-2 px-4 border rounded-r disabled:opacity-50"
+                                className="bg-white dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-800 dark:text-gray-200 font-semibold py-2 px-4 border border-gray-300 dark:border-gray-600 rounded-r disabled:opacity-50"
                                 disabled={page === totalPages}
                                 onClick={() => setPage(p => Math.min(totalPages, p + 1))}
                             >
@@ -374,12 +374,12 @@ const AdminSellOrdersPage = () => {
 
             {/* Complete Order Modal */}
             {showModal && selectedOrder && (
-                <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-6 max-w-lg w-full">
+                <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-lg w-full">
                         <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-xl font-bold">Complete Sell Order</h3>
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Complete Sell Order</h3>
                             <button
-                                className="text-gray-500 hover:text-gray-700"
+                                className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
                                 onClick={() => setShowModal(false)}
                             >
                                 &times;
@@ -395,7 +395,7 @@ const AdminSellOrdersPage = () => {
                         </div>
 
                         <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2">
+                            <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
                                 Upload Payment Proof
                             </label>
                             <input
@@ -403,24 +403,25 @@ const AdminSellOrdersPage = () => {
                                 ref={fileInputRef}
                                 onChange={handleFileChange}
                                 accept="image/*"
-                                className="w-full text-sm text-gray-500
+                                className="w-full text-sm text-gray-500 dark:text-gray-400
                                     file:mr-4 file:py-2 file:px-4
                                     file:rounded-md file:border-0
                                     file:text-sm file:font-semibold
-                                    file:bg-blue-50 file:text-blue-700
-                                    hover:file:bg-blue-100"
+                                    file:bg-blue-50 dark:file:bg-gray-700
+                                    file:text-blue-700 dark:file:text-gray-200
+                                    hover:file:bg-blue-100 dark:hover:file:bg-gray-600"
                             />
-                            <p className="text-gray-600 text-xs mt-1">
+                            <p className="text-gray-600 dark:text-gray-400 text-xs mt-1">
                                 Upload a screenshot of the payment you made to the customer
                             </p>
                         </div>
 
                         <div className="mb-4">
-                            <label className="block text-gray-700 text-sm font-bold mb-2">
+                            <label className="block text-gray-700 dark:text-gray-300 text-sm font-bold mb-2">
                                 Notes (Optional)
                             </label>
                             <textarea
-                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                                className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 dark:text-gray-300 leading-tight focus:outline-none focus:shadow-outline"
                                 rows={2}
                                 value={notes}
                                 onChange={(e) => setNotes(e.target.value)}
@@ -428,15 +429,15 @@ const AdminSellOrdersPage = () => {
                             />
                         </div>
 
-                        <div className="flex justify-end">
+                        <div className="flex justify-end space-x-3">
                             <button
-                                className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded mr-2"
+                                className="px-4 py-2 bg-gray-200 dark:bg-gray-700 text-gray-800 dark:text-gray-200 rounded hover:bg-gray-300 dark:hover:bg-gray-600"
                                 onClick={() => setShowModal(false)}
                             >
                                 Cancel
                             </button>
                             <button
-                                className={`bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded ${(updating || !paymentProof) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                                className={`px-4 py-2 bg-green-500 dark:bg-green-600 text-white rounded hover:bg-green-600 dark:hover:bg-green-700 disabled:opacity-50`}
                                 onClick={handleCompleteSellOrder}
                                 disabled={updating || !paymentProof}
                             >
@@ -450,11 +451,11 @@ const AdminSellOrdersPage = () => {
             {/* Payment Details Modal */}
             {showDetailsModal && selectedOrder && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-6 max-w-lg w-full">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-lg w-full">
                         <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-xl font-bold">Payment Details</h3>
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Payment Details</h3>
                             <button
-                                className="text-gray-500 hover:text-gray-700"
+                                className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
                                 onClick={() => setShowDetailsModal(false)}
                             >
                                 &times;
@@ -466,33 +467,33 @@ const AdminSellOrdersPage = () => {
                             <p><strong>Payment Method:</strong> UPI</p>
                         </div>
 
-                        <div className="bg-gray-50 p-4 rounded-lg">
+                        <div className="bg-gray-50 dark:bg-gray-700 p-4 rounded-lg">
                             {isQRCode(selectedOrder.paymentDetails) ? (
                                 <div className="text-center">
-                                    <p className="mb-2 font-medium">Customer's QR Code:</p>
+                                    <p className="mb-2 font-medium text-gray-900 dark:text-gray-100">Customer's QR Code:</p>
                                     <img
                                         src={`${backendDomain}${selectedOrder.paymentQrPath}`}
                                         alt="Payment QR Code"
-                                        className="max-w-full h-auto max-h-60 mx-auto border border-gray-300 p-1 rounded"
+                                        className="max-w-full h-auto max-h-60 mx-auto border border-gray-300 dark:border-gray-600 p-1 rounded"
                                     />
                                 </div>
                             ) : (
                                 <div>
-                                    <p className="font-medium">Customer's Payment Details:</p>
-                                    <p className="mt-2 p-3 bg-white border border-gray-300 rounded">{selectedOrder.paymentDetails}</p>
+                                    <p className="font-medium text-gray-900 dark:text-gray-100">Customer's Payment Details:</p>
+                                    <p className="mt-2 p-3 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 rounded">{selectedOrder.paymentDetails}</p>
                                 </div>
                             )}
                         </div>
 
                         <div className="mt-4">
-                            <p className="text-sm text-gray-500">
+                            <p className="text-sm text-gray-500 dark:text-gray-400">
                                 Use these details to make payment to the customer, then upload proof of payment to complete the order.
                             </p>
                         </div>
 
                         <div className="flex justify-end mt-4">
                             <button
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                                className="bg-blue-500 dark:bg-gray-700 hover:bg-blue-600 dark:hover:bg-gray-600 text-white font-bold py-2 px-4 rounded"
                                 onClick={() => {
                                     setShowDetailsModal(false);
                                     // If it's not completed yet, open the complete modal
@@ -511,11 +512,11 @@ const AdminSellOrdersPage = () => {
             {/* QR Image Modal */}
             {showQrImageModal && selectedOrder && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-6 max-w-4xl w-full">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-4xl w-full">
                         <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-xl font-bold">Customer QR Code</h3>
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Customer QR Code</h3>
                             <button
-                                className="text-gray-500 hover:text-gray-700"
+                                className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
                                 onClick={() => setShowQrImageModal(false)}
                             >
                                 &times;
@@ -524,11 +525,11 @@ const AdminSellOrdersPage = () => {
 
                         <div className="text-center">
                             <div className="mb-4">
-                                <p><strong>Order ID:</strong> {selectedOrder.orderId}</p>
-                                <p><strong>Customer UPI:</strong> {selectedOrder.paymentDetails}</p>
+                                <p className="text-gray-900 dark:text-gray-100"><strong>Order ID:</strong> {selectedOrder.orderId}</p>
+                                <p className="text-gray-900 dark:text-gray-100"><strong>Customer UPI:</strong> {selectedOrder.paymentDetails}</p>
                             </div>
 
-                            <div className="border p-2 bg-white">
+                            <div className="border p-2 bg-white dark:bg-gray-800">
                                 <img
                                     src={`${backendDomain}${selectedOrder.paymentQrPath}`}
                                     alt="Payment QR Code"
@@ -538,7 +539,7 @@ const AdminSellOrdersPage = () => {
 
                             <div className="mt-4">
                                 <button
-                                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"
+                                    className="bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 font-bold py-2 px-4 rounded"
                                     onClick={() => setShowQrImageModal(false)}
                                 >
                                     Close
@@ -552,11 +553,11 @@ const AdminSellOrdersPage = () => {
             {/* Upload Payment Proof Modal */}
             {showUploadModal && selectedOrder && (
                 <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-                    <div className="bg-white rounded-lg p-6 max-w-md w-full">
+                    <div className="bg-white dark:bg-gray-800 rounded-lg p-6 max-w-md w-full">
                         <div className="flex justify-between items-center mb-4">
-                            <h3 className="text-xl font-bold">Upload Payment Proof</h3>
+                            <h3 className="text-xl font-bold text-gray-900 dark:text-white">Upload Payment Proof</h3>
                             <button
-                                className="text-gray-500 hover:text-gray-700"
+                                className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
                                 onClick={() => setShowUploadModal(false)}
                             >
                                 &times;
@@ -564,35 +565,35 @@ const AdminSellOrdersPage = () => {
                         </div>
 
                         <div>
-                            <p className="mb-4">Order ID: {selectedOrder.orderId}</p>
+                            <p className="mb-4 text-gray-900 dark:text-gray-100">Order ID: {selectedOrder.orderId}</p>
 
                             <div className="mb-4">
-                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                                     Upload Payment Proof
                                 </label>
                                 <input
                                     type="file"
                                     accept="image/*"
                                     onChange={handleFileSelect}
-                                    className="w-full p-2 border rounded"
+                                    className="w-full p-2 border rounded bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100"
                                 />
                             </div>
 
                             {paymentProofFile && (
-                                <div className="mb-4 p-2 border rounded bg-gray-50">
-                                    <p>Selected file: {paymentProofFile.name}</p>
+                                <div className="mb-4 p-2 border rounded bg-gray-50 dark:bg-gray-700">
+                                    <p className="text-gray-900 dark:text-gray-100">Selected file: {paymentProofFile.name}</p>
                                 </div>
                             )}
 
                             <div className="flex justify-end space-x-3">
                                 <button
-                                    className="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded"
+                                    className="bg-gray-300 dark:bg-gray-700 hover:bg-gray-400 dark:hover:bg-gray-600 text-gray-800 dark:text-gray-200 px-4 py-2 rounded"
                                     onClick={() => setShowUploadModal(false)}
                                 >
                                     Cancel
                                 </button>
                                 <button
-                                    className="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded"
+                                    className="bg-green-600 dark:bg-green-700 hover:bg-green-700 dark:hover:bg-green-800 text-white px-4 py-2 rounded"
                                     onClick={handleCompleteOrder}
                                     disabled={!paymentProofFile || isSubmitting}
                                 >
