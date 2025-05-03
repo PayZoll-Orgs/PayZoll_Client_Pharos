@@ -120,6 +120,8 @@ const EmployeeTable: React.FC<EmployeeTableProps> = ({
     const [exportNotification, setExportNotification] = useState('');
     const [selectedEmployeeDetails, setSelectedEmployeeDetails] = useState<Employee | null>(null);
     const [isDetailsModalOpen, setIsDetailsModalOpen] = useState(false);
+    const [isRefreshing, setIsRefreshing] = useState(false);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
