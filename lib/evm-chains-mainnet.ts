@@ -100,8 +100,33 @@ export const bnbTestnet = defineChain({
     },
 })
 
+export const pharos = defineChain({
+    id: 50002,
+    name: 'Pharos Network',
+    nativeCurrency: { decimals: 18, name: 'PHAROS', symbol: 'PHA' },
+    rpcUrls: {
+        default: { 
+            http: ['https://devnet.dplabs-internal.com']
+        },
+    },
+    blockExplorers: {
+        default: { name: 'PharosScan', url: 'https://pharosscan.xyz' },
+    },
+})
 
-
+export const sepolia = defineChain({
+    id: 11155111,
+    name: 'Sepolia Network',
+    nativeCurrency: { decimals: 18, name: 'SepoliaETH', symbol: 'ETH' },
+    rpcUrls: {
+        default: { 
+            http: ['https://eth-sepolia.g.alchemy.com/v2/cypQdi_iwJUbfS8ZIqC6b2CsMUrQMU2U']
+        },
+    },
+    blockExplorers: {
+        default: { name: 'SepoliaScan', url: 'https://sepolia.etherscan.io' },
+    },
+})
 
 export const allMainnetChains = [
     polygon,
@@ -110,5 +135,6 @@ export const allMainnetChains = [
     educhain,
     optimism,
     avalanche,
-    bnbTestnet
+    bnbTestnet,
+    pharos
 ]

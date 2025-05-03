@@ -112,10 +112,39 @@ const bnbTestnet = {
     },
 } as const satisfies Chain;
 
+const pharos = {
+    id: 50002,
+    name: 'Pharos Devnet',
+    iconUrl: 'https://raw.githubusercontent.com/trustwallet/assets/master/blockchains/pharos/info/logo.png',
+    iconBackground: 'Black',
+    nativeCurrency: { name: 'Pharos', symbol: 'ETH', decimals: 18 },
+    rpcUrls: {
+        default: { http: ['https://devnet.dplabs-internal.com'] },
+    },
+    blockExplorers: {
+        default: { name: 'Pharosscan', url: 'pharosscan.xyz' },
+    },
+} as const satisfies Chain;
+
+const sepolia = {
+    id: 11155111,
+    name: 'Sepolia Network',
+    nativeCurrency: { decimals: 18, name: 'SepoliaETH', symbol: 'ETH' },
+    rpcUrls: {
+        default: { 
+            http: ['https://eth-sepolia.g.alchemy.com/v2/cypQdi_iwJUbfS8ZIqC6b2CsMUrQMU2U']
+        },
+    },
+    blockExplorers: {
+        default: { name: 'SepoliaScan', url: 'https://sepolia.etherscan.io' },
+    },
+} as const satisfies Chain;
+
 const config = getDefaultConfig({
     appName: 'PayZoll',
     projectId: '23c5e43972b3775ee6ed4f74f3e76efb',
-    chains: [polygon, arbitrum, avalanche, bnb, educhain, optimism, bnbTestnet, polygonAmoy],
+    chains: [polygon, arbitrum, avalanche, bnb, educhain, optimism, bnbTestnet, polygonAmoy,pharos,sepolia],
+    
 });
 
 
