@@ -1,0 +1,24 @@
+1:"$Sreact.fragment"
+2:I[35196,["844","static/chunks/ee560e2c-59f2d8e6b548dfa5.js","794","static/chunks/794-4d314481039c05aa.js","899","static/chunks/899-a837a956cd67c84b.js","5196","static/chunks/5196-c8576bb1bcd0e181.js","7177","static/chunks/app/layout-e8aa881bf9d95d07.js"],"AuthProvider"]
+3:I[31530,["844","static/chunks/ee560e2c-59f2d8e6b548dfa5.js","794","static/chunks/794-4d314481039c05aa.js","899","static/chunks/899-a837a956cd67c84b.js","5196","static/chunks/5196-c8576bb1bcd0e181.js","7177","static/chunks/app/layout-e8aa881bf9d95d07.js"],"Toaster"]
+4:I[87555,[],""]
+5:I[31295,[],""]
+6:I[11024,["4345","static/chunks/app/not-found-5883574638a0f4dd.js"],"default"]
+7:I[59665,[],"MetadataBoundary"]
+9:I[59665,[],"OutletBoundary"]
+c:I[74911,[],"AsyncMetadataOutlet"]
+e:I[59665,[],"ViewportBoundary"]
+10:I[26614,[],""]
+:HL["/_next/static/media/569ce4b8f30dc480-s.p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/media/93f479601ee12b01-s.p.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/_next/static/css/d498c84e4ab246b3.css","style"]
+:HL["/_next/static/css/0850f4a484397021.css","style"]
+0:{"P":null,"b":"_sc2ywFWmAQMhglefjzLC","p":"","c":["","pages","p2p"],"i":false,"f":[[["",{"children":["pages",{"children":["p2p",{"children":["__PAGE__",{}]}]}]},"$undefined","$undefined",true],["",["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/css/d498c84e4ab246b3.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/css/0850f4a484397021.css","precedence":"next","crossOrigin":"$undefined","nonce":"$undefined"}]],["$","html",null,{"lang":"en","children":["$","body",null,{"className":"__variable_4d318d __variable_ea5f4b antialiased dark:bg-black vsc-initialized","children":["$","$L2",null,{"children":[["$","$L3",null,{"position":"top-right","reverseOrder":false}],["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":[["$","$L6",null,{}],[]],"forbidden":"$undefined","unauthorized":"$undefined"}]]}]}]}]]}],{"children":["pages",["$","$1","c",{"children":[null,["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":["p2p",["$","$1","c",{"children":[null,["$","$L4",null,{"parallelRouterKey":"children","error":"$undefined","errorStyles":"$undefined","errorScripts":"$undefined","template":["$","$L5",null,{}],"templateStyles":"$undefined","templateScripts":"$undefined","notFound":"$undefined","forbidden":"$undefined","unauthorized":"$undefined"}]]}],{"children":["__PAGE__",["$","$1","c",{"children":[["$","div",null,{"children":"page"}],["$","$L7",null,{"children":"$L8"}],null,["$","$L9",null,{"children":["$La","$Lb",["$","$Lc",null,{"promise":"$@d"}]]}]]}],{},null,false]},null,false]},null,false]},null,false],["$","$1","h",{"children":[null,["$","$1","a8EACv_9MXQn4M_BDnOer",{"children":[["$","$Le",null,{"children":"$Lf"}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],null]}],false]],"m":"$undefined","G":["$10","$undefined"],"s":false,"S":true}
+11:"$Sreact.suspense"
+12:I[74911,[],"AsyncMetadata"]
+8:["$","$11",null,{"fallback":null,"children":["$","$L12",null,{"promise":"$@13"}]}]
+b:null
+f:[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]
+a:null
+13:{"metadata":[["$","title","0",{"children":"PayZoll"}],["$","meta","1",{"name":"description","content":"Web3 Finance Infrastructure"}],["$","link","2",{"rel":"icon","href":"/favicon.ico","type":"image/x-icon","sizes":"16x16"}]],"error":null,"digest":"$undefined"}
+d:{"metadata":"$13:metadata","error":null,"digest":"$undefined"}
