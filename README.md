@@ -90,8 +90,6 @@ By abstracting complexity and unifying centralized and decentralized rails, Payz
 
 ---
 
-?? add the process image
-
 ## Accomplishments
 
 - 🚀 **Multi-Mainnet Deployments**: Live on **BNB Chain**, **Arbitrum**, **Polygon**, and **Aptos**  
