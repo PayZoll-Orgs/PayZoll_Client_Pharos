@@ -333,4 +333,4 @@ For project inquiries, partnership opportunities, or support, feel free to reach
 
 **Star us on GitHub** ⭐ | **Fork us** 🍴 | **Join the Revolution** 🚀
 
-*Empowering global payroll with the power of decentralized technology and Pharos robust ecosystem.*
+*Empowering global payment infrastructure with the power of decentralized technology and Pharos robust ecosystem.*
