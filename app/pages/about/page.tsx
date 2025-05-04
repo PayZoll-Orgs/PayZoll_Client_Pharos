@@ -129,12 +129,12 @@ export default function AboutSection() {
                     <h2 className="text-3xl font-bold mb-8 text-center text-neutral-900 dark:text-white">Meet Our Team</h2>
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                         <TeamMember
-                            name="Abhinav"
+                            name="Abhinav Pangaria"
                             role="Co-Founder & Lead Engineer"
                             description="Full-stack & blockchain developer with expertise in Solidity, Move, Rust, and MERN stack (Next, React-Native). Leads development of smart contracts and frontend & backend development."
                         />
                         <TeamMember
-                            name="Vaibhav"
+                            name="Vaibhav Panwar"
                             role="Founder"
                             description="Business development expert with entrepreneurial experience. Previously managed North-East India operations for an e-commerce startup with 100+ team members."
                         />
