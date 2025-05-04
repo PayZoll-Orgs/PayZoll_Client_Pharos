@@ -147,10 +147,16 @@ const data = [
         content: <PayrollContent />,
     },
     {
-        category: "Fiat Ramps (Launching Soon)",
+        category: "Fiat Ramps (Pilot Live)",
         title: "Crypto↔️Fiat Conversions. All in one tap",
         src: "./Fiat_Ramps.png",
         content: <FiatRampsContent />,
+    },
+    {
+        category: "Secure Payments (Pilot Live)",
+        title: "Send crypto worry-free. Recover if wrong",
+        src: "./P2P.png",
+        content: <SecurePaymentsContent />,
     },
     {
         category: "AI Finance Agents (In Development)",
@@ -164,12 +170,6 @@ const data = [
         src: "./Streaming.png",
         content: <StreamingContent />,
     },
-    {
-        category: "Secure Payments (Launching Soon)",
-        title: "Send crypto worry-free. Recover if wrong",
-        src: "./P2P.png",
-        content: <SecurePaymentsContent />,
-    }
 ];
 
 function FeaturesPage() {
