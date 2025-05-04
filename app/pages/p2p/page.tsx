@@ -148,6 +148,7 @@ export default function Page() {
       
       console.log('Fetching payments for:', address)
       const payments = await fetchPayments(address)
+      await fetchUsername(address)
       console.log('Fetched payments:', payments)
       setTransactions(payments)
     }
@@ -159,6 +160,7 @@ export default function Page() {
   useEffect(() => {
     if (address) {
       fetchUsername(address)
+      fetchPayments(address)
     }
   }, [address])
 
@@ -203,9 +205,7 @@ export default function Page() {
   const handleClaim = async (input: string) => {
     try {
       setIsLoading(true)
-      
-      
-      
+
       await writeContractAsync({
         address: CONTRACT_ADDRESS,
         abi: contractABI,
@@ -261,6 +261,7 @@ export default function Page() {
       toast.success('Username created successfully')
       // Refresh username
       if (address) await fetchUsername(address)
+      
     } catch (error) {
       console.error(error)
       toast.error('Failed to create username')
