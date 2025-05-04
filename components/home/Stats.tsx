@@ -43,16 +43,16 @@ const Stats: React.FC<StatsProps> = ({ className }) => {
         },
         {
             title: "Total Payroll Volume Processed",
-            value: 2300,
+            value: 2600,
             prefix: "$",
             suffix: "",
             color: "from-emerald-400 to-teal-500"
         },
         {
             title: "Total Offramp Processed",
-            value: 3200,
+            value: 5000,
             prefix: "$",
-            suffix: "",
+            suffix: "+",
             color: "from-amber-400 to-orange-500"
         }
     ];
