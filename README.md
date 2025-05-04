@@ -3,22 +3,25 @@
 > PayZoll is your all-in-one financial umbrella, seamlessly blending decentralized and centralized rails into a single, turnkey ecosystem. From on-chain smart-contract payroll, streaming payments, and trustless P2P transfers, to fiat on-ramps/off-ramps, KYC/AML compliance, and AI-powered automation, PayZoll empowers businesses and individuals with the full spectrum of Web3-native and traditional finance services—secure, scalable, and future-proof.
 
 ---
-?? pharos and ayzoll logo in harmony image.
+![PayZoll](public/PZ-HOME.png)
 
 ## 🌍 Vision & Alignment with Pharos
 
-
 ## Pharos Vision  
+
 Pharos Network’s mission is to **bridge TradFi and DeFi** by providing:  
+
 - **Ultra-High Throughput** (50k TPS, lesst than 1s block times) via its Pharos VM and parallel execution layers;  
 - **Institution-Grade RWA Support** with on-chain credit networks, zk-attested identities, and native tokenization pipelines;  
 - **Special Processing Networks (SPNs)** for customizable, low-latency environments tailored to payments, AI, HFT, and privacy use-cases;  
-- **EVM-Compatibility & Interoperability**, unlocking seamless migration of Ethereum dApps and tooling onto a truly Web3-native settlement layer :contentReference[oaicite:1]{index=1}.
+- **EVM-Compatibility & Interoperability**, unlocking seamless migration of Ethereum dApps and tooling onto a truly Web3-native settlement layer 
 
 ---
 
 ## Payzoll Vision  
+
 Payzoll unifies TradFi and DeFi into one **Web3-native financial umbrella**, offering:  
+
 - **Secure Payments, Streams** transfer whatever you want to whoever you want;
 - **On-chain Payroll** with gas abstraction, multi-token payroll and real-time streaming;  
 - **Trustless P2P Transfers** with built-in recovery and dispute resolution;  
@@ -30,13 +33,13 @@ Payzoll unifies TradFi and DeFi into one **Web3-native financial umbrella**, off
 ---
 
 ## Perfect Alignment  
+
 - **Inclusive Payment Rails**: Pharos’ sub-second finality and 50k TPS throughput power Payzoll’s gas-abstracted payroll and micro-streaming services at scale :contentReference  
-- **RWA & Liquidity**: Pharos’ native RWA tooling and credit networks complement Payzoll’s tokenized payroll and stablecoin distributions, ensuring deep liquidity and compliance :contentReference 
+- **RWA & Liquidity**: Pharos’ native RWA tooling and credit networks complement Payzoll’s tokenized payroll and stablecoin distributions, ensuring deep liquidity and compliance :contentReference
 - **Composable Superapps**: Leveraging SPNs and Pharos VM’s parallelism, Payzoll can modularly deploy payroll, streaming, compliance, analytics, and DAO governance under one unified ecosystem
 - **TradFi-to-Web3 Convergence**: Both Pharos and Payzoll share a commitment to seamlessly onboard traditional finance into the blockchain era. Pharos delivers institutional-grade RWA tooling, on-chain credit networks, zk-attested identities, and ultra-high throughput settlement, while Payzoll provides fully compliant payroll, fiat on/off-ramps, KYC/AML workflows, and familiar UX abstractions—together creating an end-to-end migration path for banks, enterprises, and everyday users to adopt decentralized rails without compromising on performance, security, or regulatory requirements.
 
 Together, Pharos and Payzoll drive **trustless innovation**, **financial inclusion**, and **mass adoption** by seamlessly connecting traditional finance rails with decentralized settlement, enabling real-world payroll, payments, and asset management at Internet scale.  
-
 
 ---
 
@@ -64,6 +67,7 @@ Payzoll is a **fully modular Web3 payment infrastructure** built to meet the nee
 - **zk-KYC & Anonymous Auth** *(Planned)*  
   Privacy-preserving, zero-knowledge identity and data storage that meets regulatory requirements without exposing sensitive user information.
 
+![PayZoll Services](public/PZ-SER.png)
 ---
 
 ### One-Click, End-to-End UX
@@ -84,8 +88,6 @@ Our ultimate mission is to onboard traditional businesses into Web3 without fric
 
 By abstracting complexity and unifying centralized and decentralized rails, Payzoll makes advanced Web3 finance feel like a button click—empowering enterprises, startups, and everyday users to transact globally with confidence and ease.
 
-
-
 ---
 
 ?? add the process image
@@ -99,8 +101,9 @@ By abstracting complexity and unifying centralized and decentralized rails, Payz
   - Winner – **BNB Chain Hackathon Q4**  
   - Winner – **Stellar Build Hackathon**  
 - 🎓 **Incubation & Acceleration**: Selected for **EduChain OpenCampus** incubation program  
-- 🔄 **On-Chain Transactions**: Processed real P2P transfers and fiat offramp transactions on mainnet    
+- 🔄 **On-Chain Transactions**: Processed real P2P transfers and fiat offramp transactions on mainnet
 
+![Data](public/PZ-NUM.png)
 ---
 
 ## 📈 Strategic Roadmap & Execution Plan
@@ -178,26 +181,25 @@ flowchart LR
 
 ### ✍️ Notes
 
-* **Milestone Dependencies**
+- **Milestone Dependencies**
 
-  * Streaming Payments builds on the P2P layer and on-chain token registry from Q1.
-  * Full offramp fulfillment requires both smart-contract integrations and banking partnerships.
-  * zkKYC & decentralized storage are prerequisites for our Global Compliance Framework in Q3.
+  - Streaming Payments builds on the P2P layer and on-chain token registry from Q1.
+  - Full offramp fulfillment requires both smart-contract integrations and banking partnerships.
+  - zkKYC & decentralized storage are prerequisites for our Global Compliance Framework in Q3.
 
-* **Quality & Compliance**
+- **Quality & Compliance**
 
-  * Each deliverable undergoes a two-step security audit and automated compliance testing.
-  * We maintain continuous monitoring to ensure sub-second finality and >99.9% uptime.
+  - Each deliverable undergoes a two-step security audit and automated compliance testing.
+  - We maintain continuous monitoring to ensure sub-second finality and >99.9% uptime.
 
-* **Stakeholder Engagement**
+- **Stakeholder Engagement**
 
-  * Monthly status updates with demos for pilot partners.
-  * Quarterly Town Halls to gather feedback from enterprise and community users.
+  - Monthly status updates with demos for pilot partners.
+  - Quarterly Town Halls to gather feedback from enterprise and community users.
 
 ---
 
-
-### Modular Infrastructure:
+### Modular Infrastructure
 
 - **Smart Contracts** (Solidity + Move): Payroll, P2P, Token Registry, Streaming
 - **AI Agent Layer**: Automated task execution (Gelato + LLM based)
@@ -222,67 +224,115 @@ flowchart LR
 
 ## 📣 Community, Marketing & Ecosystem
 
-- ✅ Active Web3 social media presence
-- 🎙️ Won hackathons, community demos, and Twitter Spaces
-- 🧑‍🤝‍🧑 Building a DAO-driven contributor base
-- 🤝 Ecosystem collaborations with BNB, Alchemy, Chainlink
+- **Featured By**: BNB Chain, Stellar, ETHIndia — highlighted in official blogs, hackathon recaps, and ecosystem spotlights.  
+- **Multi-Chain Engagement**: Thriving developer and user communities across BNB Chain, Arbitrum, Polygon, Aptos, and Stellar.  
+- **Active Social Presence**: Regular updates, AMAs, and product walkthroughs on Twitter, LinkedIn, and Telegram.  
+- **Telegram Community**: A rapidly growing group, collaborating on feature requests, troubleshooting, and real-time support.  
+- **Web3 Events & Podcasts**: Hosted deep-dive demos and Twitter Spaces alongside community events.  
+- **DAO-Powered Contributor Network** (planned): Empowering global contributors—developers, designers, and strategists—through grants, hackathon sponsorships, and governance proposals.  
+- **Strategic Partnerships**: Seamless integrations and co-marketing with BNB Chain, Stellar, Alchemy, Chainlink, and ETHIndia ecosystem partners to amplify reach and UX.  
 
 ---
 
 ## Team & Expertise
 
-Our team combines deep expertise in blockchain technology and Stellar’s unique architecture:
+Our team combines deep expertise in blockchain technology and End to End product and business development.
 
-- **Abhinav:** Cofounder @PayZoll | B.tech CSE from IIIT Guwahati | End to End Dev@ MERN/ Next, Nest , Blockchain Dev @solidity, move, rust | Contract Audit and Security | Product Lead ( Lead Web3 Developer, End-to-End {Frontend / Backend} Developer)
+## Abhinav
 
-Built an e-commerce auction agency and ran for 2 years | SDE Intern @JP Morgan |
-Built PayZoll for Stellar Ecosystem |
-Built PayZoll for Aptos Ecosystem
+Cofounder @PayZoll | B.tech CSE from IIIT Guwahati | End to End Dev@ MERN/ Next, Nest , Blockchain Dev @solidity, move, rust | Contract Audit and Security | Lead Developer
 
+**Core Contributions & Timeline**  
 
-- **Vaibhav:** Founder @PayZoll | B.tech in Computer Science & Engineering from IIIT Guwahati | Proven Entrepreneurial Leader: Successfully managed North-East India operations for an e-commerce startup, leading a team of 100+ and achieving 6-figure monthly sales.
+- **Q3 2024** – **Aptos Build**: Architected and shipped the Aptos integration module, including on-chain payroll contracts and multi-token support.  
+- **Q4 2024** – **Stellar Build**: Led development of the Stellar smart-contract suite (bulk transfers, multi-hop swaps) and front-end integration using Rust SDK & Freighter.  
+- **Q1 2025** – **Payroll & Offramp Protocols**: Designed and deployed the gasless payroll engine, complete fiat on/off-ramp flow, and backend services (Node.js + Express).  
+- **Ongoing** – **Full-Stack Development**: Overseeing Next.js + Tailwind frontend, NestJS APIs, smart-contract audits, and cross-chain orchestration.  
 
-Our team that works on the EVM products that will work on Stellar Mainnet Development:
+> **Tech Stack:** Solidity, Move, Rust, MERN (Next.js, React, Node.js), NestJS, Automations, Chainlink Oracles  
 
-- **Sarthak Bansal:** Lead Backend Engineer, Web3 Developer
+## Vaibhav
 
-With a strong foundation in Rust and multi-chain development, our team is well-equipped to build and scale the next-generation payroll system on Stellar.
+Founder @PayZoll | B.tech in Computer Science & Engineering from IIIT Guwahati | Proven Entrepreneurial Leader: Successfully managed North-East India operations for an e-commerce startup, leading a team of 100+ and achieving 6-figure monthly sales.
 
----
+**Core Contributions & Timeline**  
 
-## 📊 Judging Criteria Coverage (Pharos)
-
-| Criterion                                             | Payzoll Strength                                                                                           |
-|-------------------------------------------------------|-------------------------------------------------------------------------------------------------------------|
-| **Team Expertise (30%)**                             | Proven dev team, hackathon winner, multi-chain deployment, smart contract, frontend, and AI integration     |
-| **Ecosystem Contribution to Pharos (30%)**           | Aligned vision, mass adoption focus, RWA integration, zk-compliant identity & payment layers                 |
-| **Business Model & Feasibility (15%)**               | Working product with real transactions, scalable use case, upcoming monetization and DAO modules             |
-| **Marketing & Community Engagement (15%)**           | Existing Web3 visibility, roadmap for community growth, partnerships in place                                |
-| **Resourcefulness (5%)**                             | Leveraged open infrastructure like Gelato, integrated offramp APIs, optimized smart contracts                |
-| **Innovation & Impact (5%)**                         | zkKYC, AI agents, modular finance—all novel approaches for modern Web3 adoption                             |
+- **Ongoing** – **Business Development**
 
 ---
 
-## 🌐 Links & Demos
+## Sarthak Bansal
 
-- 🌍 [Website](https://payzoll.io)
-- 🧠 [Docs](https://docs.payzoll.io)
-- 🧪 [Test App](https://app.payzoll.io)
-- 🐙 [GitHub](https://github.com/payzoll)
+Founding Engineer@ PayZoll | B.tech in Computer Science & Engineering from IIIT Guwahati |
+Lead Backend Engineer, Web3 Developer
+
+**Core Contributions & Timeline**  
+
+- **Ongoing** – **Backend Development** , **P2P Protocol Development**
+
+> **Tech Stack:** Solidity, Node.js, MERN,Auditing and Security
+---
+
+## Why Payzoll Excels Across Key Evaluation Areas
+
+### Team Expertise  
+
+Our leadership combines top-tier blockchain development, full-stack engineering, and enterprise product management. Abhinav’s multi-chain smart-contract builds (Aptos, Stellar) and end-to-end frontend/backend delivery, Vaibhav’s proven track record in strategic partnerships and growth, and Sarthak’s design of a secure, recoverable P2P protocol demonstrate the depth and diversity of our skill set.
+
+### Ecosystem Alignment & Contribution  
+
+Payzoll directly leverages Pharos’ ultra-high throughput, sub-second finality, and RWA tooling to deliver inclusive payment rails, tokenized payroll, and compliant identity layers. Our modular architecture and on/off-chain bridges amplify Pharos’ vision—creating a super-app environment for payroll, streaming, DeFi, and real-world asset flows.
+
+### Business Model & Feasibility  
+
+With live deployments on BNB Chain, Arbitrum, Polygon, and Aptos, real-user payrolls processed, and multiple hackathon wins validating our approach, Payzoll has proven its product-market fit. Our revenue streams (subscription fees, streaming-based micro-fees, and premium compliance modules) are designed for rapid scaling and sustainable growth.
+
+### Market Reach & Community Engagement  
+
+Featured by BNB Chain, Stellar, and ETHIndia, we maintain vibrant, multi-chain communities, host regular AMAs and Twitter Spaces, and collaborate with leading ecosystem partners. Our DAO-driven contributor network ensures continuous innovation and grassroots adoption.
+
+### Technical Resourcefulness  
+
+By integrating open infrastructure—Gelato automations for AI agents along with building along Allora, Chainlink oracles for price feeds, and major offramp APIs—we accelerate development without reinventing the wheel. Our smart-contract patterns and CI/CD pipelines optimize gas costs and security, demonstrating engineering efficiency.
+
+### Innovation & Impact  
+
+Payzoll’s combination of zk-KYC for privacy-preserving compliance, AI-driven agents for automated workflows, and modular finance building blocks represent a new paradigm for Web3 payments. Our trustless, one-click UX bridges TradFi and DeFi, unlocking mass adoption and real-world utility.
+
+## Links & Demos
+
+- [Website](https://payzoll.xyz)
+- [GitHub](https://github.com/PayZoll-Orgs)
+
+## Contact Us
+
+For project inquiries, partnership opportunities, or support, feel free to reach out to our core team:
+
+**Email:** [tech@payzoll.in](mailto:tech@payzoll.in)
+
+### **Abhinav Pangaria**  
+
+**Co-Founder & Lead Web3 Engineer**  
+
+- Email: [abhinavpangaria2003@gmail.com](mailto:abhinavpangaria2003@gmail.com)  
+- LinkedIn: [linkedin.com/in/abhinavpangaria](https://www.linkedin.com/in/abhinavpangaria)  
+- X (Twitter): [@18_r_y_u_k_07](https://x.com/18_r_y_u_k_07)  
+- Slack: [abhinavpangaria.slack.com](https://abhinavpangaria.slack.com/)  
+- Portfolio: [abhinav-pangaria.vercel.app](https://abhinav-pangaria.vercel.app/)
 
 ---
 
-## 📥 Contribution
+### **Sarthak Bansal**  
 
-We welcome developers, designers, researchers, and finance nerds to join our open-source effort in building the most inclusive, robust, and scalable Web3-native payment infra.
+**Lead Backend Engineer & P2P Architect**  
+
+- Email: [sarthakbansalog@gmail.com](mailto:sarthakbansalog@gmail.com)  
+- GitHub: [github.com/sarthakbansal7](https://github.com/sarthakbansal7)  
+- LinkedIn: [linkedin.com/in/sarthak-bansal-4b5539255](https://www.linkedin.com/in/sarthak-bansal-4b5539255/)  
+- X (Twitter): [@sarthakbansal75](https://x.com/sarthakbansal75)
 
 ---
 
-## ⚖️ License
+**Star us on GitHub** ⭐ | **Fork us** 🍴 | **Join the Revolution** 🚀
 
-MIT License
-
----
-
-> Bringing harmony to Web3 finance. Built for scale, built for trust. ✨
-
+*Empowering global payroll with the power of decentralized technology and Pharos robust ecosystem.*
