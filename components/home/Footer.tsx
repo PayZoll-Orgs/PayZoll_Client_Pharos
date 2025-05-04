@@ -15,7 +15,7 @@ export default function Footer() {
                 <div className='xl:h-screen xl:flex xl:items-center xl:justify-center'>
                     <FooterHelper />
                 </div>
-                <div className="font-bold absolute bottom-2 right-2 dark:text-white text-black bg-transparent text-sm">
+                <div className="font-bold absolute bottom-4 right-4 dark:text-white text-black bg-transparent text-lg">
                     <a href="https://github.com/18Abhinav07" target="_blank" rel="noopener noreferrer">
                         @
                     </a>

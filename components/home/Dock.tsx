@@ -6,7 +6,8 @@ import {
     IconMail,
     IconUser,
     IconBriefcase,
-    IconMoodWink // Changed icon for Splash
+    IconMoodWink, // Changed icon for Splash
+    IconReportAnalytics
 } from "@tabler/icons-react";
 
 export function Dock({
@@ -36,11 +37,18 @@ export function Dock({
             sectionIndex: 1
         },
         {
+            title: "Analytics",
+            icon: <IconReportAnalytics className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+            href: "#data",
+            type: "section",
+            sectionIndex: 2
+        },
+        {
             title: "Contact",
             icon: <IconMail className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
             href: "#footer",
             type: "section",
-            sectionIndex: 2
+            sectionIndex: 3
         },
         // Splash screen trigger
         {

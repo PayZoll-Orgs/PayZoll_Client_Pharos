@@ -5,6 +5,7 @@ import { Dock } from '@/components/home/Dock';
 import Intro from '@/components/home/Intro';
 import Features from '@/components/home/Features';
 import Footer from '@/components/home/Footer';
+import Stats from '@/components/home/Stats';
 
 // Define props for HomePage
 interface HomePageProps {
@@ -21,6 +22,7 @@ function HomePage({ onShowSplash }: HomePageProps) { // Accept the prop
     const sections = [
         { id: "intro", component: <Intro />, label: "Intro" },
         { id: "features", component: <Features />, label: "Features" },
+        { id: "data", component: <Stats />, label: "Analytics" },
         { id: "footer", component: <Footer />, label: "Footer" }
     ];
 
