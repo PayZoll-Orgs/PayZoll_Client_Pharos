@@ -310,7 +310,7 @@ For project inquiries, partnership opportunities, or support, feel free to reach
 
 ### **Abhinav Pangaria**  
 
-**Co-Founder & Lead Web3 Engineer**  
+**Co-Founder & Lead Web3 & FullStack Engineer**  
 
 - Email: [abhinavpangaria2003@gmail.com](mailto:abhinavpangaria2003@gmail.com)  
 - LinkedIn: [linkedin.com/in/abhinavpangaria](https://www.linkedin.com/in/abhinavpangaria)  
