@@ -34,9 +34,9 @@ Payzoll unifies TradFi and DeFi into one **Web3-native financial umbrella**, off
 
 ## Perfect Alignment  
 
-- **Inclusive Payment Rails**: Pharos’ sub-second finality and 50k TPS throughput power Payzoll’s gas-abstracted payroll and micro-streaming services at scale :contentReference  
-- **RWA & Liquidity**: Pharos’ native RWA tooling and credit networks complement Payzoll’s tokenized payroll and stablecoin distributions, ensuring deep liquidity and compliance :contentReference
-- **Composable Superapps**: Leveraging SPNs and Pharos VM’s parallelism, Payzoll can modularly deploy payroll, streaming, compliance, analytics, and DAO governance under one unified ecosystem
+- **Inclusive Payment Rails**: Pharos’ sub-second finality and 50k TPS throughput power Payzoll’s gas-abstracted payroll and micro-streaming services at scale.
+- **RWA & Liquidity**: Pharos’ native RWA tooling and credit networks complement Payzoll’s tokenized payroll and stablecoin distributions, ensuring deep liquidity and compliance.
+- **Composable Superapps**: Leveraging SPNs and Pharos VM’s parallelism, Payzoll can modularly deploy payroll, streaming, compliance, analytics, and DAO governance under one unified ecosystem.
 - **TradFi-to-Web3 Convergence**: Both Pharos and Payzoll share a commitment to seamlessly onboard traditional finance into the blockchain era. Pharos delivers institutional-grade RWA tooling, on-chain credit networks, zk-attested identities, and ultra-high throughput settlement, while Payzoll provides fully compliant payroll, fiat on/off-ramps, KYC/AML workflows, and familiar UX abstractions—together creating an end-to-end migration path for banks, enterprises, and everyday users to adopt decentralized rails without compromising on performance, security, or regulatory requirements.
 
 Together, Pharos and Payzoll drive **trustless innovation**, **financial inclusion**, and **mass adoption** by seamlessly connecting traditional finance rails with decentralized settlement, enabling real-world payroll, payments, and asset management at Internet scale.  
@@ -61,7 +61,7 @@ Payzoll is a **fully modular Web3 payment infrastructure** built to meet the nee
 - **Fiat On/Off-Ramps**  
   Seamless integration with banking rails and fiat bridges—move money in and out of crypto with a single click, backed by institutional liquidity and compliance.
 
-- **AI-Powered Agents**  
+- **AI-Powered Agents (partial and upcoming )**  
   Smart, on-chain bots that automate recurring workflows—payroll runs, subscription billing, compliance checks—so you can focus on growth, not grunt work.
 
 - **zk-KYC & Anonymous Auth** *(Planned)*  
@@ -310,7 +310,7 @@ For project inquiries, partnership opportunities, or support, feel free to reach
 
 ### **Abhinav Pangaria**  
 
-**Co-Founder & Lead Web3 Engineer**  
+**Co-Founder & Lead Web3 & FullStack Engineer**  
 
 - Email: [abhinavpangaria2003@gmail.com](mailto:abhinavpangaria2003@gmail.com)  
 - LinkedIn: [linkedin.com/in/abhinavpangaria](https://www.linkedin.com/in/abhinavpangaria)  
