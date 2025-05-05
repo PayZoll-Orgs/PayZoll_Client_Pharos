@@ -104,7 +104,6 @@ export const bnbTestnet = defineChain({
 export const pharos = defineChain({
     id: 50002,
     name: 'Pharos Devnet',
-
     nativeCurrency: { name: 'Pharos', symbol: 'ETH', decimals: 18 },
     rpcUrls: {
         default: { http: ['https://devnet.dplabs-internal.com'] },

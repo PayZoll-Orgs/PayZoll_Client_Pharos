@@ -60,6 +60,10 @@ const PaymentStatus = ({
         if (chainId === 50002 && txHash) {
             const checkTxStatus = async () => {
                 try {
+                    if (!window.ethereum) {
+                        throw new Error("No provider available");
+                    }
+
                     // Connect to browser provider
                     const provider = new ethers.BrowserProvider(window.ethereum);
                     setEthersTxStatus(prev => ({ ...prev, isProcessing: true }));
@@ -84,8 +88,16 @@ const PaymentStatus = ({
                             });
                         }
                     } else {
-                        // Transaction pending
-                        const checkAgain = setTimeout(() => checkTxStatus(), 3000); // Check again in 3 seconds
+                        // If receipt is not yet available, transaction is still pending
+                        setEthersTxStatus(prev => ({ 
+                            ...prev, 
+                            isProcessing: true,
+                            isError: false,
+                            isSuccess: false 
+                        }));
+                        
+                        // Check again in a few seconds
+                        const checkAgain = setTimeout(() => checkTxStatus(), 3000);
                         return () => clearTimeout(checkAgain);
                     }
                 } catch (err) {
@@ -108,6 +120,10 @@ const PaymentStatus = ({
         if (chainId === 50002 && approvalTxHash) {
             const checkApprovalStatus = async () => {
                 try {
+                    if (!window.ethereum) {
+                        return; // Silently exit if no provider
+                    }
+
                     const provider = new ethers.BrowserProvider(window.ethereum);
                     const txReceipt = await provider.getTransactionReceipt(approvalTxHash);
 

@@ -220,6 +220,12 @@ export const tokensPerMainnetChain: { [chainId: number]: Token[] } = {
             priceFeed: ""
         },
         {
+            symbol: "ZOLLPTT",
+            address: "0xcB6A2D2185C9c01739C9AD9110424146934cfAe7",
+            decimals: 18,
+            priceFeed: ""
+        },
+        {
             symbol: "WETH",
             address: "0xc4CebF58836707611439e23996f4FA4165Ea6A28",
             decimals: 18,

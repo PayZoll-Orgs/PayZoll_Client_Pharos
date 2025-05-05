@@ -7,7 +7,8 @@ import {
     IconUser,
     IconBriefcase,
     IconMoodWink, // Changed icon for Splash
-    IconReportAnalytics
+    IconReportAnalytics,
+    IconMoneybag
 } from "@tabler/icons-react";
 
 export function Dock({
@@ -63,6 +64,12 @@ export function Dock({
             title: "About",
             icon: <IconUser className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
             href: "/pages/about", // Assuming these are actual routes
+            type: "link"
+        },
+        {
+            title: "ZOLLPTT Faucet",
+            icon: <IconMoneybag className="h-full w-full text-neutral-500 dark:text-neutral-300" />,
+            href: "/pages/faucet", // Assuming these are actual routes
             type: "link"
         }
     ];

@@ -247,6 +247,7 @@ export async function getExchangeRate(
             'MATIC': 0.001,     // 1 USD ≈ 0.8 MATIC
             'AVAX': 0.001,     // 1 USD ≈ 0.04 AVAX
             'EDU': 0.001,       // 1 USD ≈ 1.5 EDU (example)
+            'ZOLLPTT': 1
         };
 
         return fallbackRates[tokenSymbol] || (0.001); // Ensure non-zero value
@@ -265,6 +266,7 @@ export async function getExchangeRate(
             'MATIC': 0.001,     // 1 USD ≈ 0.8 MATIC
             'AVAX': 0.001,     // 1 USD ≈ 0.04 AVAX
             'EDU': 0.001,       // 1 USD ≈ 1.5 EDU (example)
+            'ZOLLPTT': 1
         };
 
         return emergencyFallbackRates[tokenSymbol] || 0.001;

@@ -23,6 +23,8 @@ import useFullPageLoader from "@/hooks/usePageLoader";
 import Loader from "@/components/ui/loader";
 import { Home } from "lucide-react";
 import Link from "next/link";
+import { ethers } from 'ethers';
+import { set } from "react-hook-form";
 
 const PaymentsPage: React.FC = () => {
   // Original state
@@ -48,16 +50,96 @@ const PaymentsPage: React.FC = () => {
   const [showPaymentStatus, setShowPaymentStatus] = useState(false);
   const [selectedChain, setSelectedChain] = useState(chains[0]);
   const [selectedToken, setSelectedToken] = useState(tokens[chains[0].id][0]);
+  const [txHash, setTxHash] = useState<`0x${string}` | undefined>(undefined);
 
+  // Get transfer contract address for current chain
+  const getTransferContract = () => {
+    return transferContract[selectedChain.id];
+  };
   // Wallet and transaction hooks
   const { address, isConnected, chainId } = useAccount();
   const config = useConfig();
-  const { writeContractAsync, isPending: isWritePending, data: txHash } = useWriteContract();
+  const { writeContractAsync, isPending: isWritePending, data: wagmiTxHash } = useWriteContract();
   const { isLoading: isTxLoading, isSuccess: isTxSuccess, isError: isTxError } =
-    useWaitForTransactionReceipt({ hash: txHash });
+    useWaitForTransactionReceipt({ hash: wagmiTxHash });
+
+  // State for Pharos chain transaction hash
+  const [pharosTxHash, setPharosTxHash] = useState<`0x${string}` | undefined>(undefined);
+
+
+  useEffect(() => {
+    if (wagmiTxHash) {
+      setTxHash(wagmiTxHash as `0x${string}`);
+    } else if (pharosTxHash) {
+      setTxHash(pharosTxHash);
+    }
+
+  }, [wagmiTxHash, pharosTxHash]);
 
   // Derived loading state
   const isLoadingDerived = isApproving || isSending || isWritePending || isTxLoading;
+
+  // Ethers-based allowance state
+  const [ethersAllowance, setEthersAllowance] = useState<bigint | undefined>(undefined);
+
+  // Wagmi allowance hook
+  const { data: wagmiAllowance, refetch: refetchWagmiAllowance } = useReadContract({
+    address: selectedToken?.address !== NATIVE_ADDRESS
+      ? (selectedToken?.address as `0x${string}`)
+      : undefined,
+    abi: erc20Abi,
+    functionName: 'allowance',
+    args: [
+      address as `0x${string}`,
+      getTransferContract() as `0x${string}`
+    ],
+    chainId: selectedChain?.id,
+    query: {
+      enabled: isConnected &&
+        !!selectedToken &&
+        !!address &&
+        selectedToken?.address !== NATIVE_ADDRESS &&
+        !!getTransferContract() &&
+        selectedChain?.id !== 50002 // Disable for Pharos chain
+    }
+  });
+
+  // Combined allowance value
+  const allowance = selectedChain?.id === 50002 ? ethersAllowance : wagmiAllowance;
+
+  // Override refetchAllowance to work with both methods
+  const refetchAllowance = async () => {
+    if (selectedChain?.id === 50002) {
+      // For Pharos, manually trigger the ethers effect logic
+      if (
+        isConnected &&
+        selectedToken?.address !== NATIVE_ADDRESS &&
+        address &&
+        window.ethereum
+      ) {
+        try {
+          const provider = new ethers.BrowserProvider(window.ethereum);
+          const tokenContract = new ethers.Contract(
+            selectedToken.address,
+            erc20Abi,
+            provider
+          );
+
+          const allowanceResult = await tokenContract.allowance(
+            address,
+            getTransferContract()
+          );
+
+          setEthersAllowance(BigInt(allowanceResult.toString()));
+        } catch (error) {
+          console.error("Error fetching allowance with ethers:", error);
+        }
+      }
+    } else {
+      // For other chains, use the wagmi refetch
+      refetchWagmiAllowance();
+    }
+  };
 
   useEffect(() => {
     fetchEmployees();
@@ -107,33 +189,53 @@ const PaymentsPage: React.FC = () => {
     }
   }, [selectedTokenSymbol, selectedChain]);
 
-  // Transaction success effect
+
+  // Monitor Pharos transactions and handle success
   useEffect(() => {
-    if (isTxSuccess) {
-      // Log the transaction to backend first
-      logPayrollTransaction();
+    if (selectedChain?.id === 50002 && txHash && !isSending) {
+      // Create a function to check transaction status
+      const checkEthersTxStatus = async () => {
+        try {
+          if (!window.ethereum) return;
 
-      // Store the number of employees paid for the success message
-      const employeesPaidCount = selectedEmployees.length;
+          const provider = new ethers.BrowserProvider(window.ethereum);
+          const receipt = await provider.getTransactionReceipt(txHash);
 
-      // First timeout - reset form data (2 seconds after success)
-      const formResetTimer = setTimeout(() => {
-        // Reset selected employees
-        setSelectedEmployees([]);
+          if (receipt && receipt.status === 1) {
+            // Transaction confirmed successful
+            const employeesPaidCount = selectedEmployees.length;
 
-        // Second timeout - hide payment status (5 seconds after form reset)
-        const statusResetTimer = setTimeout(() => {
-          setShowPaymentStatus(false);
-          setApprovalTxHash(undefined);
-          setTxError('');
-        }, 5000);
+            // Reset form data after success
+            setTimeout(() => {
+              setSelectedEmployees([]);
 
-        return () => clearTimeout(statusResetTimer);
-      }, 2000);
+              setTimeout(() => {
+                setShowPaymentStatus(false);
+                setApprovalTxHash(undefined);
+                setTxError('');
+                setPharosTxHash(undefined);
+              }, 5000);
+            }, 2000);
 
-      return () => clearTimeout(formResetTimer);
+            // Stop checking
+            return;
+          } else if (receipt && receipt.status === 0) {
+            // Transaction failed
+            setTxError("Transaction reverted on blockchain");
+            setIsSending(false);
+            return;
+          }
+
+          // If still pending, check again
+          setTimeout(checkEthersTxStatus, 3000);
+        } catch (error) {
+          console.error("Error checking Pharos transaction:", error);
+        }
+      };
+
+      checkEthersTxStatus();
     }
-  }, [isTxSuccess, txHash]);
+  }, [selectedChain?.id, txHash, isSending, selectedEmployees.length]);
 
   // Effect to clear txError after 6 seconds
   useEffect(() => {
@@ -171,10 +273,6 @@ const PaymentsPage: React.FC = () => {
     }
   };
 
-  // Get transfer contract address for current chain
-  const getTransferContract = () => {
-    return transferContract[selectedChain.id];
-  };
 
   // Convert USD salary to token amount
   const usdToToken = (usdAmount: string) => {
@@ -217,26 +315,39 @@ const PaymentsPage: React.FC = () => {
     );
   };
 
-  const { data: allowance, refetch: refetchAllowance } = useReadContract({
-    address: selectedToken?.address !== NATIVE_ADDRESS
-      ? (selectedToken?.address as `0x${string}`)
-      : undefined,
-    abi: erc20Abi,
-    functionName: 'allowance',
-    args: [
-      address as `0x${string}`,
-      getTransferContract() as `0x${string}`
-    ],
-    chainId: selectedChain?.id,
-    query: {
-      enabled: isConnected &&
-        !!selectedToken &&
-        !!address &&
+  // Effect to fetch allowance with ethers when on Pharos chain
+  useEffect(() => {
+    const checkEthersAllowance = async () => {
+      if (
+        selectedChain?.id === 50002 &&
+        isConnected &&
         selectedToken?.address !== NATIVE_ADDRESS &&
-        !!getTransferContract()
-    }
-  });
+        address &&
+        window.ethereum
+      ) {
+        try {
+          const provider = new ethers.BrowserProvider(window.ethereum);
+          const tokenContract = new ethers.Contract(
+            selectedToken.address,
+            erc20Abi,
+            provider
+          );
 
+          const allowanceResult = await tokenContract.allowance(
+            address,
+            getTransferContract()
+          );
+
+          setEthersAllowance(BigInt(allowanceResult.toString()));
+        } catch (error) {
+          console.error("Error fetching allowance with ethers:", error);
+          setEthersAllowance(undefined);
+        }
+      }
+    };
+
+    checkEthersAllowance();
+  }, [selectedChain?.id, address, selectedToken, isConnected, getTransferContract]);
 
   useEffect(() => {
     if (
@@ -289,7 +400,7 @@ const PaymentsPage: React.FC = () => {
       // For native token transfers
       if (selectedToken.address === NATIVE_ADDRESS) {
         console.log('Sending native token transfer');
-        await writeContractAsync({
+        const finalTxHash = await writeContractAsync({
           address: transferContractAddress as `0x${string}`,
           abi: transferAbi.abi,
           functionName: 'bulkTransfer',
@@ -302,10 +413,14 @@ const PaymentsPage: React.FC = () => {
           gas: BigInt(400000),
           chainId: selectedChain.id
         });
+
+        // Set the state and log immediately with the correct hash
+        setTxHash(finalTxHash);
+        await logPayrollTransaction(finalTxHash);
       } else {
         // For ERC20 token transfers
         console.log('Sending ERC20 token transfer');
-        await writeContractAsync({
+        const finalTxHash = await writeContractAsync({
           address: transferContractAddress as `0x${string}`,
           abi: transferAbi.abi,
           functionName: 'bulkTransfer',
@@ -317,6 +432,10 @@ const PaymentsPage: React.FC = () => {
           gas: BigInt(400000),
           chainId: selectedChain.id
         });
+
+        // Set the state and log immediately with the correct hash
+        setTxHash(finalTxHash);
+        await logPayrollTransaction(finalTxHash);
       }
       console.log('Transaction sent successfully');
     } catch (error) {
@@ -328,9 +447,16 @@ const PaymentsPage: React.FC = () => {
   };
 
   // Log payroll transaction to backend
-  const logPayrollTransaction = async () => {
-    if (!txHash || !companyName) {
-      console.error("Missing transaction hash or company name");
+  const logPayrollTransaction = async (transactionHash: `0x${string}`) => {
+    console.log('Logging payroll transaction with hash:', transactionHash);
+
+    if (!transactionHash) {
+      console.error("Missing transaction hash");
+      return;
+    }
+
+    if (!companyName) {
+      console.error("Missing company name");
       return;
     }
 
@@ -350,7 +476,7 @@ const PaymentsPage: React.FC = () => {
         employees: employeePayments,
         totalAmount: totalUsdAmount,
         tokenSymbol: selectedToken.symbol,
-        transactionHash: txHash,
+        transactionHash: transactionHash,
         chain: selectedChain.name
       };
 
@@ -358,6 +484,10 @@ const PaymentsPage: React.FC = () => {
 
       if (response.status === "success") {
         toast.success("Payroll record saved successfully");
+        setTxHash(undefined);
+        setPharosTxHash(undefined);
+        setApprovalTxHash(undefined);
+
       } else {
         toast.error("Failed to save payroll record");
       }
@@ -388,39 +518,133 @@ const PaymentsPage: React.FC = () => {
       const { recipients, amounts } = getRecipientsAndAmounts();
       const totalAmount = amounts.reduce((sum, amount) => sum + amount, BigInt(0));
 
-      // For ERC20 tokens that need approval
-      if (selectedToken.address !== NATIVE_ADDRESS && needsApproval) {
-        setIsApproving(true);
-
+      // For Pharos chain (ID 50002), use ethers.js instead of wagmi
+      if (selectedChain?.id === 50002) {
         try {
-          const approvalHash = await writeContractAsync({
-            address: selectedToken.address as `0x${string}`,
-            abi: erc20Abi,
-            functionName: 'approve',
-            args: [transferContractAddress as `0x${string}`, totalAmount],
-            chainId: selectedChain.id
-          });
+          // Get provider from window.ethereum
+          const provider = new ethers.BrowserProvider(window.ethereum);
+          const signer = await provider.getSigner();
 
-          setApprovalTxHash(approvalHash);
+          // For ERC20 tokens that need approval on Pharos
+          if (selectedToken.address !== NATIVE_ADDRESS && needsApproval) {
+            setIsApproving(true);
 
-          const approvalReceipt = await waitForTransactionReceipt(config, {
-            chainId: selectedChain.id,
-            hash: approvalHash
-          });
+            // Create contract instance for the token
+            const tokenContract = new ethers.Contract(
+              selectedToken.address,
+              erc20Abi,
+              signer
+            );
 
-          if (approvalReceipt.status !== 'success') {
-            throw new Error('Approval transaction failed');
+            // Send approval transaction
+            try {
+              const approvalTx = await tokenContract.approve(
+                transferContractAddress,
+                totalAmount,
+                { gasLimit: 400000 }
+              );
+              setApprovalTxHash(approvalTx.hash as `0x${string}`);
+
+              // Wait for approval transaction to be mined
+              const approvalReceipt = await provider.waitForTransaction(approvalTx.hash);
+
+              if (approvalReceipt?.status !== 1) {
+                throw new Error('Approval transaction failed');
+              }
+
+              setIsApproving(false);
+              await refetchAllowance();
+            } catch (error: any) {
+              setIsApproving(false);
+              setTxError(error.message || 'Approval failed');
+              return;
+            }
           }
 
-          setIsApproving(false);
-          await sendTransactionAfterApproval(transferContractAddress, recipients, amounts, totalAmount);
+          // Create contract instance for transfer contract
+          const contract = new ethers.Contract(
+            transferContractAddress,
+            transferAbi.abi,
+            signer
+          );
+
+          setIsSending(true);
+
+          try {
+            // Execute the transaction based on token type
+            const tx = selectedToken.address === NATIVE_ADDRESS
+              ? await contract.bulkTransfer(
+                NATIVE_ADDRESS,
+                recipients,
+                amounts,
+                { value: totalAmount, gasLimit: 400000 }
+              )
+              : await contract.bulkTransfer(
+                selectedToken.address as `0x${string}`,
+                recipients,
+                amounts,
+                { gasLimit: 400000 }
+              );
+
+            // Set the transaction hash and log immediately with the correct hash
+            const txHash = tx.hash as `0x${string}`;
+            setPharosTxHash(txHash);
+            setTxHash(txHash);
+            await logPayrollTransaction(txHash);
+          } catch (error: any) {
+            console.error('Ethers transaction error:', error);
+            setTxError(error.message || 'Transaction failed');
+          } finally {
+            setIsSending(false);
+          }
         } catch (error: any) {
-          setIsApproving(false);
-          setTxError(error.message || 'Approval failed');
-          return;
+          console.error('Ethers setup error:', error);
+          setIsSending(false);
+          setTxError(error.message || 'Transaction failed');
         }
       } else {
-        await sendTransactionAfterApproval(transferContractAddress, recipients, amounts, totalAmount);
+        // Original wagmi implementation for other chains
+        // For ERC20 tokens that need approval
+        if (selectedToken.address !== NATIVE_ADDRESS && needsApproval) {
+          setIsApproving(true);
+
+          try {
+            const approvalHash = await writeContractAsync({
+              address: selectedToken.address as `0x${string}`,
+              abi: erc20Abi,
+              functionName: 'approve',
+              args: [transferContractAddress as `0x${string}`, totalAmount],
+              chainId: selectedChain.id,
+              gas: BigInt(400000)
+            });
+
+            setApprovalTxHash(approvalHash);
+
+            const approvalReceipt = await waitForTransactionReceipt(config, {
+              chainId: selectedChain.id,
+              hash: approvalHash
+            });
+
+            if (approvalReceipt.status !== 'success') {
+              throw new Error('Approval transaction failed');
+            }
+
+            setIsApproving(false);
+            await sendTransactionAfterApproval(transferContractAddress, recipients, amounts, totalAmount);
+
+            // Log transaction after it's complete (for non-Pharos)
+            await logPayrollTransaction(approvalHash);
+          } catch (error: any) {
+            setIsApproving(false);
+            setTxError(error.message || 'Approval failed');
+            return;
+          }
+        } else {
+          await sendTransactionAfterApproval(transferContractAddress, recipients, amounts, totalAmount);
+
+          // Log transaction after it's complete (for non-Pharos)
+          await logPayrollTransaction(txHash as `0x${string}`);
+        }
       }
     } catch (error: any) {
       setIsSending(false);
@@ -566,6 +790,9 @@ const PaymentsPage: React.FC = () => {
             setShowPaymentStatus(false);
             setApprovalTxHash(undefined);
             setTxError('');
+            setPharosTxHash(undefined);
+            setTxHash(undefined);
+            setSelectedEmployees([]);
           }}
         />
 
